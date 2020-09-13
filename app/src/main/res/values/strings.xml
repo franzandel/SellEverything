@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">SellEverything</string>
+    <string name="detail_product_information">Informasi produk</string>
+    <string name="detail_weight_title">Berat</string>
+    <string name="detail_condition_title">Kondisi</string>
+    <string name="detail_min_order_title">Pemesanan Min</string>
+    <string name="detail_category_title">Kategori</string>
+    <string name="detail_product_description">Deskripsi produk</string>
+    <string name="fab_cart">Cart</string>
+</resources>

@@ -1,0 +1,31 @@
+{
+  "products": [
+    {
+      "id": "online:en:US:1111111111",
+      "title": "Google Tee Black",
+      "image_name": "poster_alita",
+      "quantity": "6",
+      "discount_percentage": "15",
+      "price": "30000",
+      "location": "Kab. Tangerang"
+    },
+    {
+      "id": "online:en:US:2222222222",
+      "title": "Google Tee Green",
+      "image_name": "poster_aquaman",
+      "quantity": "3",
+      "discount_percentage": "0",
+      "price": "50000",
+      "location": "Jakarta Pusat"
+    },
+    {
+      "id": "online:en:US:3333333333",
+      "title": "Google Twill Cap",
+      "image_name": "poster_infinity_war",
+      "quantity": "1",
+      "discount_percentage": "30",
+      "price": "100000",
+      "location": "Bekasi"
+    }
+  ]
+}

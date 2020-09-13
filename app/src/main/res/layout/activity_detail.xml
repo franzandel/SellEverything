@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".DetailActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="64dp">
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/intro_pager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:context=".DetailActivity" />
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/intro_tab_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/intro_pager"
+                app:tabBackground="@drawable/tab_selector"
+                app:tabGravity="center"
+                app:tabIndicatorHeight="0dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDetailDiscountedPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/intro_tab_layout"
+                tools:text="Rp 30.123" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDetailCashbackPercentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:background="@color/colorGreen30"
+                android:padding="4dp"
+                android:textColor="@color/colorGreen70"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDetailDiscountedPrice"
+                tools:text="Cashback 5%" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDetailDiscountPercentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/colorPink30"
+                android:padding="4dp"
+                android:textColor="@color/colorPink70"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/tvDetailCashbackPercentage"
+                app:layout_constraintTop_toBottomOf="@+id/tvDetailDiscountedPrice"
+                tools:text="15%" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDetailOriginalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvDetailDiscountPercentage"
+                app:layout_constraintStart_toEndOf="@+id/tvDetailDiscountPercentage"
+                app:layout_constraintTop_toTopOf="@+id/tvDetailDiscountPercentage"
+                tools:text="Rp 35.000" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDetailTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDetailCashbackPercentage"
+                tools:text="TITLE HERE" />
+
+            <View
+                android:id="@+id/vDetailProductInformationSeparator"
+                android:layout_width="0dp"
+                android:layout_height="8dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorGray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDetailTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDetailProductInformation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/detail_product_information"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vDetailProductInformationSeparator" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDetailWeightTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/detail_weight_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDetailProductInformation" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDetailWeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDetailProductInformation"
+                tools:text="1 Kg" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDetailConditionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/detail_condition_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDetailWeightTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDetailCondition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDetailWeight"
+                tools:text="Baru" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDetailMinOrderTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/detail_min_order_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDetailConditionTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDetailMinOrder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDetailCondition"
+                tools:text="1 Buah" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDetailCategoryTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/detail_category_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDetailMinOrderTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDetailCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDetailMinOrder"
+                tools:text="Setrika" />
+
+            <View
+                android:id="@+id/vDetailDescriptionSeparator"
+                android:layout_width="0dp"
+                android:layout_height="8dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorGray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDetailCategoryTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDetailProductDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/detail_product_description"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vDetailDescriptionSeparator" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDetailDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDetailProductDescription"
+                tools:text="SUPER LONG DESCRIPTION HERE" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/fab_cart"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/colorOrange"
+        app:cornerRadius="8dp"
+        app:iconTint="@android:color/white"
+        app:icon="@drawable/ic_baseline_add_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
