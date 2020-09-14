@@ -1,31 +1,49 @@
 {
   "products": [
     {
-      "id": "online:en:US:1111111111",
-      "title": "Google Tee Black",
+      "id": "1",
+      "title": "Laptop Gaming MSI GE75 9SF-289",
       "image_name": "poster_alita",
       "quantity": "6",
+      "cashback": "0",
       "discount_percentage": "15",
-      "price": "30000",
-      "location": "Kab. Tangerang"
+      "price": "30000000",
+      "location": "Kab. Tangerang",
+      "weight": "3000",
+      "condition": "new",
+      "min_order": "1",
+      "category": "Laptop",
+      "description": "Deskripsi Laptop Gaming MSI GE75 9SF-289\nDeskripsi MSI GE75 9SF-289 - i7-9750H 32GB 1TB SSD RTX2070 8GB W10 17.3FHD 144Hz\nMSI GE75 9SF 289ID\n\n- Intel® Core™ i7-9750H Processor (2.60 GHz. up to 4.50 GHz. 12M Cache)\n- Intel HM370 Chipset\n- DDR4 32 GB 2666Mhz\n- 1TB NVMe PCIe SSD Gen 3X4\n- Intel UHD Graphics 630\n- VGA nVidia GeForce RTX 2070 8GB DDR6\n- Windows 10 Home 64bit\n- No DVD\n- 17.3\" FHD (1920*1080) IPS-Level 144Hz 3ms 72%NTSC Thin Bezel 100%sRGB\n- 2 x 3W Giant Speaker with Nahimic 3 Sound Enhancer - Audio Boost\n- Steelseries Per-Key RGB Backlight Keyboard\n- Kamera : HD type (30fps@720p)\n\n- Interface :\n1x Type-A USB3.2 Gen2\n1x Type-C USB3.2 Gen2\n2x Type-A USB3.2 Gen1\nMini Display Port\nHDMI\nRJ45\n1x Headphone-out (HiFi / SPDIF)\n1x Mic-in\n\n- Killer Wireless-AC 1550i (2*2 a/c) + BT5\n- 2.2kg included 6 cells battery 41Whr\n- Free Air Gaming Bagpack MSI\n\nGaransi Resmi MSI Indonesia 2 Tahun"
     },
     {
-      "id": "online:en:US:2222222222",
-      "title": "Google Tee Green",
+      "id": "2",
+      "title": "SEPATU NIKE AIR MAX 720 CARBON GRAY",
       "image_name": "poster_aquaman",
       "quantity": "3",
+      "cashback": "10",
       "discount_percentage": "0",
-      "price": "50000",
-      "location": "Jakarta Pusat"
+      "price": "500000",
+      "location": "Jakarta Pusat",
+      "weight": "500",
+      "condition": "new",
+      "min_order": "1",
+      "category": "Sepatu",
+      "description": "Deskripsi SEPATU NIKE AIR MAX 720 CARBON GRAY\nreaddy stok \uD83D\uDE0E\uD83D\uDE1C now\n\n\nSize 38 39 40 41 42 43 44 45\n\nOrder. :\nWA = 081281792436 (only)\n\n\nBarang premium original quality\n%%_______***____%%%\nHarga Diluar Ongkir\nPengiriman Via JNE & Gojek\nPengiriman Setiap Hari Senin - Sabtu\nResi H+1 Bukti transfer max jam 15.00 akan dikirim di hari yang sama,lewat jam 15.00 akan dikirim esok hari\nBarang yang sudah dibeli tidak dapat dikembalikan,\n%%%__%%__%%\nsepatu ini premium original 95% kemiripanya sama yang di conternya guys .. jadii kalo ada yang murah sama banget,,ngapain beli yang mahal mahal sayang duit karena pepatah mengatakan \"rajin pangkal pandai hemat pangkal kaya \" langsung klik belanjanya dapet yang terbaik untuk dompet dan kehidupan\n_______________________jga\n\nso guys bertanya sebelum membeli kolom diskusi \uD83D\uDE0E\uD83D\uDE0E\uD83D\uDE0E\uD83D\uDE0D\uD83D\uDE18\n\n_____________"
     },
     {
-      "id": "online:en:US:3333333333",
-      "title": "Google Twill Cap",
+      "id": "3",
+      "title": "Celana Panjang Jogger Kayser Nasa Pants Casual / Santai Pria - Hitam, 28 - 33",
       "image_name": "poster_infinity_war",
       "quantity": "1",
+      "cashback": "5",
       "discount_percentage": "30",
       "price": "100000",
-      "location": "Bekasi"
+      "location": "Bekasi",
+      "weight": "200",
+      "condition": "new",
+      "min_order": "1",
+      "category": "Celana",
+      "description": "Deskripsi Celana Panjang Jogger Kayser Nasa Pants Casual / Santai Pria - Hitam, 28 - 33\nKayser Jogger Pants model terbaru yang lagi kekinian banget. , Celana Modis, simple, dan nyaman dipakai, design Exclusive, Simple & Fashionable.\n\nSpesifikasi Produk :\n- Celana Jogger Pants Casual / Training.\n- Bahan : Matt Fleece Tebal\n- Mengggunakan RIB/Karet pada pinggang dan bagian bawah kaki\n- Ada 4 kantong kiri dan kanan\n\nDetail Size:\n*Ukuran Produk : 28 Fit to 33 / M Fit to L\n- Lebar karet pinggang 80 cm dan bisa melar sampai 100 CM\n- Ukuran Produknya Allsize Fit Size M to L (Freesize bisa sampai pemakaian celana ukuran 28 - 33)\n- Lebar Pinggang maksimal 80 - 100 cm\n- Panjang celana: 96cm\n\n*Ukuran Produk : 34 Fit to 36 / XL Fit to XX\n- Lebar karet pinggang 90 cm dan bisa melar sampai 110 CM\n- Ukuran Produknya ALL SIZE FIT TO XXL (Freesize bisa sampai pemakaian celana ukuran 34 - 38)\n- Lebar Pinggang maksimal hingga 110 cm\n- Panjang celana: 99cm\n\nCara Perawatan :\n- Gunakan detergen yang lembut\n- Jangan gunakan pemutih\n\nMengutamakan quality control sebelum pengiriman\n- Pengiriman 100% AMAN"
     }
   ]
 }
