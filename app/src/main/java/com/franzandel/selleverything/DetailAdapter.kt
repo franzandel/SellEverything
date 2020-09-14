@@ -14,15 +14,21 @@ import com.franzandel.selleverything.extension.getDrawableIdFromName
  * Android Engineer
  */
 
-class DetailAdapter(private val context: Context, arrayList: ArrayList<String>) :
+class DetailAdapter(private val context: Context, imageNames: List<String>) :
     RecyclerView.Adapter<DetailAdapter.MyViewHolder?>() {
-    private var arrayList: ArrayList<String> = ArrayList()
+
+    private var imageNames: List<String> = listOf()
+
+    init {
+        this.imageNames = imageNames
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): MyViewHolder {
-        val view: View = LayoutInflater.from(context).inflate(R.layout.item_view_pager2, parent, false)
+        val view: View =
+            LayoutInflater.from(context).inflate(R.layout.item_view_pager2, parent, false)
         return MyViewHolder(view)
     }
 
@@ -30,12 +36,12 @@ class DetailAdapter(private val context: Context, arrayList: ArrayList<String>) 
         holder: MyViewHolder,
         position: Int
     ) {
-        val drawableName = arrayList[position]
+        val drawableName = imageNames[position]
         holder.bind(drawableName)
     }
 
     override fun getItemCount(): Int {
-        return arrayList.size
+        return imageNames.size
     }
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -47,9 +53,5 @@ class DetailAdapter(private val context: Context, arrayList: ArrayList<String>) 
                 ivDetailSellEverything.setImageResource(drawableId)
             }
         }
-    }
-
-    init {
-        this.arrayList = arrayList
     }
 }

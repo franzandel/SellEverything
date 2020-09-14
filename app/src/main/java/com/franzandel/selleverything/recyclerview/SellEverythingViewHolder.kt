@@ -3,6 +3,7 @@ package com.franzandel.selleverything.recyclerview
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.franzandel.selleverything.DetailActivity
+import com.franzandel.selleverything.data.BundleConstants
 import com.franzandel.selleverything.extension.*
 import com.franzandel.selleverything.newest.Product
 import kotlinx.android.synthetic.main.item_sell_everything.view.*
@@ -51,7 +52,9 @@ class SellEverythingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVie
             }
 
             setOnClickListener {
-                context.goTo(DetailActivity::class.java)
+                context.goTo(DetailActivity::class.java) {
+                    putExtra(BundleConstants.EXTRA_PRODUCT, product)
+                }
             }
 
             setupSellEverythingImage()

@@ -14,3 +14,12 @@ fun Int.getFormattedIDNPrice(): String {
     numberFormat.currency = Currency.getInstance("IDR")
     return numberFormat.format(this)
 }
+
+fun Int.getFormattedWeight(): String {
+    val weightMod = this / 1000
+    return if (weightMod > 0) {
+        "$weightMod Kg"
+    } else {
+        "$this Gram"
+    }
+}
