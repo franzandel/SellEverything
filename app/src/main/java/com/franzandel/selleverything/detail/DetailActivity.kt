@@ -1,10 +1,13 @@
-package com.franzandel.selleverything
+package com.franzandel.selleverything.detail
 
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import com.franzandel.selleverything.CartActivity
+import com.franzandel.selleverything.R
 import com.franzandel.selleverything.data.BundleConstants
 import com.franzandel.selleverything.extension.*
 import com.franzandel.selleverything.newest.Product
@@ -28,6 +31,12 @@ class DetailActivity : AppCompatActivity() {
             minOrder = "",
             category = "",
             description = ""
+        )
+    }
+
+    private val viewModel by lazy {
+        ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(
+            DetailViewModel::class.java
         )
     }
 
@@ -81,6 +90,7 @@ class DetailActivity : AppCompatActivity() {
 
     private fun setupUIClickListener() {
         fabAddToCart.setOnClickListener {
+            viewModel.insertToCart(product)
             Toast.makeText(this, "Added to Cart", Toast.LENGTH_SHORT).show()
         }
     }

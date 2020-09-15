@@ -2,8 +2,8 @@ package com.franzandel.selleverything.recyclerview
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.franzandel.selleverything.DetailActivity
 import com.franzandel.selleverything.data.BundleConstants
+import com.franzandel.selleverything.detail.DetailActivity
 import com.franzandel.selleverything.extension.*
 import com.franzandel.selleverything.newest.Product
 import kotlinx.android.synthetic.main.item_sell_everything.view.*

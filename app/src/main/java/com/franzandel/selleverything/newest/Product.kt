@@ -1,13 +1,17 @@
 package com.franzandel.selleverything.newest
 
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import kotlinx.android.parcel.Parcelize
 
+@Entity
 @JsonClass(generateAdapter = true)
 @Parcelize
 data class Product(
+    @PrimaryKey
     val id: String,
     val cashback: String,
     @Json(name = "discount_percentage")
