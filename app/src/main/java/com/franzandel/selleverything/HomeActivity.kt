@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.franzandel.selleverything.cart.CartActivity
 import com.franzandel.selleverything.extension.goTo
 import com.franzandel.selleverything.newest.NewProduct
 import com.franzandel.selleverything.recyclerview.SellEverythingAdapter

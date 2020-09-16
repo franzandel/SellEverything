@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
  * Android Engineer
  */
 
-class DetailViewModel(application: Application) : AndroidViewModel(application) {
+class DetailVM(application: Application) : AndroidViewModel(application) {
 
     private val cartProductDao = AppDatabase.invoke(application.applicationContext).cartProductDao()
     private val detailRepository: DetailRepository = DetailRepositoryImpl(cartProductDao)

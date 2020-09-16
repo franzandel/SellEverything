@@ -6,8 +6,8 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.franzandel.selleverything.CartActivity
 import com.franzandel.selleverything.R
+import com.franzandel.selleverything.cart.CartActivity
 import com.franzandel.selleverything.data.BundleConstants
 import com.franzandel.selleverything.extension.*
 import com.franzandel.selleverything.newest.Product
@@ -36,7 +36,7 @@ class DetailActivity : AppCompatActivity() {
 
     private val viewModel by lazy {
         ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(
-            DetailViewModel::class.java
+            DetailVM::class.java
         )
     }
 
