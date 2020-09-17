@@ -3,7 +3,6 @@ package com.franzandel.selleverything.detail
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.franzandel.selleverything.R
@@ -11,6 +10,7 @@ import com.franzandel.selleverything.cart.CartActivity
 import com.franzandel.selleverything.data.BundleConstants
 import com.franzandel.selleverything.extension.*
 import com.franzandel.selleverything.newest.Product
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_detail.*
 
@@ -91,7 +91,9 @@ class DetailActivity : AppCompatActivity() {
     private fun setupUIClickListener() {
         fabAddToCart.setOnClickListener {
             viewModel.insertToCart(product)
-            Toast.makeText(this, "Added to Cart", Toast.LENGTH_SHORT).show()
+            showSnackbarWithAction(it, "Added to Cart", "View", Snackbar.LENGTH_LONG) {
+                goTo(CartActivity::class.java)
+            }
         }
     }
 }
