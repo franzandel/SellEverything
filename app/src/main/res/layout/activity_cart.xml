@@ -6,15 +6,76 @@
     android:layout_height="match_parent"
     tools:context=".cart.CartActivity">
 
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/cbCartCheckAll"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_16"
+        android:text="@string/cart_check_all"
+        app:layout_constraintEnd_toStartOf="@+id/tvCartDeleteAll"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvCartDeleteAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/item_cart_header_clear"
+        android:textStyle="bold"
+        android:textColor="@color/colorGreen70"
+        android:layout_marginEnd="@dimen/margin_16"
+        app:layout_constraintBottom_toBottomOf="@+id/cbCartCheckAll"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCart"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/margin_16"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_sell_everything"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btnCartBuy"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/cbCartCheckAll"
+        tools:listitem="@layout/item_cart" />
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/appCompatTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_16"
+        android:text="@string/cart_total_price"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tvCartTotalPrice"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnCartBuy" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvCartTotalPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_16"
+        android:textColor="@color/colorOrange"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/btnCartBuy"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Rp538.600" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnCartBuy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:layout_marginEnd="@dimen/margin_16"
+        android:paddingTop="@dimen/margin_20"
+        android:paddingBottom="@dimen/margin_20"
+        android:paddingStart="@dimen/margin_48"
+        android:paddingEnd="@dimen/margin_48"
+        android:text="@string/cart_buy"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/colorOrange"
+        app:iconTint="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

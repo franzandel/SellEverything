@@ -7,4 +7,10 @@
     <string name="detail_category_title">Kategori</string>
     <string name="detail_product_description">Deskripsi produk</string>
     <string name="fab_cart">Cart</string>
+
+    <string name="item_cart_header_clear">Clear</string>
+
+    <string name="cart_check_all">Pilih Semua Barang (%1$s)</string>
+    <string name="cart_buy">Beli (%1$s)</string>
+    <string name="cart_total_price">Total Harga</string>
 </resources>

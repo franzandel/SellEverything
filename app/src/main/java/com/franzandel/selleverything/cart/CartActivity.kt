@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.franzandel.selleverything.R
-import com.franzandel.selleverything.recyclerview.SellEverythingAdapter
 import kotlinx.android.synthetic.main.activity_cart.*
 
 class CartActivity : AppCompatActivity() {
@@ -17,7 +16,7 @@ class CartActivity : AppCompatActivity() {
         ).get(CartVM::class.java)
     }
 
-    private val adapter = SellEverythingAdapter(this)
+    private val adapter = CartAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
