@@ -48,4 +48,14 @@
     <dimen name="margin_136">136dp</dimen>
     <dimen name="margin_164">164dp</dimen>
     <dimen name="margin_240">240dp</dimen>
+
+    <!-- Text Size -->
+    <dimen name="text_size_10">10sp</dimen>
+    <dimen name="text_size_12">12sp</dimen>
+    <dimen name="text_size_14">14sp</dimen>
+    <dimen name="text_size_16">16sp</dimen>
+    <dimen name="text_size_18">18sp</dimen>
+    <dimen name="text_size_20">20sp</dimen>
+    <dimen name="text_size_24">24sp</dimen>
+    <dimen name="text_size_32">32sp</dimen>
 </resources>

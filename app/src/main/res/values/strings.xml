@@ -13,4 +13,6 @@
     <string name="cart_check_all">Pilih Semua Barang (%1$s)</string>
     <string name="cart_buy">Beli (%1$s)</string>
     <string name="cart_total_price">Total Harga</string>
+
+    <string name="cart_content_min_qty">1</string>
 </resources>

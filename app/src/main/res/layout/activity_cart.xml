@@ -20,25 +20,44 @@
         android:id="@+id/tvCartDeleteAll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/item_cart_header_clear"
-        android:textStyle="bold"
-        android:textColor="@color/colorGreen70"
+        android:background="?selectableItemBackground"
         android:layout_marginEnd="@dimen/margin_16"
+        android:text="@string/item_cart_header_clear"
+        android:textColor="@color/colorGreen70"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/cbCartCheckAll"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/vShadowUpper"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_4"
+        android:background="@drawable/shadow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cbCartCheckAll" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCart"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/margin_16"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@+id/btnCartBuy"
+        app:layout_constraintBottom_toTopOf="@+id/vShadowLower"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cbCartCheckAll"
+        app:layout_constraintTop_toBottomOf="@+id/vShadowUpper"
         tools:listitem="@layout/item_cart" />
+
+    <View
+        android:id="@+id/vShadowLower"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_4"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:background="@drawable/shadow"
+        app:layout_constraintBottom_toTopOf="@+id/btnCartBuy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/appCompatTextView"
@@ -49,7 +68,8 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/tvCartTotalPrice"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btnCartBuy" />
+        app:layout_constraintTop_toBottomOf="@+id/vShadowLower"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvCartTotalPrice"
@@ -57,24 +77,26 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_16"
         android:textColor="@color/colorOrange"
+        android:textSize="@dimen/text_size_16"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/btnCartBuy"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appCompatTextView"
         tools:text="Rp538.600" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnCartBuy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_16"
         android:layout_marginEnd="@dimen/margin_16"
-        android:paddingTop="@dimen/margin_20"
-        android:paddingBottom="@dimen/margin_20"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:backgroundTint="@color/colorOrange"
         android:paddingStart="@dimen/margin_48"
+        android:paddingTop="@dimen/margin_20"
         android:paddingEnd="@dimen/margin_48"
+        android:paddingBottom="@dimen/margin_20"
         android:text="@string/cart_buy"
         android:textColor="@android:color/white"
-        android:backgroundTint="@color/colorOrange"
         app:iconTint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
