@@ -2,6 +2,8 @@ package com.franzandel.selleverything.cart
 
 import android.view.View
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.franzandel.selleverything.R
 import com.franzandel.selleverything.data.BundleConstants
@@ -20,6 +22,9 @@ import kotlinx.android.synthetic.main.item_cart.view.*
 
 class CartViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+    private val _onCheckClicked = MutableLiveData<Unit>()
+    val onCheckClicked: LiveData<Unit> = _onCheckClicked
+
     fun bind(product: Product) {
         itemView.apply {
             cbCheck.isChecked = product.isChecked
@@ -32,6 +37,11 @@ class CartViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                 .getDiscountedPrice(product.discountPercentage)
                 .toInt()
                 .getFormattedIDNPrice()
+
+            cbCheck.setOnCheckedChangeListener { _, isChecked ->
+                product.isChecked = isChecked
+                _onCheckClicked.value = Unit
+            }
 
             tvCartContentTitle.setOnClickListener {
                 context.goTo(DetailActivity::class.java) {

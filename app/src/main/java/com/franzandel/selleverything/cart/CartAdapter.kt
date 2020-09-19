@@ -3,6 +3,10 @@ package com.franzandel.selleverything.cart
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ListAdapter
 import com.franzandel.selleverything.R
 import com.franzandel.selleverything.newest.Product
@@ -15,14 +19,27 @@ import com.franzandel.selleverything.newest.Product
 class CartAdapter(private val context: Context) :
     ListAdapter<Product, CartViewHolder>(CartDiffCallback()) {
 
+    private lateinit var cartViewHolder: CartViewHolder
+    private val activity = context as AppCompatActivity
+    private val _onCheckClicked = MutableLiveData<List<Product>>()
+    val onCheckClicked: LiveData<List<Product>> = _onCheckClicked
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_cart, parent, false)
-        return CartViewHolder(view)
+        cartViewHolder = CartViewHolder(view)
+        setupObserver()
+        return cartViewHolder
     }
 
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
         val product = currentList[position]
         holder.bind(product)
+    }
+
+    private fun setupObserver() {
+        cartViewHolder.onCheckClicked.observe(activity, Observer {
+            _onCheckClicked.value = currentList
+        })
     }
 
     fun checkAllProducts(isChecked: Boolean) {

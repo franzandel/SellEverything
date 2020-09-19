@@ -41,6 +41,22 @@ class CartActivity : AppCompatActivity() {
             tvCartTotalPrice.text = viewModel.getTotalProductsPrice(products)
             adapter.submitList(products)
         })
+
+        adapter.onCheckClicked.observe(this, Observer { products ->
+            val totalCheckedProductsCount = viewModel.getTotalCheckedProductsCount(products)
+            if (totalCheckedProductsCount == "0") {
+                cbCartCheckAll.text = getString(R.string.cart_check_all_no_number)
+                tvCartDeleteAll.hide()
+            } else {
+                cbCartCheckAll.text = getString(
+                    R.string.cart_check_all_with_number,
+                    totalCheckedProductsCount
+                )
+                tvCartDeleteAll.show()
+            }
+
+            cbCartCheckAll.isChecked = totalCheckedProductsCount == products.size.toString()
+        })
     }
 
     private fun setupUIClickListener() {
@@ -49,13 +65,14 @@ class CartActivity : AppCompatActivity() {
             showToast("Go to Shipping Activity")
         }
 
-        cbCartCheckAll.setOnCheckedChangeListener { _, isChecked ->
+        cbCartCheckAll.setOnClickListener {
+            val isChecked = cbCartCheckAll.isChecked
             if (isChecked) {
+                cbCartCheckAll.text = getString(R.string.cart_check_all_with_number)
                 tvCartDeleteAll.show()
-                cbCartCheckAll.text = getString(R.string.cart_check_all_with_number, "15")
             } else {
-                tvCartDeleteAll.hide()
                 cbCartCheckAll.text = getString(R.string.cart_check_all_no_number)
+                tvCartDeleteAll.hide()
             }
             adapter.checkAllProducts(isChecked)
         }
