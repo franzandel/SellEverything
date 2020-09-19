@@ -11,7 +11,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_16"
-        android:text="@string/cart_check_all"
+        android:text="@string/cart_check_all_with_number"
+        android:checked="true"
         app:layout_constraintEnd_toStartOf="@+id/tvCartDeleteAll"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -27,5 +27,6 @@ data class Product(
     @Json(name = "min_order")
     val minOrder: String,
     val category: String,
-    val description: String
+    val description: String,
+    var isChecked: Boolean = true
 ) : Parcelable

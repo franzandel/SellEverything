@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.franzandel.selleverything.R
+import com.franzandel.selleverything.extension.hide
+import com.franzandel.selleverything.extension.show
 import com.franzandel.selleverything.extension.showToast
 import kotlinx.android.synthetic.main.activity_cart.*
 
@@ -33,7 +35,8 @@ class CartActivity : AppCompatActivity() {
 
     private fun setupObserver() {
         viewModel.cartProducts.observe(this, Observer { products ->
-            cbCartCheckAll.text = getString(R.string.cart_check_all, products.size.toString())
+            cbCartCheckAll.text =
+                getString(R.string.cart_check_all_with_number, products.size.toString())
             btnCartBuy.text = getString(R.string.cart_buy, products.size.toString())
             tvCartTotalPrice.text = viewModel.getTotalProductsPrice(products)
             adapter.submitList(products)
@@ -47,8 +50,14 @@ class CartActivity : AppCompatActivity() {
         }
 
         cbCartCheckAll.setOnCheckedChangeListener { _, isChecked ->
-            // TODO: SET CHECKBOX INSIDE RV
-            showToast("Set $isChecked to all products")
+            if (isChecked) {
+                tvCartDeleteAll.show()
+                cbCartCheckAll.text = getString(R.string.cart_check_all_with_number, "15")
+            } else {
+                tvCartDeleteAll.hide()
+                cbCartCheckAll.text = getString(R.string.cart_check_all_no_number)
+            }
+            adapter.checkAllProducts(isChecked)
         }
 
         tvCartDeleteAll.setOnClickListener {

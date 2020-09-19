@@ -24,4 +24,11 @@ class CartAdapter(private val context: Context) :
         val product = currentList[position]
         holder.bind(product)
     }
+
+    fun checkAllProducts(isChecked: Boolean) {
+        currentList.forEach { product ->
+            product.isChecked = isChecked
+        }
+        notifyDataSetChanged()
+    }
 }

@@ -22,6 +22,7 @@ class CartViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun bind(product: Product) {
         itemView.apply {
+            cbCheck.isChecked = product.isChecked
             tvCartContentShopName.text = "Current Shop Name"
             tvCartContentLocation.text = product.location
 //            val drawableId = context.getDrawableIdFromName(product.imageName)

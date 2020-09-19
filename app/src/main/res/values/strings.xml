@@ -10,7 +10,8 @@
 
     <string name="item_cart_header_clear">Clear</string>
 
-    <string name="cart_check_all">Pilih Semua Barang (%1$s)</string>
+    <string name="cart_check_all_with_number">Pilih Semua Barang (%1$s)</string>
+    <string name="cart_check_all_no_number">Pilih Semua Barang</string>
     <string name="cart_buy">Beli (%1$s)</string>
     <string name="cart_total_price">Total Harga</string>
 
