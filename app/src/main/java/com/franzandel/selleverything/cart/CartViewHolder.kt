@@ -1,12 +1,15 @@
 package com.franzandel.selleverything.cart
 
-import android.content.res.ColorStateList
 import android.view.View
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import com.franzandel.selleverything.R
 import com.franzandel.selleverything.data.BundleConstants
 import com.franzandel.selleverything.detail.DetailActivity
-import com.franzandel.selleverything.extension.*
+import com.franzandel.selleverything.extension.getDiscountedPrice
+import com.franzandel.selleverything.extension.getFormattedIDNPrice
+import com.franzandel.selleverything.extension.goTo
+import com.franzandel.selleverything.extension.showToast
 import com.franzandel.selleverything.newest.Product
 import kotlinx.android.synthetic.main.item_cart.view.*
 
@@ -48,18 +51,17 @@ class CartViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
                 if (etCartContentQty.text.toString() == "1") {
                     fabCartContentMinusQty.isEnabled = false
-                    // This must be bug, Extended FAB is working with this code
                     fabCartContentMinusQty.backgroundTintList =
-                        ColorStateList.valueOf(context.toColor(R.color.colorGray))
+                        AppCompatResources.getColorStateList(context, R.color.colorGray)
                 }
             }
 
             fabCartContentPlusQty.setOnClickListener {
                 // TODO: UPDATE TOTAL PRICE BALANCE
                 fabCartContentMinusQty.isEnabled = true
-                // This must be bug, Extended FAB is working with this code
                 fabCartContentMinusQty.backgroundTintList =
-                    ColorStateList.valueOf(context.toColor(R.color.colorGreen70))
+                    AppCompatResources.getColorStateList(context, R.color.colorGreen70)
+
                 var currentQty = etCartContentQty.text.toString().toInt()
                 currentQty += 1
                 etCartContentQty.setText(currentQty.toString())
