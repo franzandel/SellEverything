@@ -22,6 +22,7 @@ class CartActivity : AppCompatActivity() {
     }
 
     private val adapter = CartAdapter(this)
+    private var isFirstLaunch = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,11 +38,18 @@ class CartActivity : AppCompatActivity() {
 
     private fun setupObserver() {
         viewModel.cartProducts.observe(this, Observer { products ->
-            cbCartCheckAll.text =
-                getString(R.string.cart_check_all_with_number, products.size.toString())
-            btnCartBuy.text = getString(R.string.cart_buy, products.size.toString())
-            tvCartTotalPrice.text = viewModel.getTotalProductsPrice(products)
-            adapter.submitList(products)
+            if (isFirstLaunch) {
+                cbCartCheckAll.text =
+                    getString(
+                        R.string.cart_check_all_with_number,
+                        viewModel.getTotalCheckedProductsQty(products)
+                    )
+                btnCartBuy.text =
+                    getString(R.string.cart_buy, viewModel.getTotalCheckedProductsQty(products))
+                tvCartTotalPrice.text = viewModel.getTotalProductsPrice(products)
+                adapter.submitList(products)
+                isFirstLaunch = false
+            }
         })
 
         adapter.onCheckClicked.observe(this, Observer { products ->
@@ -67,21 +75,36 @@ class CartActivity : AppCompatActivity() {
                 tvCartTotalPrice.setTextColor(toColor(R.color.colorOrange))
             }
 
-            btnCartBuy.text = getString(R.string.cart_buy, totalCheckedProductsCount)
+            btnCartBuy.text =
+                getString(R.string.cart_buy, viewModel.getTotalCheckedProductsQty(products))
             cbCartCheckAll.isChecked = totalCheckedProductsCount == products.size.toString()
         })
 
         adapter.onQtyMinusClicked.observe(this, Observer { product ->
+            viewModel.updateCart(product)
             tvCartTotalPrice.text = viewModel.getTotalProductsPriceAfterMinusClicked(
                 product,
                 tvCartTotalPrice.text.toString()
             )
+            btnCartBuy.text = getString(
+                R.string.cart_buy,
+                viewModel.getTotalCheckedProductsCountAfterMinusClicked(
+                    btnCartBuy.text.toString()
+                )
+            )
         })
 
         adapter.onQtyPlusClicked.observe(this, Observer { product ->
+            viewModel.updateCart(product)
             tvCartTotalPrice.text = viewModel.getTotalProductsPriceAfterPlusClicked(
                 product,
                 tvCartTotalPrice.text.toString()
+            )
+            btnCartBuy.text = getString(
+                R.string.cart_buy,
+                viewModel.getTotalCheckedProductsCountAfterPlusClicked(
+                    btnCartBuy.text.toString()
+                )
             )
         })
     }

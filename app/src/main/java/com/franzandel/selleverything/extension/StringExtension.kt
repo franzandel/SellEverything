@@ -31,6 +31,3 @@ fun String.removeSpecialCharacter(): String =
 
 fun String.removeText(): String =
     this.replace("[a-zA-Z]".toRegex(), "")
-
-fun String.removeWellFormattedPrice(): String =
-    this.removeText().removeSpecialCharacter()

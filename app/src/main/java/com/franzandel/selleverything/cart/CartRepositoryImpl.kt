@@ -8,4 +8,8 @@ class CartRepositoryImpl(private val cartProductDao: CartProductDao) : CartRepos
 
     override val cartProducts: LiveData<List<Product>>
         get() = cartProductDao.getAll()
+
+    override suspend fun updateCart(product: Product) {
+        cartProductDao.update(product)
+    }
 }

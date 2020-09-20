@@ -3,11 +3,15 @@ package com.franzandel.selleverything.cart
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
 import com.franzandel.selleverything.data.database.AppDatabase
 import com.franzandel.selleverything.extension.getDiscountedPrice
 import com.franzandel.selleverything.extension.getFormattedIDNPrice
-import com.franzandel.selleverything.extension.removeWellFormattedPrice
+import com.franzandel.selleverything.extension.removeSpecialCharacter
+import com.franzandel.selleverything.extension.removeText
 import com.franzandel.selleverything.newest.Product
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  * Created by Franz Andel on 16/09/20.
@@ -39,16 +43,42 @@ class CartVM(application: Application) : AndroidViewModel(application) {
         product: Product,
         currentTotalPrice: String
     ): String {
-        val existingTotalPrice = currentTotalPrice.removeWellFormattedPrice().toLong()
+        val existingTotalPrice = currentTotalPrice.removeSpecialCharacter().removeText().toLong()
         val productPrice = product.price.getDiscountedPrice(product.discountPercentage).toLong()
-        val lastPrice = existingTotalPrice - productPrice
-        return lastPrice.getFormattedIDNPrice()
+        val lastTotalPrice = existingTotalPrice - productPrice
+        return lastTotalPrice.getFormattedIDNPrice()
     }
 
     fun getTotalProductsPriceAfterPlusClicked(product: Product, currentTotalPrice: String): String {
-        val existingTotalPrice = currentTotalPrice.removeWellFormattedPrice().toLong()
+        val existingTotalPrice = currentTotalPrice.removeSpecialCharacter().removeText().toLong()
         val productPrice = product.price.getDiscountedPrice(product.discountPercentage).toLong()
-        val lastPrice = existingTotalPrice + productPrice
-        return lastPrice.getFormattedIDNPrice()
+        val lastTotalPrice = existingTotalPrice + productPrice
+        return lastTotalPrice.getFormattedIDNPrice()
+    }
+
+    fun getTotalCheckedProductsCountAfterMinusClicked(currentCheckedProductsCount: String): String {
+        val existingProductsCount =
+            currentCheckedProductsCount.removeSpecialCharacter().removeText()
+        return (existingProductsCount.toInt() - 1).toString()
+    }
+
+    fun getTotalCheckedProductsCountAfterPlusClicked(currentCheckedProductsCount: String): String {
+        val existingProductsCount =
+            currentCheckedProductsCount.removeSpecialCharacter().removeText()
+        return (existingProductsCount.toInt() + 1).toString()
+    }
+
+    fun updateCart(product: Product) {
+        viewModelScope.launch(Dispatchers.IO) {
+            cartRepository.updateCart(product)
+        }
+    }
+
+    fun getTotalCheckedProductsQty(products: List<Product>): String {
+        return products.filter { product ->
+            product.isChecked
+        }.sumBy { product ->
+            product.currentQty
+        }.toString()
     }
 }

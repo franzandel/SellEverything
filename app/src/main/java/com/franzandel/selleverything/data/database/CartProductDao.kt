@@ -17,6 +17,9 @@ interface CartProductDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(product: Product)
 
+    @Update
+    suspend fun update(product: Product)
+
     @Delete
     suspend fun delete(product: Product)
 }
