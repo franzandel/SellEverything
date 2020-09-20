@@ -70,6 +70,20 @@ class CartActivity : AppCompatActivity() {
             btnCartBuy.text = getString(R.string.cart_buy, totalCheckedProductsCount)
             cbCartCheckAll.isChecked = totalCheckedProductsCount == products.size.toString()
         })
+
+        adapter.onQtyMinusClicked.observe(this, Observer { product ->
+            tvCartTotalPrice.text = viewModel.getTotalProductsPriceAfterMinusClicked(
+                product,
+                tvCartTotalPrice.text.toString()
+            )
+        })
+
+        adapter.onQtyPlusClicked.observe(this, Observer { product ->
+            tvCartTotalPrice.text = viewModel.getTotalProductsPriceAfterPlusClicked(
+                product,
+                tvCartTotalPrice.text.toString()
+            )
+        })
     }
 
     private fun setupUIClickListener() {

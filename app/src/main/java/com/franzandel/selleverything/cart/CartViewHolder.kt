@@ -25,6 +25,12 @@ class CartViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val _onCheckClicked = MutableLiveData<Unit>()
     val onCheckClicked: LiveData<Unit> = _onCheckClicked
 
+    private val _onQtyMinusClicked = MutableLiveData<Product>()
+    val onQtyMinusClicked: LiveData<Product> = _onQtyMinusClicked
+
+    private val _onQtyPlusClicked = MutableLiveData<Product>()
+    val onQtyPlusClicked: LiveData<Product> = _onQtyPlusClicked
+
     fun bind(product: Product) {
         itemView.apply {
             cbCheck.isChecked = product.isChecked
@@ -55,9 +61,9 @@ class CartViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             }
 
             fabCartContentMinusQty.setOnClickListener {
-                // TODO: UPDATE TOTAL PRICE BALANCE
                 var currentQty = etCartContentQty.text.toString().toInt()
                 currentQty -= 1
+                product.currentQty = currentQty
                 etCartContentQty.setText(currentQty.toString())
 
                 if (etCartContentQty.text.toString() == "1") {
@@ -65,17 +71,21 @@ class CartViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                     fabCartContentMinusQty.backgroundTintList =
                         AppCompatResources.getColorStateList(context, R.color.colorGray)
                 }
+
+                if (cbCheck.isChecked) _onQtyMinusClicked.value = product
             }
 
             fabCartContentPlusQty.setOnClickListener {
-                // TODO: UPDATE TOTAL PRICE BALANCE
                 fabCartContentMinusQty.isEnabled = true
                 fabCartContentMinusQty.backgroundTintList =
                     AppCompatResources.getColorStateList(context, R.color.colorGreen70)
 
                 var currentQty = etCartContentQty.text.toString().toInt()
                 currentQty += 1
+                product.currentQty = currentQty
                 etCartContentQty.setText(currentQty.toString())
+
+                if (cbCheck.isChecked) _onQtyPlusClicked.value = product
             }
         }
     }

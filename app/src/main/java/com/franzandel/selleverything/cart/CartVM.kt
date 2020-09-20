@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import com.franzandel.selleverything.data.database.AppDatabase
 import com.franzandel.selleverything.extension.getDiscountedPrice
 import com.franzandel.selleverything.extension.getFormattedIDNPrice
+import com.franzandel.selleverything.extension.removeWellFormattedPrice
 import com.franzandel.selleverything.newest.Product
 
 /**
@@ -31,6 +32,23 @@ class CartVM(application: Application) : AndroidViewModel(application) {
         products.filter { product ->
             product.isChecked
         }.sumByDouble { product ->
-            product.price.getDiscountedPrice(product.discountPercentage)
+            product.price.getDiscountedPrice(product.discountPercentage) * product.currentQty
         }.toLong().getFormattedIDNPrice()
+
+    fun getTotalProductsPriceAfterMinusClicked(
+        product: Product,
+        currentTotalPrice: String
+    ): String {
+        val existingTotalPrice = currentTotalPrice.removeWellFormattedPrice().toLong()
+        val productPrice = product.price.getDiscountedPrice(product.discountPercentage).toLong()
+        val lastPrice = existingTotalPrice - productPrice
+        return lastPrice.getFormattedIDNPrice()
+    }
+
+    fun getTotalProductsPriceAfterPlusClicked(product: Product, currentTotalPrice: String): String {
+        val existingTotalPrice = currentTotalPrice.removeWellFormattedPrice().toLong()
+        val productPrice = product.price.getDiscountedPrice(product.discountPercentage).toLong()
+        val lastPrice = existingTotalPrice + productPrice
+        return lastPrice.getFormattedIDNPrice()
+    }
 }

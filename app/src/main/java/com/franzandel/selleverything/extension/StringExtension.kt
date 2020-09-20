@@ -25,3 +25,12 @@ fun String.getDiscountedPrice(discountPercent: String): Double {
     val discountPrice = price * discountPercentage
     return price - discountPrice
 }
+
+fun String.removeSpecialCharacter(): String =
+    this.replace("[^0-9a-zA-Z]+".toRegex(), "")
+
+fun String.removeText(): String =
+    this.replace("[a-zA-Z]".toRegex(), "")
+
+fun String.removeWellFormattedPrice(): String =
+    this.removeText().removeSpecialCharacter()

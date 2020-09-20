@@ -28,5 +28,6 @@ data class Product(
     val minOrder: String,
     val category: String,
     val description: String,
-    var isChecked: Boolean = true
+    var isChecked: Boolean = true,
+    var currentQty: Int = 1
 ) : Parcelable

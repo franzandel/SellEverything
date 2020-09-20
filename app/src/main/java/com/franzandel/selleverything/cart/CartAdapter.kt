@@ -21,8 +21,15 @@ class CartAdapter(private val context: Context) :
 
     private lateinit var cartViewHolder: CartViewHolder
     private val activity = context as AppCompatActivity
+
     private val _onCheckClicked = MutableLiveData<List<Product>>()
     val onCheckClicked: LiveData<List<Product>> = _onCheckClicked
+
+    private val _onQtyMinusClicked = MutableLiveData<Product>()
+    val onQtyMinusClicked: LiveData<Product> = _onQtyMinusClicked
+
+    private val _onQtyPlusClicked = MutableLiveData<Product>()
+    val onQtyPlusClicked: LiveData<Product> = _onQtyPlusClicked
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_cart, parent, false)
@@ -39,6 +46,14 @@ class CartAdapter(private val context: Context) :
     private fun setupObserver() {
         cartViewHolder.onCheckClicked.observe(activity, Observer {
             _onCheckClicked.value = currentList
+        })
+
+        cartViewHolder.onQtyMinusClicked.observe(activity, Observer { product ->
+            _onQtyMinusClicked.value = product
+        })
+
+        cartViewHolder.onQtyPlusClicked.observe(activity, Observer { product ->
+            _onQtyPlusClicked.value = product
         })
     }
 
