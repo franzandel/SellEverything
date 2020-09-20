@@ -44,6 +44,14 @@ class CartViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                 .toInt()
                 .getFormattedIDNPrice()
 
+            etCartContentQty.setText(product.currentQty.toString())
+
+            if (product.currentQty > 1) {
+                fabCartContentMinusQty.isEnabled = true
+                fabCartContentMinusQty.backgroundTintList =
+                    AppCompatResources.getColorStateList(context, R.color.colorGreen70)
+            }
+
             cbCheck.setOnCheckedChangeListener { _, isChecked ->
                 product.isChecked = isChecked
                 _onCheckClicked.value = Unit

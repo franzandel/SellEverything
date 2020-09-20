@@ -25,7 +25,7 @@ class CartVM(application: Application) : AndroidViewModel(application) {
 
     fun getTotalProductsPrice(products: List<Product>): String =
         products.sumByDouble { product ->
-            product.price.getDiscountedPrice(product.discountPercentage)
+            product.price.getDiscountedPrice(product.discountPercentage) * product.currentQty
         }.toLong().getFormattedIDNPrice()
 
     fun getTotalCheckedProductsCount(products: List<Product>): String = products.count { product ->

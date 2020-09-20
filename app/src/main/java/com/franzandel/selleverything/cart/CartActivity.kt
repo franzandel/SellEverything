@@ -42,7 +42,7 @@ class CartActivity : AppCompatActivity() {
                 cbCartCheckAll.text =
                     getString(
                         R.string.cart_check_all_with_number,
-                        viewModel.getTotalCheckedProductsQty(products)
+                        viewModel.getTotalCheckedProductsCount(products)
                     )
                 btnCartBuy.text =
                     getString(R.string.cart_buy, viewModel.getTotalCheckedProductsQty(products))
