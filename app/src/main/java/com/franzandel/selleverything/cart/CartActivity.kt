@@ -128,8 +128,14 @@ class CartActivity : AppCompatActivity() {
         }
 
         tvCartDeleteAll.setOnClickListener {
-            // TODO: DELETE ALL CART PRODUCTS
-            showToast("Delete all cart product")
+            viewModel.cartProducts.value?.let { products ->
+                // TODO: SHOW CONFIRMATION DIALOG
+                viewModel.deleteFromCart(products)
+                // TODO: UI IS NOT UPDATED YET
+                adapter.submitList(products)
+                // TODO: CHECK THIS MESSAGE AGAIN
+                showToast("All Products have been cleared")
+            }
         }
     }
 }

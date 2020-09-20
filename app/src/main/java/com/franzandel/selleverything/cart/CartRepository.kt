@@ -11,4 +11,5 @@ import com.franzandel.selleverything.newest.Product
 interface CartRepository {
     val cartProducts: LiveData<List<Product>>
     suspend fun updateCart(product: Product)
+    suspend fun deleteFromCart(products: List<Product>)
 }

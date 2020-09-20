@@ -74,11 +74,16 @@ class CartVM(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun getTotalCheckedProductsQty(products: List<Product>): String {
-        return products.filter { product ->
+    fun getTotalCheckedProductsQty(products: List<Product>): String =
+        products.filter { product ->
             product.isChecked
         }.sumBy { product ->
             product.currentQty
         }.toString()
+
+    fun deleteFromCart(products: List<Product>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            cartRepository.deleteFromCart(products)
+        }
     }
 }
