@@ -2,12 +2,14 @@ package com.franzandel.selleverything.cart
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.franzandel.selleverything.R
 import com.franzandel.selleverything.extension.hide
 import com.franzandel.selleverything.extension.show
 import com.franzandel.selleverything.extension.showToast
+import com.franzandel.selleverything.extension.toColor
 import kotlinx.android.synthetic.main.activity_cart.*
 
 class CartActivity : AppCompatActivity() {
@@ -46,15 +48,26 @@ class CartActivity : AppCompatActivity() {
             val totalCheckedProductsCount = viewModel.getTotalCheckedProductsCount(products)
             if (totalCheckedProductsCount == "0") {
                 cbCartCheckAll.text = getString(R.string.cart_check_all_no_number)
+                btnCartBuy.backgroundTintList =
+                    AppCompatResources.getColorStateList(this, R.color.colorGray)
+                btnCartBuy.isEnabled = false
                 tvCartDeleteAll.hide()
+                tvCartTotalPrice.text = "-"
+                tvCartTotalPrice.setTextColor(toColor(android.R.color.black))
             } else {
                 cbCartCheckAll.text = getString(
                     R.string.cart_check_all_with_number,
                     totalCheckedProductsCount
                 )
+                btnCartBuy.backgroundTintList =
+                    AppCompatResources.getColorStateList(this, R.color.colorOrange)
+                btnCartBuy.isEnabled = true
                 tvCartDeleteAll.show()
+                tvCartTotalPrice.text = viewModel.getTotalCheckedProductsPrice(products)
+                tvCartTotalPrice.setTextColor(toColor(R.color.colorOrange))
             }
 
+            btnCartBuy.text = getString(R.string.cart_buy, totalCheckedProductsCount)
             cbCartCheckAll.isChecked = totalCheckedProductsCount == products.size.toString()
         })
     }

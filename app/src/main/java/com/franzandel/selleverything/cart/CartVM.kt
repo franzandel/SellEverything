@@ -26,4 +26,11 @@ class CartVM(application: Application) : AndroidViewModel(application) {
     fun getTotalCheckedProductsCount(products: List<Product>): String = products.count { product ->
         product.isChecked
     }.toString()
+
+    fun getTotalCheckedProductsPrice(products: List<Product>): String =
+        products.filter { product ->
+            product.isChecked
+        }.sumByDouble { product ->
+            product.price.getDiscountedPrice(product.discountPercentage)
+        }.toLong().getFormattedIDNPrice()
 }
