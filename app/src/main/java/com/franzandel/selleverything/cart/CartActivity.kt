@@ -5,12 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.franzandel.selleverything.HomeActivity
 import com.franzandel.selleverything.R
-import com.franzandel.selleverything.extension.hide
-import com.franzandel.selleverything.extension.show
-import com.franzandel.selleverything.extension.showToast
-import com.franzandel.selleverything.extension.toColor
+import com.franzandel.selleverything.extension.*
 import kotlinx.android.synthetic.main.activity_cart.*
+import kotlinx.android.synthetic.main.layout_empty_cart.*
 
 class CartActivity : AppCompatActivity() {
 
@@ -38,7 +37,9 @@ class CartActivity : AppCompatActivity() {
 
     private fun setupObserver() {
         viewModel.cartProducts.observe(this, Observer { products ->
-            if (isFirstLaunch) {
+            if (products.isEmpty()) {
+                showEmptyCart()
+            } else if (isFirstLaunch) {
                 cbCartCheckAll.text =
                     getString(
                         R.string.cart_check_all_with_number,
@@ -110,6 +111,11 @@ class CartActivity : AppCompatActivity() {
     }
 
     private fun setupUIClickListener() {
+        btnEmptyCartStartBuying.setOnClickListener {
+            goTo(HomeActivity::class.java)
+            finishAffinity()
+        }
+
         btnCartBuy.setOnClickListener {
             // TODO: MAKE NEW SHIPPING ACTIVITY
             showToast("Go to Shipping Activity")
@@ -131,11 +137,20 @@ class CartActivity : AppCompatActivity() {
             viewModel.cartProducts.value?.let { products ->
                 // TODO: SHOW CONFIRMATION DIALOG
                 viewModel.deleteFromCart(products)
-                // TODO: UI IS NOT UPDATED YET
-                adapter.submitList(products)
-                // TODO: CHECK THIS MESSAGE AGAIN
-                showToast("All Products have been cleared")
+                showEmptyCart()
             }
         }
+    }
+
+    private fun showEmptyCart() {
+        emptyCartLayout.show()
+        cbCartCheckAll.hide()
+        tvCartDeleteAll.hide()
+        vShadowUpper.hide()
+        rvCart.hide()
+        vShadowLower.hide()
+        tvCartTotalPriceTitle.hide()
+        tvCartTotalPrice.hide()
+        btnCartBuy.hide()
     }
 }
