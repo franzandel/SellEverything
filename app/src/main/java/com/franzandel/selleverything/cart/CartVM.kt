@@ -23,11 +23,6 @@ class CartVM(application: Application) : AndroidViewModel(application) {
     private val cartRepository: CartRepository = CartRepositoryImpl(cartProductDao)
     val cartProducts: LiveData<List<Product>> = cartRepository.cartProducts
 
-    fun getTotalProductsPrice(products: List<Product>): String =
-        products.sumByDouble { product ->
-            product.price.getDiscountedPrice(product.discountPercentage) * product.currentQty
-        }.toLong().getFormattedIDNPrice()
-
     fun getTotalCheckedProductsCount(products: List<Product>): String = products.count { product ->
         product.isChecked
     }.toString()

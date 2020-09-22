@@ -16,8 +16,9 @@
     <string name="cart_total_price">Total Harga</string>
 
     <string name="cart_content_min_qty">1</string>
+    <string name="cart_content_zero_qty_validation">Jumlah harus diisi</string>
 
-    <string name="empty_cart_title">Woah, your Cart is empty</string>
-    <string name="empty_cart_description">Fill it with your dream goods. Let\'s check it now!</string>
-    <string name="empty_cart_start_buying">Start Buying</string>
+    <string name="empty_cart_title">Wah, keranjang belanjamu kosong</string>
+    <string name="empty_cart_description">Daripada dianggurin, mending isi dengan barang-barang impianmu. Yuk, cek sekarang!</string>
+    <string name="empty_cart_start_buying">Mulai Belanja</string>
 </resources>

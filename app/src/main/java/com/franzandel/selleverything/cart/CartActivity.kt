@@ -47,7 +47,7 @@ class CartActivity : AppCompatActivity() {
                     )
                 btnCartBuy.text =
                     getString(R.string.cart_buy, viewModel.getTotalCheckedProductsQty(products))
-                tvCartTotalPrice.text = viewModel.getTotalProductsPrice(products)
+                tvCartTotalPrice.text = viewModel.getTotalCheckedProductsPrice(products)
                 adapter.submitList(products)
                 isFirstLaunch = false
             }
@@ -107,6 +107,25 @@ class CartActivity : AppCompatActivity() {
                     btnCartBuy.text.toString()
                 )
             )
+        })
+
+        adapter.onQtyChanged.observe(this, Observer { (product, products) ->
+            if (products.size == 1 && product.currentQty == 0) {
+                btnCartBuy.backgroundTintList =
+                    AppCompatResources.getColorStateList(this, R.color.colorGray)
+                btnCartBuy.isEnabled = false
+                tvCartTotalPrice.text = "-"
+                tvCartTotalPrice.setTextColor(toColor(android.R.color.black))
+            } else {
+                btnCartBuy.backgroundTintList =
+                    AppCompatResources.getColorStateList(this, R.color.colorOrange)
+                btnCartBuy.isEnabled = true
+                tvCartTotalPrice.text = viewModel.getTotalCheckedProductsPrice(products)
+                tvCartTotalPrice.setTextColor(toColor(R.color.colorOrange))
+            }
+
+            btnCartBuy.text =
+                getString(R.string.cart_buy, viewModel.getTotalCheckedProductsQty(products))
         })
     }
 

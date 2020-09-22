@@ -1,12 +1,14 @@
 package com.franzandel.selleverything.cart
 
-import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.franzandel.selleverything.R
 import com.franzandel.selleverything.data.BundleConstants
+import com.franzandel.selleverything.databinding.ItemCartBinding
 import com.franzandel.selleverything.detail.DetailActivity
 import com.franzandel.selleverything.extension.getDiscountedPrice
 import com.franzandel.selleverything.extension.getFormattedIDNPrice
@@ -20,7 +22,8 @@ import kotlinx.android.synthetic.main.item_cart.view.*
  * Android Engineer
  */
 
-class CartViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class CartViewHolder(itemCartBinding: ItemCartBinding) :
+    RecyclerView.ViewHolder(itemCartBinding.root) {
 
     private val _onCheckClicked = MutableLiveData<Unit>()
     val onCheckClicked: LiveData<Unit> = _onCheckClicked
@@ -30,6 +33,25 @@ class CartViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private val _onQtyPlusClicked = MutableLiveData<Product>()
     val onQtyPlusClicked: LiveData<Product> = _onQtyPlusClicked
+
+    private val _onQtyChanged = MutableLiveData<Pair<Int, String>>()
+    val onQtyChanged: LiveData<Pair<Int, String>> = _onQtyChanged
+
+    private val activity = itemView.context as AppCompatActivity
+    private val cartBinding = CartBinding()
+
+    init {
+        itemCartBinding.binding = cartBinding
+        // forces the bindings to run immediately instead of delaying them until the next frame
+        itemCartBinding.executePendingBindings()
+        setupObserver()
+    }
+
+    private fun setupObserver() {
+        cartBinding.onQtyChanged.observe(activity, Observer { qty ->
+            _onQtyChanged.value = Pair(adapterPosition, qty)
+        })
+    }
 
     fun bind(product: Product) {
         itemView.apply {

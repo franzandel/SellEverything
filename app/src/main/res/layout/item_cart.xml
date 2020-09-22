@@ -1,126 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.appcompat.widget.AppCompatCheckBox
-        android:id="@+id/cbCheck"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_16"
-        app:layout_constraintBottom_toTopOf="@+id/vCartContentSeparator"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvCartContentShopName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_8"
-        android:textColor="@android:color/black"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/cbCheck"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Nourish Indonesia" />
+        <variable
+            name="binding"
+            type="com.franzandel.selleverything.cart.CartBinding" />
+    </data>
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvCartContentLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/cbCheck"
-        app:layout_constraintTop_toBottomOf="@+id/tvCartContentShopName"
-        tools:text="Jakarta Timur" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ivCartContentProduct"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_16"
-        android:src="@drawable/ic_launcher_background"
-        app:layout_constraintStart_toEndOf="@+id/cbCheck"
-        app:layout_constraintTop_toBottomOf="@+id/tvCartContentLocation" />
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/cbCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16"
+            app:layout_constraintBottom_toTopOf="@+id/vCartContentSeparator"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvCartContentTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_16"
-        android:background="?selectableItemBackground"
-        android:textColor="@android:color/black"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ivCartContentProduct"
-        app:layout_constraintTop_toTopOf="@+id/ivCartContentProduct"
-        tools:text="Nourish Indonesia, Gula Aren Cair 1 L" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCartContentShopName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_8"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/cbCheck"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Nourish Indonesia" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvCartContentPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_16"
-        android:layout_marginTop="@dimen/margin_16"
-        android:textColor="@color/colorOrange"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/ivCartContentProduct"
-        app:layout_constraintTop_toBottomOf="@+id/tvCartContentTitle"
-        tools:text="Rp55.000" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCartContentLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/cbCheck"
+            app:layout_constraintTop_toBottomOf="@+id/tvCartContentShopName"
+            tools:text="Jakarta Timur" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ivCartContentDeleteProduct"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/margin_16"
-        android:background="?selectableItemBackground"
-        android:src="@drawable/ic_baseline_delete_24"
-        app:layout_constraintBottom_toBottomOf="@+id/etCartContentQty"
-        app:layout_constraintEnd_toStartOf="@+id/fabCartContentMinusQty"
-        app:layout_constraintTop_toBottomOf="@+id/ivCartContentProduct" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivCartContentProduct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_16"
+            android:src="@drawable/ic_launcher_background"
+            app:layout_constraintStart_toEndOf="@+id/cbCheck"
+            app:layout_constraintTop_toBottomOf="@+id/tvCartContentLocation" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabCartContentMinusQty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/margin_16"
-        android:enabled="false"
-        android:src="@drawable/ic_baseline_remove_24"
-        app:backgroundTint="@color/colorGray"
-        app:fabCustomSize="@dimen/margin_24"
-        app:layout_constraintBottom_toBottomOf="@+id/etCartContentQty"
-        app:layout_constraintEnd_toStartOf="@+id/etCartContentQty"
-        app:layout_constraintTop_toBottomOf="@+id/ivCartContentProduct"
-        app:tint="@android:color/white" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCartContentTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16"
+            android:background="?selectableItemBackground"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ivCartContentProduct"
+            app:layout_constraintTop_toTopOf="@+id/ivCartContentProduct"
+            tools:text="Nourish Indonesia, Gula Aren Cair 1 L" />
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/etCartContentQty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/margin_16"
-        android:text="@string/cart_content_min_qty"
-        app:layout_constraintEnd_toStartOf="@+id/fabCartContentPlusQty"
-        app:layout_constraintTop_toBottomOf="@+id/ivCartContentProduct" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCartContentPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginTop="@dimen/margin_16"
+            android:textColor="@color/colorOrange"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/ivCartContentProduct"
+            app:layout_constraintTop_toBottomOf="@+id/tvCartContentTitle"
+            tools:text="Rp55.000" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabCartContentPlusQty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/margin_16"
-        android:backgroundTint="@color/colorGreen70"
-        android:src="@drawable/ic_baseline_add_24"
-        app:fabCustomSize="@dimen/margin_24"
-        app:layout_constraintBottom_toBottomOf="@+id/etCartContentQty"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivCartContentProduct"
-        app:tint="@android:color/white" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivCartContentDeleteProduct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_16"
+            android:background="?selectableItemBackground"
+            android:src="@drawable/ic_baseline_delete_24"
+            app:layout_constraintBottom_toBottomOf="@+id/etCartContentQty"
+            app:layout_constraintEnd_toStartOf="@+id/fabCartContentMinusQty"
+            app:layout_constraintTop_toBottomOf="@+id/ivCartContentProduct" />
 
-    <View
-        android:id="@+id/vCartContentSeparator"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/margin_8"
-        android:layout_marginTop="@dimen/margin_16"
-        android:background="@color/colorGray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etCartContentQty" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabCartContentMinusQty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_16"
+            android:enabled="false"
+            android:src="@drawable/ic_baseline_remove_24"
+            app:backgroundTint="@color/colorGray"
+            app:fabCustomSize="@dimen/margin_24"
+            app:layout_constraintBottom_toBottomOf="@+id/etCartContentQty"
+            app:layout_constraintEnd_toStartOf="@+id/etCartContentQty"
+            app:layout_constraintTop_toBottomOf="@+id/ivCartContentProduct"
+            app:tint="@android:color/white" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/etCartContentQty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_16"
+            android:text="@={binding.qty}"
+            android:inputType="number"
+            android:maxLines="1"
+            app:layout_constraintEnd_toStartOf="@+id/fabCartContentPlusQty"
+            app:layout_constraintTop_toBottomOf="@+id/ivCartContentProduct" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabCartContentPlusQty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_16"
+            android:backgroundTint="@color/colorGreen70"
+            android:src="@drawable/ic_baseline_add_24"
+            app:fabCustomSize="@dimen/margin_24"
+            app:layout_constraintBottom_toBottomOf="@+id/etCartContentQty"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivCartContentProduct"
+            app:tint="@android:color/white" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvQtyEmptyValidation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_4"
+            android:text="@string/cart_content_zero_qty_validation"
+            android:textSize="@dimen/text_size_12"
+            android:textColor="@color/colorRed"
+            android:visibility="@{binding.qtyZeroValidation}"
+            app:layout_constraintEnd_toEndOf="@+id/fabCartContentPlusQty"
+            app:layout_constraintStart_toStartOf="@+id/fabCartContentMinusQty"
+            app:layout_constraintTop_toBottomOf="@+id/etCartContentQty" />
+
+        <View
+            android:id="@+id/vCartContentSeparator"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/margin_8"
+            android:layout_marginTop="@dimen/margin_16"
+            android:background="@color/colorGray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvQtyEmptyValidation" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
