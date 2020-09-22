@@ -36,6 +36,9 @@ class CartAdapter(private val context: Context) :
     private val _onQtyChanged = MutableLiveData<Pair<Product, List<Product>>>()
     val onQtyChanged: LiveData<Pair<Product, List<Product>>> = _onQtyChanged
 
+    private val _onDeleteClicked = MutableLiveData<Product>()
+    val onDeleteClicked: LiveData<Product> = _onDeleteClicked
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
         val layoutInflater = LayoutInflater.from(context)
         val itemCartBinding: ItemCartBinding =
@@ -67,6 +70,10 @@ class CartAdapter(private val context: Context) :
             val product = currentList[position]
             product.currentQty = qty.toInt()
             _onQtyChanged.value = Pair(product, currentList)
+        })
+
+        cartViewHolder.onDeleteClicked.observe(activity, Observer { product ->
+            _onDeleteClicked.value = product
         })
     }
 

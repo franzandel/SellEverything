@@ -76,9 +76,15 @@ class CartVM(application: Application) : AndroidViewModel(application) {
             product.currentQty
         }.toString()
 
-    fun deleteFromCart(products: List<Product>) {
+    fun deleteAllFromCart(products: List<Product>) {
         viewModelScope.launch(Dispatchers.IO) {
-            cartRepository.deleteFromCart(products)
+            cartRepository.deleteAllFromCart(products)
+        }
+    }
+
+    fun deleteFromCart(product: Product) {
+        viewModelScope.launch(Dispatchers.IO) {
+            cartRepository.deleteFromCart(product)
         }
     }
 }

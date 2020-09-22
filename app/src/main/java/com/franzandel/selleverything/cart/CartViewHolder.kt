@@ -37,6 +37,9 @@ class CartViewHolder(itemCartBinding: ItemCartBinding) :
     private val _onQtyChanged = MutableLiveData<Pair<Int, String>>()
     val onQtyChanged: LiveData<Pair<Int, String>> = _onQtyChanged
 
+    private val _onDeleteClicked = MutableLiveData<Product>()
+    val onDeleteClicked: LiveData<Product> = _onDeleteClicked
+
     private val activity = itemView.context as AppCompatActivity
     private val cartBinding = CartBinding()
 
@@ -88,6 +91,7 @@ class CartViewHolder(itemCartBinding: ItemCartBinding) :
             ivCartContentDeleteProduct.setOnClickListener {
                 // TODO: MAKE DIALOG CONFIRMATION
                 context.showToast("Show Dialog Confirmation")
+                _onDeleteClicked.value = product
             }
 
             fabCartContentMinusQty.setOnClickListener {

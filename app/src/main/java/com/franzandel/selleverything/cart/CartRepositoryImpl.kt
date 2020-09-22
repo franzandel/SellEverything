@@ -13,7 +13,11 @@ class CartRepositoryImpl(private val cartProductDao: CartProductDao) : CartRepos
         cartProductDao.update(product)
     }
 
-    override suspend fun deleteFromCart(products: List<Product>) {
-        cartProductDao.delete(products)
+    override suspend fun deleteFromCart(product: Product) {
+        cartProductDao.delete(product)
+    }
+
+    override suspend fun deleteAllFromCart(products: List<Product>) {
+        cartProductDao.deleteAll(products)
     }
 }

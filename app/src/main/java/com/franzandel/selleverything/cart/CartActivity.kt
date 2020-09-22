@@ -21,7 +21,6 @@ class CartActivity : AppCompatActivity() {
     }
 
     private val adapter = CartAdapter(this)
-    private var isFirstLaunch = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +38,7 @@ class CartActivity : AppCompatActivity() {
         viewModel.cartProducts.observe(this, Observer { products ->
             if (products.isEmpty()) {
                 showEmptyCart()
-            } else if (isFirstLaunch) {
+            } else {
                 cbCartCheckAll.text =
                     getString(
                         R.string.cart_check_all_with_number,
@@ -49,7 +48,6 @@ class CartActivity : AppCompatActivity() {
                     getString(R.string.cart_buy, viewModel.getTotalCheckedProductsQty(products))
                 tvCartTotalPrice.text = viewModel.getTotalCheckedProductsPrice(products)
                 adapter.submitList(products)
-                isFirstLaunch = false
             }
         })
 
@@ -127,6 +125,10 @@ class CartActivity : AppCompatActivity() {
             btnCartBuy.text =
                 getString(R.string.cart_buy, viewModel.getTotalCheckedProductsQty(products))
         })
+
+        adapter.onDeleteClicked.observe(this, Observer { product ->
+            viewModel.deleteFromCart(product)
+        })
     }
 
     private fun setupUIClickListener() {
@@ -155,7 +157,7 @@ class CartActivity : AppCompatActivity() {
         tvCartDeleteAll.setOnClickListener {
             viewModel.cartProducts.value?.let { products ->
                 // TODO: SHOW CONFIRMATION DIALOG
-                viewModel.deleteFromCart(products)
+                viewModel.deleteAllFromCart(products)
                 showEmptyCart()
             }
         }

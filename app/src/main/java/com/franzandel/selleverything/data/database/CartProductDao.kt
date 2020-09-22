@@ -21,5 +21,8 @@ interface CartProductDao {
     suspend fun update(product: Product)
 
     @Delete
-    suspend fun delete(products: List<Product>)
+    suspend fun delete(product: Product)
+
+    @Delete
+    suspend fun deleteAll(products: List<Product>)
 }
