@@ -8,7 +8,14 @@
     <string name="detail_product_description">Deskripsi produk</string>
     <string name="fab_cart">Cart</string>
 
-    <string name="item_cart_header_clear">Clear</string>
+    <string name="cart_delete_all">Hapus</string>
+    <string name="cart_delete_all_confirmation_title">Hapus %s barang?</string>
+    <string name="cart_delete_all_confirmation_description">Barang yang kamu pilih akan dihapus dari keranjangmu.</string>
+    <string name="cart_delete_confirmation_title">Hapus barang?</string>
+    <string name="cart_delete_confirmation_description">Barang ini akan dihapus dari keranjangmu.</string>
+
+    <string name="delete_confirmation_negative_btn">Kembali</string>
+    <string name="delete_confirmation_positive_btn">Hapus</string>
 
     <string name="cart_check_all_with_number">Pilih Semua Barang (%1$s)</string>
     <string name="cart_check_all_no_number">Pilih Semua Barang</string>

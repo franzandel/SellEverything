@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.franzandel.selleverything.HomeActivity
 import com.franzandel.selleverything.R
 import com.franzandel.selleverything.extension.*
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.activity_cart.*
 import kotlinx.android.synthetic.main.layout_empty_cart.*
 
@@ -156,9 +157,20 @@ class CartActivity : AppCompatActivity() {
 
         tvCartDeleteAll.setOnClickListener {
             viewModel.cartProducts.value?.let { products ->
-                // TODO: SHOW CONFIRMATION DIALOG
-                viewModel.deleteAllFromCart(products)
-                showEmptyCart()
+                MaterialAlertDialogBuilder(this)
+                    .setTitle(
+                        getString(
+                            R.string.cart_delete_all_confirmation_title,
+                            products.size.toString()
+                        )
+                    )
+                    .setMessage(getString(R.string.cart_delete_all_confirmation_description))
+                    .setNegativeButton(getString(R.string.delete_confirmation_negative_btn)) { _, _ -> }
+                    .setPositiveButton(getString(R.string.delete_confirmation_positive_btn)) { _, _ ->
+                        viewModel.deleteAllFromCart(products)
+                        showEmptyCart()
+                    }
+                    .show()
             }
         }
     }

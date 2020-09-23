@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:background="?selectableItemBackground"
         android:layout_marginEnd="@dimen/margin_16"
-        android:text="@string/item_cart_header_clear"
+        android:text="@string/cart_delete_all"
         android:textColor="@color/colorGreen70"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/cbCartCheckAll"

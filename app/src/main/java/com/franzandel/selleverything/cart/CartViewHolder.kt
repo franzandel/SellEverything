@@ -13,8 +13,8 @@ import com.franzandel.selleverything.detail.DetailActivity
 import com.franzandel.selleverything.extension.getDiscountedPrice
 import com.franzandel.selleverything.extension.getFormattedIDNPrice
 import com.franzandel.selleverything.extension.goTo
-import com.franzandel.selleverything.extension.showToast
 import com.franzandel.selleverything.newest.Product
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.item_cart.view.*
 
 /**
@@ -89,9 +89,14 @@ class CartViewHolder(itemCartBinding: ItemCartBinding) :
             }
 
             ivCartContentDeleteProduct.setOnClickListener {
-                // TODO: MAKE DIALOG CONFIRMATION
-                context.showToast("Show Dialog Confirmation")
-                _onDeleteClicked.value = product
+                MaterialAlertDialogBuilder(context)
+                    .setTitle(context.getString(R.string.cart_delete_confirmation_title))
+                    .setMessage(context.getString(R.string.cart_delete_confirmation_description))
+                    .setNegativeButton(context.getString(R.string.delete_confirmation_negative_btn)) { _, _ -> }
+                    .setPositiveButton(context.getString(R.string.delete_confirmation_positive_btn)) { _, _ ->
+                        _onDeleteClicked.value = product
+                    }
+                    .show()
             }
 
             fabCartContentMinusQty.setOnClickListener {
