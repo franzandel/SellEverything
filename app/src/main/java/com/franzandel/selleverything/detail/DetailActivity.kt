@@ -4,15 +4,18 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import com.franzandel.selleverything.R
 import com.franzandel.selleverything.cart.CartActivity
-import com.franzandel.selleverything.data.BundleConstants
+import com.franzandel.selleverything.data.constants.BundleConstants
+import com.franzandel.selleverything.data.constants.NumberConstants
 import com.franzandel.selleverything.extension.*
 import com.franzandel.selleverything.newest.Product
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_detail.*
+
 
 class DetailActivity : AppCompatActivity() {
 
@@ -45,6 +48,7 @@ class DetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_detail)
         setupUI()
         setupUIClickListener()
+//        tvDetailDiscountPercentage.setMargin(0, 30, 0, 0)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -66,8 +70,8 @@ class DetailActivity : AppCompatActivity() {
         tvDetailDiscountedPrice.text =
             product.price.getDiscountedPrice(product.discountPercentage).toInt()
                 .getFormattedIDNPrice()
-        tvDetailCashbackPercentage.text = product.cashback.addCashbackPercentage()
-        tvDetailDiscountPercentage.text = product.discountPercentage.addPercentage()
+        setupCashbackPercentage()
+        setupDiscountPercentage()
         tvDetailOriginalPrice.text = product.price.toInt().getFormattedIDNPrice()
         tvDetailOriginalPrice.showStrikeThrough()
         tvDetailTitle.text = product.title
@@ -76,6 +80,38 @@ class DetailActivity : AppCompatActivity() {
         tvDetailMinOrder.text = product.minOrder.addUnit()
         tvDetailCategory.text = product.category
         tvDetailDescription.text = product.description
+    }
+
+    private fun setupCashbackPercentage() {
+        if (product.cashback == NumberConstants.ZERO) {
+            tvDetailCashbackPercentage.hide()
+            setupDetailOriginalPrice(product.discountPercentage, tvDetailDiscountPercentage.id)
+            tvDetailDiscountPercentage.setMargin(left = 40)
+        } else {
+            tvDetailCashbackPercentage.text = product.cashback.addCashbackPercentage()
+        }
+    }
+
+    private fun setupDiscountPercentage() {
+        if (product.discountPercentage == NumberConstants.ZERO) {
+            tvDetailDiscountPercentage.hide()
+            setupDetailOriginalPrice(product.cashback, tvDetailCashbackPercentage.id)
+        } else {
+            tvDetailDiscountPercentage.text = product.discountPercentage.addPercentage()
+        }
+    }
+
+    private fun setupDetailOriginalPrice(cashbackOrDiscount: String, id: Int) {
+        val originalPriceParams =
+            tvDetailOriginalPrice.layoutParams as ConstraintLayout.LayoutParams
+        if (cashbackOrDiscount == NumberConstants.ZERO) {
+            tvDetailOriginalPrice.hide()
+        } else {
+            originalPriceParams.startToEnd = id
+            originalPriceParams.topToTop = id
+            originalPriceParams.bottomToBottom = id
+        }
+        tvDetailOriginalPrice.requestLayout()
     }
 
     private fun setupViewPager2() {

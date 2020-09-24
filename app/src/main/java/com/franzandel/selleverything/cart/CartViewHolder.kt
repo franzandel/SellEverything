@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.franzandel.selleverything.R
-import com.franzandel.selleverything.data.BundleConstants
+import com.franzandel.selleverything.data.constants.BundleConstants
 import com.franzandel.selleverything.databinding.ItemCartBinding
 import com.franzandel.selleverything.detail.DetailActivity
 import com.franzandel.selleverything.extension.getDiscountedPrice
