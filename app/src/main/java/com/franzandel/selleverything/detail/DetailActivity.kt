@@ -49,6 +49,8 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
+
+        setupToolbar()
         setupUI()
         setupUIClickListener()
     }
@@ -61,8 +63,14 @@ class DetailActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_cart -> goTo(CartActivity::class.java)
+            android.R.id.home -> onBackPressed()
         }
         return true
+    }
+
+    private fun setupToolbar() {
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = getString(R.string.detail_toolbar_title)
     }
 
     private fun setupUI() {

@@ -21,6 +21,7 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        setupToolbar()
         setupRV()
         setupRVData()
     }
@@ -35,6 +36,10 @@ class HomeActivity : AppCompatActivity() {
             R.id.menu_cart -> goTo(CartActivity::class.java)
         }
         return true
+    }
+
+    private fun setupToolbar() {
+        supportActionBar?.title = getString(R.string.home_toolbar_title)
     }
 
     private fun setupRV() {
