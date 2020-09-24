@@ -18,6 +18,7 @@ data class Product(
     val discountPercentage: String,
     @Json(name = "image_name")
     val imageName: String,
+    val seller: String,
     val location: String,
     val price: String,
     val quantity: String,

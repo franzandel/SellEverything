@@ -1,10 +1,12 @@
 package com.franzandel.selleverything.detail
 
 import android.os.Bundle
+import android.text.SpannableStringBuilder
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.text.bold
 import androidx.lifecycle.ViewModelProvider
 import com.franzandel.selleverything.R
 import com.franzandel.selleverything.cart.CartActivity
@@ -24,6 +26,7 @@ class DetailActivity : AppCompatActivity() {
             id = "",
             cashback = "",
             discountPercentage = "",
+            seller = "",
             imageName = "",
             location = "",
             price = "",
@@ -48,7 +51,6 @@ class DetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_detail)
         setupUI()
         setupUIClickListener()
-//        tvDetailDiscountPercentage.setMargin(0, 30, 0, 0)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -75,6 +77,7 @@ class DetailActivity : AppCompatActivity() {
         tvDetailOriginalPrice.text = product.price.toInt().getFormattedIDNPrice()
         tvDetailOriginalPrice.showStrikeThrough()
         tvDetailTitle.text = product.title
+        setupDetailSeller()
         tvDetailWeight.text = product.weight.toInt().getFormattedWeight()
         tvDetailCondition.text = product.condition
         tvDetailMinOrder.text = product.minOrder.addUnit()
@@ -112,6 +115,14 @@ class DetailActivity : AppCompatActivity() {
             originalPriceParams.bottomToBottom = id
         }
         tvDetailOriginalPrice.requestLayout()
+    }
+
+    private fun setupDetailSeller() {
+        val ssDetailSeller = SpannableStringBuilder()
+            .append("${getString(R.string.detail_seller)} ")
+            .bold { append(product.seller) }
+
+        tvDetailSeller.text = ssDetailSeller
     }
 
     private fun setupViewPager2() {
