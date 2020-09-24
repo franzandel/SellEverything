@@ -59,7 +59,7 @@ class CartViewHolder(itemCartBinding: ItemCartBinding) :
     fun bind(product: Product) {
         itemView.apply {
             cbCheck.isChecked = product.isChecked
-            tvCartContentShopName.text = "Current Shop Name"
+            tvCartContentSeller.text = product.seller
             tvCartContentLocation.text = product.location
 //            val drawableId = context.getDrawableIdFromName(product.imageName)
 //            ivCartContentProduct.setImageResource(drawableId)

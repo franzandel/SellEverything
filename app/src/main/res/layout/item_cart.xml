@@ -24,7 +24,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvCartContentShopName"
+            android:id="@+id/tvCartContentSeller"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_8"
@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@+id/cbCheck"
-            app:layout_constraintTop_toBottomOf="@+id/tvCartContentShopName"
+            app:layout_constraintTop_toBottomOf="@+id/tvCartContentSeller"
             tools:text="Jakarta Timur" />
 
         <androidx.appcompat.widget.AppCompatImageView
