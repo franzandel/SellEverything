@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.franzandel.selleverything.HomeActivity
 import com.franzandel.selleverything.R
 import com.franzandel.selleverything.data.constants.BundleConstants
+import com.franzandel.selleverything.data.constants.NumberConstants
 import com.franzandel.selleverything.extension.goTo
 import com.franzandel.selleverything.extension.hide
 import com.franzandel.selleverything.extension.show
@@ -78,7 +79,7 @@ class CartActivity : AppCompatActivity() {
                     AppCompatResources.getColorStateList(this, R.color.colorGray)
                 btnCartBuy.isEnabled = false
                 tvCartDeleteAll.hide()
-                tvCartTotalPrice.text = "-"
+                tvCartTotalPrice.text = NumberConstants.DASH
                 tvCartTotalPrice.setTextColor(toColor(android.R.color.black))
             } else {
                 cbCartCheckAll.text = getString(
@@ -131,7 +132,7 @@ class CartActivity : AppCompatActivity() {
                 btnCartBuy.backgroundTintList =
                     AppCompatResources.getColorStateList(this, R.color.colorGray)
                 btnCartBuy.isEnabled = false
-                tvCartTotalPrice.text = "-"
+                tvCartTotalPrice.text = NumberConstants.DASH
                 tvCartTotalPrice.setTextColor(toColor(android.R.color.black))
             } else {
                 btnCartBuy.backgroundTintList =

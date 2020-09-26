@@ -8,4 +8,5 @@ package com.franzandel.selleverything.data.constants
 object NumberConstants {
 
     const val ZERO = "0"
+    const val DASH = "-"
 }

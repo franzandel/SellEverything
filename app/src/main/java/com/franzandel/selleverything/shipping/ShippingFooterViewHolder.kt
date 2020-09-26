@@ -2,6 +2,7 @@ package com.franzandel.selleverything.shipping
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.franzandel.selleverything.data.constants.NumberConstants
 import com.franzandel.selleverything.extension.getFormattedIDNPrice
 import com.franzandel.selleverything.extension.showToast
 import com.franzandel.selleverything.newest.Product
@@ -16,7 +17,8 @@ class ShippingFooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVie
 
     fun bind(product: Product?) {
         itemView.apply {
-            tvShippingFooterSubTotal.text = product?.price?.toLong()?.getFormattedIDNPrice() ?: "-"
+            tvShippingFooterSubTotal.text =
+                product?.price?.toLong()?.getFormattedIDNPrice() ?: NumberConstants.DASH
 
             tvShippingFooterDelivery.setOnClickListener {
                 // TODO: Handle Delivery Page
