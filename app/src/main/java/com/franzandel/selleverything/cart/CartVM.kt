@@ -1,7 +1,6 @@
 package com.franzandel.selleverything.cart
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.franzandel.selleverything.data.database.AppDatabase
@@ -10,6 +9,7 @@ import com.franzandel.selleverything.extension.getFormattedIDNPrice
 import com.franzandel.selleverything.extension.removeSpecialCharacter
 import com.franzandel.selleverything.extension.removeText
 import com.franzandel.selleverything.newest.Product
+import com.franzandel.selleverything.vm.ProductsVM
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
  * Android Engineer
  */
 
-class CartVM(application: Application) : AndroidViewModel(application) {
+class CartVM(application: Application) : ProductsVM(application) {
     private val cartProductDao = AppDatabase.invoke(application.applicationContext).cartProductDao()
     private val cartRepository: CartRepository = CartRepositoryImpl(cartProductDao)
     val cartProducts: LiveData<List<Product>> = cartRepository.cartProducts
@@ -26,13 +26,6 @@ class CartVM(application: Application) : AndroidViewModel(application) {
     fun getTotalCheckedProductsCount(products: List<Product>): String = products.count { product ->
         product.isChecked
     }.toString()
-
-    fun getTotalCheckedProductsPrice(products: List<Product>): String =
-        products.filter { product ->
-            product.isChecked
-        }.sumByDouble { product ->
-            product.price.getDiscountedPrice(product.discountPercentage) * product.currentQty
-        }.toLong().getFormattedIDNPrice()
 
     fun getTotalProductsPriceAfterMinusClicked(
         product: Product,
@@ -68,13 +61,6 @@ class CartVM(application: Application) : AndroidViewModel(application) {
             cartRepository.updateCart(product)
         }
     }
-
-    fun getTotalCheckedProductsQty(products: List<Product>): String =
-        products.filter { product ->
-            product.isChecked
-        }.sumBy { product ->
-            product.currentQty
-        }.toString()
 
     fun deleteAllFromCart(products: List<Product>) {
         viewModelScope.launch(Dispatchers.IO) {

@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvShippingFooterDelivery"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_corner"
+        android:layout_marginStart="@dimen/margin_16"
         android:layout_marginTop="@dimen/margin_16"
-        android:padding="@dimen/margin_8"
+        android:layout_marginEnd="@dimen/margin_16"
+        android:background="@drawable/rounded_corner"
         android:drawableStart="@drawable/ic_baseline_local_shipping_24"
         android:drawableEnd="@drawable/ic_baseline_chevron_right_24"
         android:drawablePadding="@dimen/margin_8"
+        android:padding="@dimen/margin_8"
         android:text="@string/shipping_footer_delivery"
         android:textColor="@android:color/black"
         android:textStyle="bold"
@@ -23,21 +25,23 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvShippingFooterTitle"
+        android:id="@+id/tvShippingFooterSubTotalTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_16"
         android:layout_marginTop="@dimen/margin_16"
         android:background="?selectableItemBackground"
+        android:text="@string/shipping_footer_sub_total_title"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvShippingFooterDelivery"
-        tools:text="Subtotal" />
+        app:layout_constraintTop_toBottomOf="@+id/tvShippingFooterDelivery" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvShippingFooterSubTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_16"
+        android:layout_marginEnd="@dimen/margin_16"
         android:textColor="@color/colorOrange"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,5 +56,5 @@
         android:background="@color/colorGray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvShippingFooterTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/tvShippingFooterSubTotalTitle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

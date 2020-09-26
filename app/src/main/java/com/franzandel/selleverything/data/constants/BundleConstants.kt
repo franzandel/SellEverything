@@ -8,4 +8,5 @@ package com.franzandel.selleverything.data.constants
 object BundleConstants {
 
     const val EXTRA_PRODUCT = "extra_product"
+    const val EXTRA_PRODUCTS = "extra_products"
 }
