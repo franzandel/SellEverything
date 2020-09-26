@@ -5,6 +5,6 @@ package com.franzandel.selleverything.data.enums
  * Android Engineer
  */
 
-enum class AdapterSection {
-    HEADER, CONTENT, FOOTER
+enum class ShippingSection {
+    ADDRESS, HEADER, CONTENT, FOOTER, SUMMARY
 }

@@ -6,7 +6,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.franzandel.selleverything.R
 import com.franzandel.selleverything.data.constants.BundleConstants
-import com.franzandel.selleverything.extension.showToast
 import com.franzandel.selleverything.newest.Product
 import kotlinx.android.synthetic.main.activity_shipping.*
 
@@ -30,9 +29,7 @@ class ShippingActivity : AppCompatActivity() {
 
         setupToolbar()
         setupRV()
-        setupUI()
         setupObserver()
-        setupUIClickListener()
         shippingVM.processMultiTypeProducts(products)
     }
 
@@ -50,25 +47,9 @@ class ShippingActivity : AppCompatActivity() {
         rvShipping.adapter = shippingAdapter
     }
 
-    private fun setupUI() {
-        tvShippingTotalProductsPriceTitle.text =
-            getString(
-                R.string.shipping_total_products_price_title,
-                shippingVM.getTotalCheckedProductsQty(products)
-            )
-
-        tvShippingTotalProductsPrice.text = shippingVM.getTotalCheckedProductsPrice(products)
-    }
-
     private fun setupObserver() {
         shippingVM.multiTypeProducts.observe(this, Observer { multiTypeProducts ->
             shippingAdapter.submitList(multiTypeProducts)
         })
-    }
-
-    private fun setupUIClickListener() {
-        btnShippingChoosePayment.setOnClickListener {
-            showToast("Go to Payment")
-        }
     }
 }

@@ -1,6 +1,6 @@
 package com.franzandel.selleverything.data.entity
 
-import com.franzandel.selleverything.data.enums.AdapterSection
+import com.franzandel.selleverything.data.enums.ShippingSection
 
 /**
  * Created by Franz Andel on 26/09/20.
@@ -9,5 +9,5 @@ import com.franzandel.selleverything.data.enums.AdapterSection
 
 data class MultiType<T>(
     val data: T? = null,
-    val section: AdapterSection
+    val section: ShippingSection
 )
