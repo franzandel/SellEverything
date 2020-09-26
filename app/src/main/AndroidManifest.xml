@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".shipping.ShippingActivity"></activity>
         <activity android:name=".detail.DetailActivity" />
         <activity android:name=".cart.CartActivity" />
         <activity android:name=".HomeActivity">

@@ -7,7 +7,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.franzandel.selleverything.HomeActivity
 import com.franzandel.selleverything.R
-import com.franzandel.selleverything.extension.*
+import com.franzandel.selleverything.extension.goTo
+import com.franzandel.selleverything.extension.hide
+import com.franzandel.selleverything.extension.show
+import com.franzandel.selleverything.extension.toColor
+import com.franzandel.selleverything.shipping.ShippingActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.activity_cart.*
 import kotlinx.android.synthetic.main.layout_empty_cart.*
@@ -151,8 +155,7 @@ class CartActivity : AppCompatActivity() {
         }
 
         btnCartBuy.setOnClickListener {
-            // TODO: MAKE NEW SHIPPING ACTIVITY
-            showToast("Go to Shipping Activity")
+            goTo(ShippingActivity::class.java)
         }
 
         cbCartCheckAll.setOnClickListener {

@@ -32,4 +32,14 @@
     <string name="empty_cart_title">Wah, keranjang belanjamu kosong</string>
     <string name="empty_cart_description">Daripada dianggurin, mending isi dengan barang-barang impianmu. Yuk, cek sekarang!</string>
     <string name="empty_cart_start_buying">Mulai Belanja</string>
+
+    <string name="shipping_address_title">Alamat Pengiriman</string>
+    <string name="shipping_address_hint">Tulis alamat disini</string>
+    <string name="shipping_summary_title">Ringkasan belanja</string>
+    <string name="shipping_total_products_price_title">Total Harga (%s barang)</string>
+    <string name="shipping_total_shipping_price_title">Total Ongkos Kirim</string>
+    <string name="shipping_total_price_title">Total Tagihan</string>
+    <string name="shipping_choose_payment">Pilih Pembayaran</string>
+    <string name="shipping_content_qty">$1%s barang ($2%s gr)</string>
+    <string name="shipping_footer_delivery">Pilih Pengiriman</string>
 </resources>
