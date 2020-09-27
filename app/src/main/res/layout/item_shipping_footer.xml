@@ -25,6 +25,24 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvShippingFooterDeliveryCourier"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginEnd="@dimen/margin_16"
+        android:background="@drawable/rounded_corner"
+        android:drawableEnd="@drawable/ic_baseline_chevron_right_24"
+        android:drawablePadding="@dimen/margin_8"
+        android:padding="@dimen/margin_8"
+        tools:text="JNE (Rp25.000)"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvShippingFooterDelivery" />
+
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvShippingFooterSubTotalTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -34,7 +52,7 @@
         android:text="@string/shipping_footer_sub_total_title"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvShippingFooterDelivery" />
+        app:layout_constraintTop_toBottomOf="@+id/tvShippingFooterDeliveryCourier" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvShippingFooterSubTotal"
@@ -45,7 +63,7 @@
         android:textColor="@color/colorOrange"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvShippingFooterDelivery"
+        app:layout_constraintTop_toBottomOf="@+id/tvShippingFooterDeliveryCourier"
         tools:text="Rp55.000" />
 
     <View

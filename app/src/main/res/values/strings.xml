@@ -44,4 +44,8 @@
     <string name="shipping_content_qty">%s barang (%s)</string>
     <string name="shipping_footer_sub_total_title">Subtotal</string>
     <string name="shipping_footer_delivery">Pilih Pengiriman</string>
+    <string name="shipping_footer_delivery_courier_text">%s (%s)</string>
+
+    <string name="delivery_bottom_sheet_title">Pilih Pengiriman</string>
+    <string name="courier_bottom_sheet_title">Pilih Kurir</string>
 </resources>
