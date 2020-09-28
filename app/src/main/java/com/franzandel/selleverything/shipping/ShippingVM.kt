@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.franzandel.selleverything.data.entity.MultiType
+import com.franzandel.selleverything.data.entity.ShippingSummary
 import com.franzandel.selleverything.data.enums.ShippingSection
 import com.franzandel.selleverything.extension.getDiscountedPrice
 import com.franzandel.selleverything.newest.Product
@@ -16,11 +17,14 @@ import com.franzandel.selleverything.vm.ProductsVM
 
 class ShippingVM(application: Application) : ProductsVM(application) {
 
-    private val _multiTypeProducts = MutableLiveData<List<MultiType<Product>>>()
-    val multiTypeProducts: LiveData<List<MultiType<Product>>> = _multiTypeProducts
+    private val _multiTypeProducts = MutableLiveData<List<MultiType<Any>>>()
+    val multiTypeProducts: LiveData<List<MultiType<Any>>> = _multiTypeProducts
+
+    private val _multiTypeProducts2 = MutableLiveData<List<MultiType<Any>>>()
+    val multiTypeProducts2: LiveData<List<MultiType<Any>>> = _multiTypeProducts2
 
     fun processMultiTypeProducts(products: List<Product>) {
-        val multiTypeProducts = mutableListOf<MultiType<Product>>()
+        val multiTypeProducts = mutableListOf<MultiType<Any>>()
         val groupedProducts = getGroupedBySellerProducts(products)
 
         addMultiTypeProductAddress(multiTypeProducts)
@@ -44,8 +48,8 @@ class ShippingVM(application: Application) : ProductsVM(application) {
                 product.seller
             }
 
-    private fun addMultiTypeProductAddress(multiTypeProducts: MutableList<MultiType<Product>>) {
-        val multiTypeProductAddress = MultiType<Product>(
+    private fun addMultiTypeProductAddress(multiTypeProducts: MutableList<MultiType<Any>>) {
+        val multiTypeProductAddress = MultiType<Any>(
             section = ShippingSection.ADDRESS
         )
         multiTypeProducts.add(multiTypeProductAddress)
@@ -53,13 +57,13 @@ class ShippingVM(application: Application) : ProductsVM(application) {
 
     private fun addMultiTypeProductHeader(
         groupedProductsMap: Map.Entry<String, List<Product>>,
-        multiTypeProducts: MutableList<MultiType<Product>>
+        multiTypeProducts: MutableList<MultiType<Any>>
     ) {
         val productHeader = Product(
             seller = groupedProductsMap.key,
             location = groupedProductsMap.value[0].location
         )
-        val multiTypeProductHeader = MultiType(
+        val multiTypeProductHeader = MultiType<Any>(
             data = productHeader,
             section = ShippingSection.HEADER
         )
@@ -68,10 +72,10 @@ class ShippingVM(application: Application) : ProductsVM(application) {
 
     private fun addMultiTypeProductContent(
         groupedProductsMap: Map.Entry<String, List<Product>>,
-        multiTypeProducts: MutableList<MultiType<Product>>
+        multiTypeProducts: MutableList<MultiType<Any>>
     ) {
         groupedProductsMap.value.forEach { product ->
-            val productContent = MultiType(
+            val productContent = MultiType<Any>(
                 data = product,
                 section = ShippingSection.CONTENT
             )
@@ -81,10 +85,10 @@ class ShippingVM(application: Application) : ProductsVM(application) {
 
     private fun addMultiTypeProductFooter(
         groupedProductsMap: Map.Entry<String, List<Product>>,
-        multiTypeProducts: MutableList<MultiType<Product>>
+        multiTypeProducts: MutableList<MultiType<Any>>
     ) {
         val productFooter = Product(price = getSellerSubTotalPrice(groupedProductsMap.value))
-        val multiTypeProductFooter = MultiType(
+        val multiTypeProductFooter = MultiType<Any>(
             data = productFooter,
             section = ShippingSection.FOOTER
         )
@@ -94,14 +98,14 @@ class ShippingVM(application: Application) : ProductsVM(application) {
 
     private fun addMultiTypeProductSummary(
         products: List<Product>,
-        multiTypeProducts: MutableList<MultiType<Product>>
+        multiTypeProducts: MutableList<MultiType<Any>>
     ) {
-        val productSummary = Product(
-            currentQty = getTotalCheckedProductsQty(products).toInt(),
-            price = getTotalCheckedProductsPrice(products)
+        val shippingSummary = ShippingSummary(
+            totalQty = getTotalCheckedProductsQty(products),
+            totalPrice = getTotalCheckedProductsPrice(products)
         )
-        val multiTypeProductSummary = MultiType(
-            data = productSummary,
+        val multiTypeProductSummary = MultiType<Any>(
+            data = shippingSummary,
             section = ShippingSection.SUMMARY
         )
         multiTypeProducts.add(multiTypeProductSummary)
@@ -111,5 +115,59 @@ class ShippingVM(application: Application) : ProductsVM(application) {
         return sellerProducts.sumByDouble { product ->
             product.price.getDiscountedPrice(product.discountPercentage) * product.currentQty
         }.toLong().toString()
+    }
+
+    fun addTotalOrderPriceProductSummary(
+        products: List<Product>,
+        multiTypeProducts: List<MultiType<Any>>,
+        courierPrice: String
+    ) {
+        val mutableMultiTypeProducts = mutableListOf<MultiType<Any>>()
+        mutableMultiTypeProducts.addAll(multiTypeProducts)
+
+        val currentShippingSummary =
+            mutableMultiTypeProducts[mutableMultiTypeProducts.size - 1].data as ShippingSummary
+        val currentShippingPrice = currentShippingSummary.totalOrderPrice.toLong()
+        val selectedShippingPrice = courierPrice.toLong()
+        val newShippingPrice = currentShippingPrice + selectedShippingPrice
+
+        val shippingSummary = ShippingSummary(
+            totalQty = getTotalCheckedProductsQty(products),
+            totalPrice = getTotalCheckedProductsPrice(products),
+            totalOrderPrice = newShippingPrice.toString()
+        )
+        val multiTypeProductSummary = MultiType<Any>(
+            data = shippingSummary,
+            section = ShippingSection.SUMMARY
+        )
+        mutableMultiTypeProducts[mutableMultiTypeProducts.size - 1] = multiTypeProductSummary
+        _multiTypeProducts2.value = mutableMultiTypeProducts
+    }
+
+    fun minusTotalOrderPriceProductSummary(
+        products: List<Product>,
+        multiTypeProducts: List<MultiType<Any>>,
+        courierPrice: String
+    ) {
+        val mutableMultiTypeProducts = mutableListOf<MultiType<Any>>()
+        mutableMultiTypeProducts.addAll(multiTypeProducts)
+
+        val currentShippingSummary =
+            mutableMultiTypeProducts[mutableMultiTypeProducts.size - 1].data as ShippingSummary
+        val currentShippingPrice = currentShippingSummary.totalOrderPrice.toLong()
+        val selectedShippingPrice = courierPrice.toLong()
+        val newShippingPrice = currentShippingPrice - selectedShippingPrice
+
+        val shippingSummary = ShippingSummary(
+            totalQty = getTotalCheckedProductsQty(products),
+            totalPrice = getTotalCheckedProductsPrice(products),
+            totalOrderPrice = newShippingPrice.toString()
+        )
+        val multiTypeProductSummary = MultiType<Any>(
+            data = shippingSummary,
+            section = ShippingSection.SUMMARY
+        )
+        mutableMultiTypeProducts[mutableMultiTypeProducts.size - 1] = multiTypeProductSummary
+        _multiTypeProducts2.value = mutableMultiTypeProducts
     }
 }

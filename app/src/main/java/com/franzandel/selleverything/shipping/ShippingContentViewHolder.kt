@@ -16,7 +16,8 @@ import kotlinx.android.synthetic.main.item_shipping_content.view.*
 
 class ShippingContentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    fun bind(product: Product?) {
+    fun bind(any: Any?) {
+        val product = any as? Product
         itemView.apply {
             product?.let {
                 // TODO: HANDLE IMAGE

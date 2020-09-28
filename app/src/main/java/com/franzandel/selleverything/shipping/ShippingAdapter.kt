@@ -3,12 +3,14 @@ package com.franzandel.selleverything.shipping
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.franzandel.selleverything.R
 import com.franzandel.selleverything.data.entity.MultiType
 import com.franzandel.selleverything.data.enums.ShippingSection
-import com.franzandel.selleverything.newest.Product
 
 /**
  * Created by Franz Andel on 26/09/20.
@@ -16,7 +18,7 @@ import com.franzandel.selleverything.newest.Product
  */
 
 class ShippingAdapter(private val context: Context) :
-    ListAdapter<MultiType<Product>, RecyclerView.ViewHolder>(ShippingDiffCallback()) {
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         private const val ADDRESS_TYPE = 0
@@ -25,6 +27,25 @@ class ShippingAdapter(private val context: Context) :
         private const val FOOTER_TYPE = 3
         private const val SUMMARY_TYPE = 4
     }
+
+    private val _onDeliveryOrCourierClicked = MutableLiveData<Pair<List<MultiType<Any>>, String>>()
+    val onDeliveryOrCourierClicked: LiveData<Pair<List<MultiType<Any>>, String>> =
+        _onDeliveryOrCourierClicked
+
+    private val _onDeliveryOrCourierFirstClicked =
+        MutableLiveData<Pair<List<MultiType<Any>>, String>>()
+    val onDeliveryOrCourierFirstClicked: LiveData<Pair<List<MultiType<Any>>, String>> =
+        _onDeliveryOrCourierFirstClicked
+
+    private var currentList = listOf<MultiType<Any>>()
+
+    fun setData(data: List<MultiType<Any>>) {
+        currentList = data
+    }
+
+    private val activity = context as AppCompatActivity
+    private lateinit var shippingFooterViewHolder: ShippingFooterViewHolder
+    private lateinit var shippingSummaryViewHolder: ShippingSummaryViewHolder
 
     override fun getItemViewType(position: Int): Int {
         return when (currentList[position].section) {
@@ -53,13 +74,32 @@ class ShippingAdapter(private val context: Context) :
             }
             FOOTER_TYPE -> {
                 val view = layoutInflater.inflate(R.layout.item_shipping_footer, parent, false)
-                ShippingFooterViewHolder(view)
+                shippingFooterViewHolder = ShippingFooterViewHolder(view)
+                setupObserver()
+                shippingFooterViewHolder
             }
             else -> {
                 val view = layoutInflater.inflate(R.layout.item_shipping_summary, parent, false)
-                ShippingSummaryViewHolder(view)
+                shippingSummaryViewHolder = ShippingSummaryViewHolder(view)
+                shippingSummaryViewHolder
             }
         }
+    }
+
+    private fun setupObserver() {
+        // TODO: NEED TO CHECK IF HASACTIVEOBSERVERS?
+//        shippingFooterViewHolder.onDeliveryOrCourierClicked.hasActiveObservers()
+        shippingFooterViewHolder.onDeliveryOrCourierClicked.observe(
+            activity,
+            Observer { courierPrice ->
+                _onDeliveryOrCourierClicked.value = Pair(currentList, courierPrice)
+            })
+
+        shippingFooterViewHolder.onDeliveryOrCourierFirstClicked.observe(
+            activity,
+            Observer { courierPrice ->
+                _onDeliveryOrCourierFirstClicked.value = Pair(currentList, courierPrice)
+            })
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

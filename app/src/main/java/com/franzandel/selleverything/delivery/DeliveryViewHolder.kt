@@ -25,7 +25,7 @@ class DeliveryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             setupDeliveryItemPrice(delivery)
 
             setOnClickListener {
-                _onClicked.value = delivery
+                onItemClicked(delivery)
             }
         }
     }
@@ -43,5 +43,12 @@ class DeliveryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             }
         }
         itemView.tvDeliveryItemPrice.text = deliveryItemPrice
+    }
+
+    private fun onItemClicked(delivery: Delivery) {
+        if (delivery.couriers.isNotEmpty()) {
+            delivery.couriers[0].isChecked = true
+        }
+        _onClicked.value = delivery
     }
 }

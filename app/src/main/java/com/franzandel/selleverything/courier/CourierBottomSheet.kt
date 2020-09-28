@@ -1,5 +1,6 @@
 package com.franzandel.selleverything.courier
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +27,9 @@ class CourierBottomSheet(private val couriers: List<Courier>) : BottomSheetDialo
     private val _onClicked = MutableLiveData<Courier>()
     val onClicked: LiveData<Courier> = _onClicked
 
+    private val _onCancelClicked = MutableLiveData<Unit>()
+    val onCancelClicked: LiveData<Unit> = _onCancelClicked
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -38,6 +42,11 @@ class CourierBottomSheet(private val couriers: List<Courier>) : BottomSheetDialo
         setupRV()
         setupObserver()
         setupUIClickListener()
+    }
+
+    override fun onCancel(dialog: DialogInterface) {
+        super.onCancel(dialog)
+        _onCancelClicked.value = Unit
     }
 
     private fun setupObserver() {
