@@ -8,7 +8,7 @@ import com.franzandel.selleverything.data.entity.Courier
  * Android Engineer
  */
 
-class CourierVM : ViewModel() {
+class CourierBottomSheetVM : ViewModel() {
 
     fun resetCouriersIsChecked(couriers: List<Courier>, currentCourier: Courier) {
         couriers.forEach { courier ->

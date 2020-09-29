@@ -21,7 +21,7 @@ class CourierBottomSheet(private val couriers: List<Courier>) : BottomSheetDialo
     }
 
     private val courierVM by lazy {
-        ViewModelProvider(this).get(CourierVM::class.java)
+        ViewModelProvider(this).get(CourierBottomSheetVM::class.java)
     }
 
     private val _onClicked = MutableLiveData<Courier>()
