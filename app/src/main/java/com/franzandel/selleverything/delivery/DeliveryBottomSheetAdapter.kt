@@ -16,30 +16,36 @@ import com.franzandel.selleverything.data.entity.Delivery
  * Android Engineer
  */
 
-class DeliveryAdapter(private val context: Context, private val deliveries: List<Delivery>) :
-    RecyclerView.Adapter<DeliveryViewHolder>() {
+class DeliveryBottomSheetAdapter(
+    private val context: Context,
+    private val deliveries: List<Delivery>
+) :
+    RecyclerView.Adapter<DeliveryBottomSheetViewHolder>() {
 
-    private lateinit var deliveryViewHolder: DeliveryViewHolder
+    private lateinit var deliveryBottomSheetViewHolder: DeliveryBottomSheetViewHolder
     private val activity = context as AppCompatActivity
 
     private val _onClicked = MutableLiveData<Delivery>()
     val onClicked: LiveData<Delivery> = _onClicked
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeliveryViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): DeliveryBottomSheetViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_delivery, parent, false)
-        deliveryViewHolder = DeliveryViewHolder(view)
+        deliveryBottomSheetViewHolder = DeliveryBottomSheetViewHolder(view)
         setupObserver()
-        return deliveryViewHolder
+        return deliveryBottomSheetViewHolder
     }
 
-    override fun onBindViewHolder(holder: DeliveryViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: DeliveryBottomSheetViewHolder, position: Int) {
         holder.bind(deliveries[position])
     }
 
     override fun getItemCount(): Int = deliveries.size
 
     private fun setupObserver() {
-        deliveryViewHolder.onClicked.observe(activity, Observer { delivery ->
+        deliveryBottomSheetViewHolder.onClicked.observe(activity, Observer { delivery ->
             _onClicked.value = delivery
         })
     }

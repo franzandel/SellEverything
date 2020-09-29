@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.item_delivery.view.*
  * Android Engineer
  */
 
-class DeliveryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class DeliveryBottomSheetViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private val _onClicked = MutableLiveData<Delivery>()
     val onClicked: LiveData<Delivery> = _onClicked

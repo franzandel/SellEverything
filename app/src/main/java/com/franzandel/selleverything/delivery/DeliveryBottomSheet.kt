@@ -14,8 +14,8 @@ import kotlinx.android.synthetic.main.activity_delivery_bottom_sheet.*
 
 class DeliveryBottomSheet : BottomSheetDialogFragment() {
 
-    private val deliveryAdapter by lazy {
-        DeliveryAdapter(requireContext(), DeliveryList.deliveries)
+    private val deliveryBottomSheetAdapter by lazy {
+        DeliveryBottomSheetAdapter(requireContext(), DeliveryList.deliveries)
     }
 
     private val _onClicked = MutableLiveData<Delivery>()
@@ -36,14 +36,14 @@ class DeliveryBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun setupObserver() {
-        deliveryAdapter.onClicked.observe(this, Observer { delivery ->
+        deliveryBottomSheetAdapter.onClicked.observe(this, Observer { delivery ->
             _onClicked.value = delivery
             dismiss()
         })
     }
 
     private fun setupRV() {
-        rvDelivery.adapter = deliveryAdapter
+        rvDelivery.adapter = deliveryBottomSheetAdapter
     }
 
     private fun setupUIClickListener() {
