@@ -52,30 +52,29 @@ class ShippingActivity : AppCompatActivity() {
             shippingAdapter.setData(multiTypeProducts)
         })
 
-        shippingAdapter.onDeliveryOrCourierClicked.observe(
+        shippingAdapter.onDeliveryOrCourierBsSelected.observe(
             this,
             Observer { (multiTypeProducts, courierPrice) ->
-                shippingVM.addTotalOrderPriceProductSummary(
+                shippingVM.addTotalShippingPriceProductSummary(
                     products,
                     multiTypeProducts,
                     courierPrice
                 )
             })
 
-        shippingAdapter.onDeliveryOrCourierFirstClicked.observe(
+        shippingAdapter.onDeliveryOrCourierBsOpened.observe(
             this,
             Observer { (multiTypeProducts, courierPrice) ->
-                shippingVM.minusTotalOrderPriceProductSummary(
+                shippingVM.minusTotalShippingPriceProductSummary(
                     products,
                     multiTypeProducts,
                     courierPrice
                 )
             })
 
-        shippingVM.multiTypeProducts2.observe(this, Observer { multiTypeProducts ->
-            shippingAdapter.setData(multiTypeProducts)
-            // TODO: CHECK BELOW CODE IS USED OR NOT
-            shippingAdapter.notifyItemChanged(multiTypeProducts.size - 1)
+        shippingVM.editedSummaryProducts.observe(this, Observer { editedSummaryProducts ->
+            shippingAdapter.setData(editedSummaryProducts)
+            shippingAdapter.notifyItemChanged(editedSummaryProducts.size - 1)
         })
     }
 }

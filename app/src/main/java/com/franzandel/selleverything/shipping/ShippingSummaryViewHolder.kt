@@ -30,12 +30,12 @@ class ShippingSummaryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVi
             tvShippingTotalProductsPrice.text = shippingSummary?.totalPrice
             tvShippingTotalPrice.text = NumberConstants.DASH
 
-            if (shippingSummary?.totalOrderPrice == NumberConstants.ZERO) {
+            if (shippingSummary?.totalShippingPrice == NumberConstants.ZERO) {
                 tvTotalShippingPriceTitle.hide()
                 tvShippingPrice.hide()
             } else {
                 tvShippingPrice.text =
-                    shippingSummary?.totalOrderPrice?.toLong()?.getFormattedIDNPrice()
+                    shippingSummary?.totalShippingPrice?.toLong()?.getFormattedIDNPrice()
                 tvTotalShippingPriceTitle.show()
                 tvShippingPrice.show()
             }

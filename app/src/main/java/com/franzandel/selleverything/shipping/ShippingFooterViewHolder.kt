@@ -28,11 +28,11 @@ class ShippingFooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVie
 
     private lateinit var couriers: List<Courier>
 
-    private val _onDeliveryOrCourierClicked = MutableLiveData<String>()
-    val onDeliveryOrCourierClicked: LiveData<String> = _onDeliveryOrCourierClicked
+    private val _onDeliveryOrCourierBsSelected = MutableLiveData<String>()
+    val onDeliveryOrCourierBsSelected: LiveData<String> = _onDeliveryOrCourierBsSelected
 
-    private val _onDeliveryOrCourierFirstClicked = MutableLiveData<String>()
-    val onDeliveryOrCourierFirstClicked: LiveData<String> = _onDeliveryOrCourierFirstClicked
+    private val _onDeliveryOrCourierBsOpened = MutableLiveData<String>()
+    val onDeliveryOrCourierBsOpened: LiveData<String> = _onDeliveryOrCourierBsOpened
 
     fun bind(any: Any?) {
         val product = any as? Product
@@ -65,7 +65,7 @@ class ShippingFooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVie
                 var courier: Courier? = null
                 if (tvShippingFooterDelivery.text != context.getString(R.string.shipping_footer_delivery)) {
                     val initialCourierPrice = getInitialCourierPrice()
-                    _onDeliveryOrCourierFirstClicked.value = initialCourierPrice
+                    _onDeliveryOrCourierBsOpened.value = initialCourierPrice
                 }
 
                 val checkedCouriers = delivery.couriers.filter { it.isChecked }
@@ -85,7 +85,7 @@ class ShippingFooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVie
     private fun setupTvShippingFooterDeliveryCourier(delivery: Delivery) {
         itemView.apply {
             if (delivery.minPrice.isNotEmpty()) {
-                resetAllCouriers(delivery.couriers)
+                resetCouriersIsChecked(delivery.couriers)
                 val firstCourier = delivery.couriers[0]
                 val formattedPrice = firstCourier.price.toLong().getFormattedIDNPrice()
                 tvShippingFooterDeliveryCourier.text = context.getString(
@@ -98,11 +98,12 @@ class ShippingFooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVie
             } else {
                 tvShippingFooterDeliveryCourier.hide()
             }
+
             couriers = delivery.couriers
         }
     }
 
-    private fun resetAllCouriers(couriers: List<Courier>) {
+    private fun resetCouriersIsChecked(couriers: List<Courier>) {
         couriers.forEach { courier ->
             courier.isChecked = false
         }
@@ -124,7 +125,7 @@ class ShippingFooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVie
             checkFirstCourierIfNothingIsChecked()
 
             val initialCourierPrice = getInitialCourierPrice()
-            _onDeliveryOrCourierFirstClicked.value = initialCourierPrice
+            _onDeliveryOrCourierBsOpened.value = initialCourierPrice
 
             val courierBottomSheet = CourierBottomSheet(couriers)
 
@@ -139,7 +140,7 @@ class ShippingFooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVie
             })
 
             courierBottomSheet.onCancelClicked.observe(activity, Observer {
-                _onDeliveryOrCourierClicked.value = initialCourierPrice
+                _onDeliveryOrCourierBsSelected.value = initialCourierPrice
             })
 
             courierBottomSheet.show(activity.supportFragmentManager, courierBottomSheet.tag)
@@ -166,8 +167,9 @@ class ShippingFooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVie
                 courier.price.toLong()
             }
             val newSubTotal = currentSubTotal + courierPrice
+
             tvShippingFooterSubTotal.text = newSubTotal.getFormattedIDNPrice()
-            _onDeliveryOrCourierClicked.value = courier?.price ?: NumberConstants.ZERO
+            _onDeliveryOrCourierBsSelected.value = courier?.price ?: NumberConstants.ZERO
         }
     }
 

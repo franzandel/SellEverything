@@ -28,14 +28,15 @@ class ShippingAdapter(private val context: Context) :
         private const val SUMMARY_TYPE = 4
     }
 
-    private val _onDeliveryOrCourierClicked = MutableLiveData<Pair<List<MultiType<Any>>, String>>()
-    val onDeliveryOrCourierClicked: LiveData<Pair<List<MultiType<Any>>, String>> =
-        _onDeliveryOrCourierClicked
-
-    private val _onDeliveryOrCourierFirstClicked =
+    private val _onDeliveryOrCourierBsSelected =
         MutableLiveData<Pair<List<MultiType<Any>>, String>>()
-    val onDeliveryOrCourierFirstClicked: LiveData<Pair<List<MultiType<Any>>, String>> =
-        _onDeliveryOrCourierFirstClicked
+    val onDeliveryOrCourierBsSelected: LiveData<Pair<List<MultiType<Any>>, String>> =
+        _onDeliveryOrCourierBsSelected
+
+    private val _onDeliveryOrCourierBsOpened =
+        MutableLiveData<Pair<List<MultiType<Any>>, String>>()
+    val onDeliveryOrCourierBsOpened: LiveData<Pair<List<MultiType<Any>>, String>> =
+        _onDeliveryOrCourierBsOpened
 
     private var currentList = listOf<MultiType<Any>>()
 
@@ -89,16 +90,16 @@ class ShippingAdapter(private val context: Context) :
     private fun setupObserver() {
         // TODO: NEED TO CHECK IF HASACTIVEOBSERVERS?
 //        shippingFooterViewHolder.onDeliveryOrCourierClicked.hasActiveObservers()
-        shippingFooterViewHolder.onDeliveryOrCourierClicked.observe(
+        shippingFooterViewHolder.onDeliveryOrCourierBsSelected.observe(
             activity,
             Observer { courierPrice ->
-                _onDeliveryOrCourierClicked.value = Pair(currentList, courierPrice)
+                _onDeliveryOrCourierBsSelected.value = Pair(currentList, courierPrice)
             })
 
-        shippingFooterViewHolder.onDeliveryOrCourierFirstClicked.observe(
+        shippingFooterViewHolder.onDeliveryOrCourierBsOpened.observe(
             activity,
             Observer { courierPrice ->
-                _onDeliveryOrCourierFirstClicked.value = Pair(currentList, courierPrice)
+                _onDeliveryOrCourierBsOpened.value = Pair(currentList, courierPrice)
             })
     }
 

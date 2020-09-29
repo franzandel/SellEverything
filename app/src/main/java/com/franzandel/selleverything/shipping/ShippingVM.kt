@@ -20,8 +20,8 @@ class ShippingVM(application: Application) : ProductsVM(application) {
     private val _multiTypeProducts = MutableLiveData<List<MultiType<Any>>>()
     val multiTypeProducts: LiveData<List<MultiType<Any>>> = _multiTypeProducts
 
-    private val _multiTypeProducts2 = MutableLiveData<List<MultiType<Any>>>()
-    val multiTypeProducts2: LiveData<List<MultiType<Any>>> = _multiTypeProducts2
+    private val _editedSummaryProducts = MutableLiveData<List<MultiType<Any>>>()
+    val editedSummaryProducts: LiveData<List<MultiType<Any>>> = _editedSummaryProducts
 
     fun processMultiTypeProducts(products: List<Product>) {
         val multiTypeProducts = mutableListOf<MultiType<Any>>()
@@ -117,57 +117,62 @@ class ShippingVM(application: Application) : ProductsVM(application) {
         }.toLong().toString()
     }
 
-    fun addTotalOrderPriceProductSummary(
+    fun addTotalShippingPriceProductSummary(
         products: List<Product>,
-        multiTypeProducts: List<MultiType<Any>>,
+        oldMultiTypeProducts: List<MultiType<Any>>,
         courierPrice: String
     ) {
-        val mutableMultiTypeProducts = mutableListOf<MultiType<Any>>()
-        mutableMultiTypeProducts.addAll(multiTypeProducts)
-
-        val currentShippingSummary =
-            mutableMultiTypeProducts[mutableMultiTypeProducts.size - 1].data as ShippingSummary
-        val currentShippingPrice = currentShippingSummary.totalOrderPrice.toLong()
-        val selectedShippingPrice = courierPrice.toLong()
-        val newShippingPrice = currentShippingPrice + selectedShippingPrice
-
-        val shippingSummary = ShippingSummary(
-            totalQty = getTotalCheckedProductsQty(products),
-            totalPrice = getTotalCheckedProductsPrice(products),
-            totalOrderPrice = newShippingPrice.toString()
-        )
-        val multiTypeProductSummary = MultiType<Any>(
-            data = shippingSummary,
-            section = ShippingSection.SUMMARY
-        )
-        mutableMultiTypeProducts[mutableMultiTypeProducts.size - 1] = multiTypeProductSummary
-        _multiTypeProducts2.value = mutableMultiTypeProducts
+        processTotalShippingPriceProductSummary(products, oldMultiTypeProducts, courierPrice, true)
     }
 
-    fun minusTotalOrderPriceProductSummary(
+    fun minusTotalShippingPriceProductSummary(
         products: List<Product>,
-        multiTypeProducts: List<MultiType<Any>>,
+        oldMultiTypeProducts: List<MultiType<Any>>,
         courierPrice: String
     ) {
-        val mutableMultiTypeProducts = mutableListOf<MultiType<Any>>()
-        mutableMultiTypeProducts.addAll(multiTypeProducts)
+        processTotalShippingPriceProductSummary(products, oldMultiTypeProducts, courierPrice, false)
+    }
 
-        val currentShippingSummary =
-            mutableMultiTypeProducts[mutableMultiTypeProducts.size - 1].data as ShippingSummary
-        val currentShippingPrice = currentShippingSummary.totalOrderPrice.toLong()
-        val selectedShippingPrice = courierPrice.toLong()
-        val newShippingPrice = currentShippingPrice - selectedShippingPrice
+    private fun processTotalShippingPriceProductSummary(
+        products: List<Product>,
+        oldMultiTypeProducts: List<MultiType<Any>>,
+        courierPrice: String,
+        isAdd: Boolean
+    ) {
+        val newMultiTypeProducts = mutableListOf<MultiType<Any>>()
+        newMultiTypeProducts.addAll(oldMultiTypeProducts)
+
+        val newShippingPrice = getNewShippingPrice(newMultiTypeProducts, courierPrice, isAdd)
 
         val shippingSummary = ShippingSummary(
             totalQty = getTotalCheckedProductsQty(products),
             totalPrice = getTotalCheckedProductsPrice(products),
-            totalOrderPrice = newShippingPrice.toString()
+            totalShippingPrice = newShippingPrice
         )
         val multiTypeProductSummary = MultiType<Any>(
             data = shippingSummary,
             section = ShippingSection.SUMMARY
         )
-        mutableMultiTypeProducts[mutableMultiTypeProducts.size - 1] = multiTypeProductSummary
-        _multiTypeProducts2.value = mutableMultiTypeProducts
+
+        newMultiTypeProducts[newMultiTypeProducts.size - 1] = multiTypeProductSummary
+        _editedSummaryProducts.value = newMultiTypeProducts
+    }
+
+    private fun getNewShippingPrice(
+        newMultiTypeProducts: MutableList<MultiType<Any>>,
+        courierPrice: String,
+        isAdd: Boolean
+    ): String {
+        val currentShippingSummaryPosition = newMultiTypeProducts.size - 1
+        val currentShippingSummary =
+            newMultiTypeProducts[currentShippingSummaryPosition].data as ShippingSummary
+        val currentShippingPrice = currentShippingSummary.totalShippingPrice.toLong()
+        val selectedShippingPrice = courierPrice.toLong()
+
+        return if (isAdd) {
+            (currentShippingPrice + selectedShippingPrice).toString()
+        } else {
+            (currentShippingPrice - selectedShippingPrice).toString()
+        }
     }
 }

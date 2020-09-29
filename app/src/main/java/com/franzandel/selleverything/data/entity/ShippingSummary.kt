@@ -8,5 +8,5 @@ package com.franzandel.selleverything.data.entity
 data class ShippingSummary(
     val totalQty: String,
     val totalPrice: String,
-    val totalOrderPrice: String = "0"
+    val totalShippingPrice: String = "0"
 )
