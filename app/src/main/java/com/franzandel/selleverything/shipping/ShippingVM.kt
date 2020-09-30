@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.franzandel.selleverything.data.constants.NumberConstants
 import com.franzandel.selleverything.data.entity.MultiType
+import com.franzandel.selleverything.data.entity.ShippingAddress
 import com.franzandel.selleverything.data.entity.ShippingFooter
 import com.franzandel.selleverything.data.entity.ShippingSummary
 import com.franzandel.selleverything.data.enums.ShippingSection
@@ -25,8 +26,8 @@ class ShippingVM(application: Application) : ProductsVM(application) {
     private val _editedSummaryProducts = MutableLiveData<List<MultiType<Any>>>()
     val editedSummaryProducts: LiveData<List<MultiType<Any>>> = _editedSummaryProducts
 
-    private val _validateShippingFooter = MutableLiveData<Int>()
-    val validateShippingFooter: LiveData<Int> = _validateShippingFooter
+    private val _validateShippingFooter = MutableLiveData<Pair<Int, Boolean?>>()
+    val validateShippingFooter: LiveData<Pair<Int, Boolean?>> = _validateShippingFooter
 
     fun processMultiTypeProducts(products: List<Product>) {
         val multiTypeProducts = mutableListOf<MultiType<Any>>()
@@ -55,6 +56,7 @@ class ShippingVM(application: Application) : ProductsVM(application) {
 
     private fun addMultiTypeProductAddress(multiTypeProducts: MutableList<MultiType<Any>>) {
         val multiTypeProductAddress = MultiType<Any>(
+            data = ShippingAddress(),
             section = ShippingSection.ADDRESS
         )
         multiTypeProducts.add(multiTypeProductAddress)
@@ -190,24 +192,27 @@ class ShippingVM(application: Application) : ProductsVM(application) {
 
     fun validateShippingFooters(shippingFooters: List<MultiType<Any>>) {
         shippingFooters.forEach { anyMultiType ->
-            validateShippingFooter(anyMultiType, shippingFooters)
-        }
-        _validateShippingFooter.value = NumberConstants.MINUS_ONE
-    }
+            if (anyMultiType.section == ShippingSection.ADDRESS) {
+                val shippingAddress = anyMultiType.data as ShippingAddress
+                if (shippingAddress.address.isEmpty()) {
+                    val shippingAddressPosition = shippingFooters.indexOf(anyMultiType)
+                    _validateShippingFooter.value = Pair(shippingAddressPosition, true)
+                    return
+                }
+            }
 
-    private fun validateShippingFooter(
-        anyMultiType: MultiType<Any>,
-        shippingFooters: List<MultiType<Any>>
-    ) {
-        if (anyMultiType.section == ShippingSection.FOOTER) {
-            val shippingFooter = anyMultiType.data as ShippingFooter
-            if (shippingFooter.deliveryType.isEmpty()) {
-                val shippingHeaderPosition =
-                    getShippingHeaderPosition(shippingFooters, shippingFooter)
-                _validateShippingFooter.value = shippingHeaderPosition
-                return
+            if (anyMultiType.section == ShippingSection.FOOTER) {
+                val shippingFooter = anyMultiType.data as ShippingFooter
+                if (shippingFooter.deliveryType.isEmpty()) {
+                    val shippingHeaderPosition =
+                        getShippingHeaderPosition(shippingFooters, shippingFooter)
+                    _validateShippingFooter.value = Pair(shippingHeaderPosition, false)
+                    return
+                }
             }
         }
+
+        _validateShippingFooter.value = Pair(NumberConstants.MINUS_ONE, null)
     }
 
     private fun getShippingHeaderPosition(

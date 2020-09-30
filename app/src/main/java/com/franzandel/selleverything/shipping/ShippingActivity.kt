@@ -89,17 +89,20 @@ class ShippingActivity : AppCompatActivity() {
                 shippingVM.validateShippingFooters(shippingFooters)
             })
 
-        shippingVM.validateShippingFooter.observe(this, Observer { adapterPosition ->
+        shippingVM.validateShippingFooter.observe(this, Observer { (adapterPosition, isAddress) ->
             // TODO: Go to Payment
             if (adapterPosition == NumberConstants.MINUS_ONE) {
                 showToast("Go to Payment")
             } else {
                 rvShipping.smoothScrollToPosition(adapterPosition)
-                showSnackbar(
-                    rvShipping,
-                    getString(R.string.shipping_delivery_validation_message),
-                    Snackbar.LENGTH_LONG
-                )
+                isAddress?.let {
+                    val validationMessage = if (it) {
+                        getString(R.string.shipping_address_validation_message)
+                    } else {
+                        getString(R.string.shipping_delivery_validation_message)
+                    }
+                    showSnackbar(rvShipping, validationMessage, Snackbar.LENGTH_LONG)
+                }
             }
         })
     }
