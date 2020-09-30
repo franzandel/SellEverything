@@ -62,29 +62,44 @@ class ShippingFooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVie
         itemView.apply {
             val activity = context as AppCompatActivity
             val deliveryBottomSheet = DeliveryBottomSheet()
+            setupDeliveryBottomSheetObserver(deliveryBottomSheet, shippingFooter)
+            deliveryBottomSheet.show(activity.supportFragmentManager, deliveryBottomSheet.tag)
+        }
+    }
+
+    private fun setupDeliveryBottomSheetObserver(
+        deliveryBottomSheet: DeliveryBottomSheet,
+        shippingFooter: ShippingFooter?
+    ) {
+        itemView.apply {
+            val activity = context as AppCompatActivity
 
             deliveryBottomSheet.onClicked.observe(activity, Observer { delivery ->
                 shippingFooter?.deliveryType = delivery.type
                 removeDrawableStartFromTvShippingFooterDelivery()
 
-                var courier: Courier? = null
-                if (tvShippingFooterDelivery.text != context.getString(R.string.shipping_footer_delivery)) {
-                    _onDeliveryOrCourierBsOpened.value = shippingFooter?.shippingPrice
-                }
-
-                val checkedCouriers = delivery.couriers.filter { it.isChecked }
-                if (checkedCouriers.isNotEmpty()) {
-                    courier = checkedCouriers[0]
-                }
-
-                shippingFooter?.shippingPrice = courier?.price ?: NumberConstants.ZERO
+                setupShippingPrice(shippingFooter, delivery)
                 _onDeliveryOrCourierBsSelected.value = shippingFooter?.shippingPrice
 
                 tvShippingFooterDelivery.text = delivery.type
                 setupTvShippingFooterDeliveryCourier(delivery)
             })
+        }
+    }
 
-            deliveryBottomSheet.show(activity.supportFragmentManager, deliveryBottomSheet.tag)
+    private fun setupShippingPrice(shippingFooter: ShippingFooter?, delivery: Delivery) {
+        itemView.apply {
+            var courier: Courier? = null
+            if (tvShippingFooterDelivery.text != context.getString(R.string.shipping_footer_delivery)) {
+                _onDeliveryOrCourierBsOpened.value = shippingFooter?.shippingPrice
+            }
+
+            val checkedCouriers = delivery.couriers.filter { it.isChecked }
+            if (checkedCouriers.isNotEmpty()) {
+                courier = checkedCouriers[0]
+            }
+
+            shippingFooter?.shippingPrice = courier?.price ?: NumberConstants.ZERO
         }
     }
 
@@ -127,12 +142,22 @@ class ShippingFooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVie
 
     private fun onShippingFooterDeliveryCourierClicked(shippingFooter: ShippingFooter?) {
         itemView.apply {
-            val activity = context as AppCompatActivity
             checkFirstCourierIfNothingIsChecked()
-
             _onDeliveryOrCourierBsOpened.value = shippingFooter?.shippingPrice
 
+            val activity = context as AppCompatActivity
             val courierBottomSheet = CourierBottomSheet(couriers)
+            setupCourierBottomSheetObserver(courierBottomSheet, shippingFooter)
+            courierBottomSheet.show(activity.supportFragmentManager, courierBottomSheet.tag)
+        }
+    }
+
+    private fun setupCourierBottomSheetObserver(
+        courierBottomSheet: CourierBottomSheet,
+        shippingFooter: ShippingFooter?
+    ) {
+        itemView.apply {
+            val activity = context as AppCompatActivity
 
             courierBottomSheet.onClicked.observe(activity, Observer { courier ->
                 val formattedPrice = courier.price.toLong().getFormattedIDNPrice()
@@ -149,8 +174,6 @@ class ShippingFooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVie
             courierBottomSheet.onCancelClicked.observe(activity, Observer {
                 _onDeliveryOrCourierBsSelected.value = shippingFooter?.shippingPrice
             })
-
-            courierBottomSheet.show(activity.supportFragmentManager, courierBottomSheet.tag)
         }
     }
 
