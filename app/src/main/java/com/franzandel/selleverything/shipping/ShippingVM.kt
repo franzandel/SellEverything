@@ -93,8 +93,10 @@ class ShippingVM(application: Application) : ProductsVM(application) {
         multiTypeProducts: MutableList<MultiType<Any>>,
         products: List<Product>
     ) {
+        val seller = groupedProductsMap.key
         val shippingFooter = ShippingFooter(
             totalProductsPrice = getTotalProductsPrice(groupedProductsMap.value),
+            seller = seller,
             totalShipping = getGroupedBySellerProducts(products).size
         )
         val multiTypeProductFooter = MultiType<Any>(
@@ -188,15 +190,37 @@ class ShippingVM(application: Application) : ProductsVM(application) {
 
     fun validateShippingFooters(shippingFooters: List<MultiType<Any>>) {
         shippingFooters.forEach { anyMultiType ->
-            if (anyMultiType.section == ShippingSection.FOOTER) {
-                val shippingFooter = anyMultiType.data as ShippingFooter
-                if (shippingFooter.deliveryType.isEmpty()) {
-                    val shippingHeaderPosition = shippingFooter.adapterPosition - 2
-                    _validateShippingFooter.value = shippingHeaderPosition
-                    return
-                }
-            }
+            validateShippingFooter(anyMultiType, shippingFooters)
         }
         _validateShippingFooter.value = NumberConstants.MINUS_ONE
+    }
+
+    private fun validateShippingFooter(
+        anyMultiType: MultiType<Any>,
+        shippingFooters: List<MultiType<Any>>
+    ) {
+        if (anyMultiType.section == ShippingSection.FOOTER) {
+            val shippingFooter = anyMultiType.data as ShippingFooter
+            if (shippingFooter.deliveryType.isEmpty()) {
+                val shippingHeaderPosition =
+                    getShippingHeaderPosition(shippingFooters, shippingFooter)
+                _validateShippingFooter.value = shippingHeaderPosition
+                return
+            }
+        }
+    }
+
+    private fun getShippingHeaderPosition(
+        shippingFooters: List<MultiType<Any>>,
+        shippingFooter: ShippingFooter
+    ): Int {
+        return shippingFooters.indexOfFirst {
+            if (it.section == ShippingSection.HEADER) {
+                val product = it.data as Product
+                product.seller == shippingFooter.seller
+            } else {
+                false
+            }
+        }
     }
 }

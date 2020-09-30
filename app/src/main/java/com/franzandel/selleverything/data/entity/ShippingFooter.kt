@@ -8,6 +8,7 @@ package com.franzandel.selleverything.data.entity
 data class ShippingFooter(
     val totalProductsPrice: String,
     var shippingPrice: String = "0",
+    var seller: String,
     var adapterPosition: Int = -1,
     var deliveryType: String = "",
     val totalShipping: Int
