@@ -3,7 +3,9 @@ package com.franzandel.selleverything.shipping
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.franzandel.selleverything.data.constants.NumberConstants
 import com.franzandel.selleverything.data.entity.MultiType
+import com.franzandel.selleverything.data.entity.ShippingFooter
 import com.franzandel.selleverything.data.entity.ShippingSummary
 import com.franzandel.selleverything.data.enums.ShippingSection
 import com.franzandel.selleverything.extension.getDiscountedPrice
@@ -23,6 +25,9 @@ class ShippingVM(application: Application) : ProductsVM(application) {
     private val _editedSummaryProducts = MutableLiveData<List<MultiType<Any>>>()
     val editedSummaryProducts: LiveData<List<MultiType<Any>>> = _editedSummaryProducts
 
+    private val _validateShippingFooter = MutableLiveData<Int>()
+    val validateShippingFooter: LiveData<Int> = _validateShippingFooter
+
     fun processMultiTypeProducts(products: List<Product>) {
         val multiTypeProducts = mutableListOf<MultiType<Any>>()
         val groupedProducts = getGroupedBySellerProducts(products)
@@ -32,7 +37,7 @@ class ShippingVM(application: Application) : ProductsVM(application) {
         groupedProducts.forEach { groupedProductsMap ->
             addMultiTypeProductHeader(groupedProductsMap, multiTypeProducts)
             addMultiTypeProductContent(groupedProductsMap, multiTypeProducts)
-            addMultiTypeProductFooter(groupedProductsMap, multiTypeProducts)
+            addMultiTypeProductFooter(groupedProductsMap, multiTypeProducts, products)
         }
 
         addMultiTypeProductSummary(products, multiTypeProducts)
@@ -85,11 +90,15 @@ class ShippingVM(application: Application) : ProductsVM(application) {
 
     private fun addMultiTypeProductFooter(
         groupedProductsMap: Map.Entry<String, List<Product>>,
-        multiTypeProducts: MutableList<MultiType<Any>>
+        multiTypeProducts: MutableList<MultiType<Any>>,
+        products: List<Product>
     ) {
-        val productFooter = Product(price = getSellerSubTotalPrice(groupedProductsMap.value))
+        val shippingFooter = ShippingFooter(
+            totalProductsPrice = getTotalProductsPrice(groupedProductsMap.value),
+            totalShipping = getGroupedBySellerProducts(products).size
+        )
         val multiTypeProductFooter = MultiType<Any>(
-            data = productFooter,
+            data = shippingFooter,
             section = ShippingSection.FOOTER
         )
 
@@ -102,7 +111,7 @@ class ShippingVM(application: Application) : ProductsVM(application) {
     ) {
         val shippingSummary = ShippingSummary(
             totalQty = getTotalCheckedProductsQty(products),
-            totalPrice = getTotalCheckedProductsPrice(products)
+            totalPrice = getTotalCheckedProductsPrice(products).toString()
         )
         val multiTypeProductSummary = MultiType<Any>(
             data = shippingSummary,
@@ -111,7 +120,7 @@ class ShippingVM(application: Application) : ProductsVM(application) {
         multiTypeProducts.add(multiTypeProductSummary)
     }
 
-    private fun getSellerSubTotalPrice(sellerProducts: List<Product>): String {
+    private fun getTotalProductsPrice(sellerProducts: List<Product>): String {
         return sellerProducts.sumByDouble { product ->
             product.price.getDiscountedPrice(product.discountPercentage) * product.currentQty
         }.toLong().toString()
@@ -146,7 +155,7 @@ class ShippingVM(application: Application) : ProductsVM(application) {
 
         val shippingSummary = ShippingSummary(
             totalQty = getTotalCheckedProductsQty(products),
-            totalPrice = getTotalCheckedProductsPrice(products),
+            totalPrice = getTotalCheckedProductsPrice(products).toString(),
             totalShippingPrice = newShippingPrice
         )
         val multiTypeProductSummary = MultiType<Any>(
@@ -174,5 +183,19 @@ class ShippingVM(application: Application) : ProductsVM(application) {
         } else {
             (currentShippingPrice - selectedShippingPrice).toString()
         }
+    }
+
+    fun validateShippingFooters(shippingFooters: List<MultiType<Any>>) {
+        shippingFooters.forEach { anyMultiType ->
+            if (anyMultiType.section == ShippingSection.FOOTER) {
+                val shippingFooter = anyMultiType.data as ShippingFooter
+                if (shippingFooter.deliveryType.isEmpty()) {
+                    val shippingHeaderPosition = shippingFooter.adapterPosition - 2
+                    _validateShippingFooter.value = shippingHeaderPosition
+                    return
+                }
+            }
+        }
+        _validateShippingFooter.value = NumberConstants.MINUS_ONE
     }
 }

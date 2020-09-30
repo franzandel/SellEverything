@@ -38,10 +38,14 @@ class ShippingAdapter(private val context: Context) :
     val onDeliveryOrCourierBsOpened: LiveData<Pair<List<MultiType<Any>>, String>> =
         _onDeliveryOrCourierBsOpened
 
+    private val _onShippingChoosePaymentClicked = MutableLiveData<List<MultiType<Any>>>()
+    val onShippingChoosePaymentClicked: LiveData<List<MultiType<Any>>> =
+        _onShippingChoosePaymentClicked
+
     private var currentList = listOf<MultiType<Any>>()
 
-    fun setData(data: List<MultiType<Any>>) {
-        currentList = data
+    fun setData(currentList: List<MultiType<Any>>) {
+        this.currentList = currentList
     }
 
     private val activity = context as AppCompatActivity
@@ -76,20 +80,19 @@ class ShippingAdapter(private val context: Context) :
             FOOTER_TYPE -> {
                 val view = layoutInflater.inflate(R.layout.item_shipping_footer, parent, false)
                 shippingFooterViewHolder = ShippingFooterViewHolder(view)
-                setupObserver()
+                setupFooterObserver()
                 shippingFooterViewHolder
             }
             else -> {
                 val view = layoutInflater.inflate(R.layout.item_shipping_summary, parent, false)
                 shippingSummaryViewHolder = ShippingSummaryViewHolder(view)
+                setupSummaryObserver()
                 shippingSummaryViewHolder
             }
         }
     }
 
-    private fun setupObserver() {
-        // TODO: NEED TO CHECK IF HASACTIVEOBSERVERS?
-//        shippingFooterViewHolder.onDeliveryOrCourierClicked.hasActiveObservers()
+    private fun setupFooterObserver() {
         shippingFooterViewHolder.onDeliveryOrCourierBsSelected.observe(
             activity,
             Observer { courierPrice ->
@@ -100,6 +103,14 @@ class ShippingAdapter(private val context: Context) :
             activity,
             Observer { courierPrice ->
                 _onDeliveryOrCourierBsOpened.value = Pair(currentList, courierPrice)
+            })
+    }
+
+    private fun setupSummaryObserver() {
+        shippingSummaryViewHolder.onShippingChoosePaymentClicked.observe(
+            activity,
+            Observer {
+                _onShippingChoosePaymentClicked.value = currentList
             })
     }
 

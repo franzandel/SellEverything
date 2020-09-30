@@ -1,6 +1,8 @@
 package com.franzandel.selleverything.shipping
 
 import android.view.View
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.franzandel.selleverything.R
 import com.franzandel.selleverything.data.constants.NumberConstants
@@ -8,7 +10,6 @@ import com.franzandel.selleverything.data.entity.ShippingSummary
 import com.franzandel.selleverything.extension.getFormattedIDNPrice
 import com.franzandel.selleverything.extension.hide
 import com.franzandel.selleverything.extension.show
-import com.franzandel.selleverything.extension.showToast
 import kotlinx.android.synthetic.main.item_shipping_summary.view.*
 
 /**
@@ -17,6 +18,9 @@ import kotlinx.android.synthetic.main.item_shipping_summary.view.*
  */
 
 class ShippingSummaryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+    private val _onShippingChoosePaymentClicked = MutableLiveData<Unit>()
+    val onShippingChoosePaymentClicked: LiveData<Unit> = _onShippingChoosePaymentClicked
 
     fun bind(any: Any?) {
         val shippingSummary = any as? ShippingSummary
@@ -27,23 +31,30 @@ class ShippingSummaryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVi
                     shippingSummary?.totalQty.toString()
                 )
 
-            tvShippingTotalProductsPrice.text = shippingSummary?.totalPrice
-            tvShippingTotalPrice.text = NumberConstants.DASH
+            tvShippingTotalProductsPrice.text =
+                shippingSummary?.totalPrice?.toLong()?.getFormattedIDNPrice()
+            setupTvShippingSummaryPrice(shippingSummary)
 
             if (shippingSummary?.totalShippingPrice == NumberConstants.ZERO) {
                 tvTotalShippingPriceTitle.hide()
-                tvShippingPrice.hide()
+                tvTotalShippingPrice.hide()
             } else {
-                tvShippingPrice.text =
+                tvTotalShippingPrice.text =
                     shippingSummary?.totalShippingPrice?.toLong()?.getFormattedIDNPrice()
                 tvTotalShippingPriceTitle.show()
-                tvShippingPrice.show()
+                tvTotalShippingPrice.show()
             }
 
             btnShippingChoosePayment.setOnClickListener {
-                // TODO: Handle Payment Page
-                context.showToast("Go to Payment")
+                _onShippingChoosePaymentClicked.value = Unit
             }
         }
+    }
+
+    private fun setupTvShippingSummaryPrice(shippingSummary: ShippingSummary?) {
+        val totalPrice = shippingSummary?.totalPrice?.toLong() ?: 0
+        val totalShippingPrice = shippingSummary?.totalShippingPrice?.toLong() ?: 0
+        val totalShippingSummaryPrice = totalPrice + totalShippingPrice
+        itemView.tvShippingSummaryPrice.text = totalShippingSummaryPrice.getFormattedIDNPrice()
     }
 }

@@ -9,10 +9,7 @@ import com.franzandel.selleverything.HomeActivity
 import com.franzandel.selleverything.R
 import com.franzandel.selleverything.data.constants.BundleConstants
 import com.franzandel.selleverything.data.constants.NumberConstants
-import com.franzandel.selleverything.extension.goTo
-import com.franzandel.selleverything.extension.hide
-import com.franzandel.selleverything.extension.show
-import com.franzandel.selleverything.extension.toColor
+import com.franzandel.selleverything.extension.*
 import com.franzandel.selleverything.newest.Product
 import com.franzandel.selleverything.shipping.ShippingActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -66,7 +63,8 @@ class CartActivity : AppCompatActivity() {
                     )
                 btnCartBuy.text =
                     getString(R.string.cart_buy, viewModel.getTotalCheckedProductsQty(products))
-                tvCartTotalPrice.text = viewModel.getTotalCheckedProductsPrice(products)
+                tvCartTotalPrice.text =
+                    viewModel.getTotalCheckedProductsPrice(products).getFormattedIDNPrice()
                 adapter.submitList(products)
             }
         })
@@ -90,7 +88,8 @@ class CartActivity : AppCompatActivity() {
                     AppCompatResources.getColorStateList(this, R.color.colorOrange)
                 btnCartBuy.isEnabled = true
                 tvCartDeleteAll.show()
-                tvCartTotalPrice.text = viewModel.getTotalCheckedProductsPrice(products)
+                tvCartTotalPrice.text =
+                    viewModel.getTotalCheckedProductsPrice(products).getFormattedIDNPrice()
                 tvCartTotalPrice.setTextColor(toColor(R.color.colorOrange))
             }
 
@@ -138,7 +137,8 @@ class CartActivity : AppCompatActivity() {
                 btnCartBuy.backgroundTintList =
                     AppCompatResources.getColorStateList(this, R.color.colorOrange)
                 btnCartBuy.isEnabled = true
-                tvCartTotalPrice.text = viewModel.getTotalCheckedProductsPrice(products)
+                tvCartTotalPrice.text =
+                    viewModel.getTotalCheckedProductsPrice(products).getFormattedIDNPrice()
                 tvCartTotalPrice.setTextColor(toColor(R.color.colorOrange))
             }
 

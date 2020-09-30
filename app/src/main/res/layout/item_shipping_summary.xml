@@ -50,7 +50,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvShippingTotalProductsPriceTitle" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvShippingPrice"
+        android:id="@+id/tvTotalShippingPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_8"
@@ -68,10 +68,10 @@
         android:background="@color/colorGray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvShippingPrice" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTotalShippingPrice" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvShippingTotalPriceTitle"
+        android:id="@+id/tvShippingSummaryPriceTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_16"
@@ -82,7 +82,7 @@
         app:layout_constraintTop_toTopOf="@+id/btnShippingChoosePayment" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvShippingTotalPrice"
+        android:id="@+id/tvShippingSummaryPrice"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_16"
@@ -93,7 +93,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/btnShippingChoosePayment"
         app:layout_constraintEnd_toStartOf="@+id/btnShippingChoosePayment"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvShippingTotalPriceTitle"
+        app:layout_constraintTop_toBottomOf="@+id/tvShippingSummaryPriceTitle"
         tools:text="Rp538.600" />
 
     <androidx.appcompat.widget.AppCompatButton

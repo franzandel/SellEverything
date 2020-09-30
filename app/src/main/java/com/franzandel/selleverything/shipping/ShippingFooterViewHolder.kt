@@ -11,11 +11,11 @@ import com.franzandel.selleverything.courier.CourierBottomSheet
 import com.franzandel.selleverything.data.constants.NumberConstants
 import com.franzandel.selleverything.data.entity.Courier
 import com.franzandel.selleverything.data.entity.Delivery
+import com.franzandel.selleverything.data.entity.ShippingFooter
 import com.franzandel.selleverything.delivery.DeliveryBottomSheet
 import com.franzandel.selleverything.extension.getFormattedIDNPrice
 import com.franzandel.selleverything.extension.hide
 import com.franzandel.selleverything.extension.show
-import com.franzandel.selleverything.newest.Product
 import kotlinx.android.synthetic.main.item_shipping_footer.view.*
 
 
@@ -35,31 +35,34 @@ class ShippingFooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVie
     val onDeliveryOrCourierBsOpened: LiveData<String> = _onDeliveryOrCourierBsOpened
 
     fun bind(any: Any?) {
-        val product = any as? Product
+        val shippingFooter = any as? ShippingFooter
         itemView.apply {
-            setupShippingFooterSubTotal(product)
+            shippingFooter?.adapterPosition = adapterPosition
+            setupShippingFooterSubTotal(shippingFooter)
 
             tvShippingFooterDelivery.setOnClickListener {
-                onShippingFooterDeliveryClicked(product)
+                onShippingFooterDeliveryClicked(shippingFooter)
             }
 
             tvShippingFooterDeliveryCourier.setOnClickListener {
-                onShippingFooterDeliveryCourierClicked(product)
+                onShippingFooterDeliveryCourierClicked(shippingFooter)
             }
         }
     }
 
-    private fun setupShippingFooterSubTotal(product: Product?) {
+    private fun setupShippingFooterSubTotal(shippingFooter: ShippingFooter?) {
         itemView.tvShippingFooterSubTotal.text =
-            product?.price?.toLong()?.getFormattedIDNPrice() ?: NumberConstants.DASH
+            shippingFooter?.totalProductsPrice?.toLong()?.getFormattedIDNPrice()
+                ?: NumberConstants.DASH
     }
 
-    private fun onShippingFooterDeliveryClicked(product: Product?) {
+    private fun onShippingFooterDeliveryClicked(shippingFooter: ShippingFooter?) {
         itemView.apply {
             val activity = context as AppCompatActivity
             val deliveryBottomSheet = DeliveryBottomSheet()
 
             deliveryBottomSheet.onClicked.observe(activity, Observer { delivery ->
+                shippingFooter?.deliveryType = delivery.type
                 removeDrawableStartFromTvShippingFooterDelivery()
 
                 var courier: Courier? = null
@@ -73,7 +76,7 @@ class ShippingFooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVie
                     courier = checkedCouriers[0]
                 }
 
-                setupTvShippingFooterSubTotal(product, courier)
+                setupTvShippingFooterSubTotal(shippingFooter, courier)
                 tvShippingFooterDelivery.text = delivery.type
                 setupTvShippingFooterDeliveryCourier(delivery)
             })
@@ -119,7 +122,7 @@ class ShippingFooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVie
         )
     }
 
-    private fun onShippingFooterDeliveryCourierClicked(product: Product?) {
+    private fun onShippingFooterDeliveryCourierClicked(shippingFooter: ShippingFooter?) {
         itemView.apply {
             val activity = context as AppCompatActivity
             checkFirstCourierIfNothingIsChecked()
@@ -136,7 +139,7 @@ class ShippingFooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVie
                     courier.name,
                     formattedPrice
                 )
-                setupTvShippingFooterSubTotal(product, courier)
+                setupTvShippingFooterSubTotal(shippingFooter, courier)
             })
 
             courierBottomSheet.onCancelClicked.observe(activity, Observer {
@@ -158,9 +161,10 @@ class ShippingFooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVie
         }
     }
 
-    private fun setupTvShippingFooterSubTotal(product: Product?, courier: Courier?) {
+    private fun setupTvShippingFooterSubTotal(shippingFooter: ShippingFooter?, courier: Courier?) {
         itemView.apply {
-            val currentSubTotal = product?.price?.toLong() ?: NumberConstants.ZERO.toLong()
+            val currentSubTotal =
+                shippingFooter?.totalProductsPrice?.toLong() ?: NumberConstants.ZERO.toLong()
             val courierPrice = if (courier?.price?.isEmpty() != false) {
                 NumberConstants.ZERO.toLong()
             } else {

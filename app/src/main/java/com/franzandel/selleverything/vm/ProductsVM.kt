@@ -3,7 +3,6 @@ package com.franzandel.selleverything.vm
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.franzandel.selleverything.extension.getDiscountedPrice
-import com.franzandel.selleverything.extension.getFormattedIDNPrice
 import com.franzandel.selleverything.newest.Product
 
 /**
@@ -20,10 +19,10 @@ abstract class ProductsVM(application: Application) : AndroidViewModel(applicati
             product.currentQty
         }.toString()
 
-    fun getTotalCheckedProductsPrice(products: List<Product>): String =
+    fun getTotalCheckedProductsPrice(products: List<Product>): Long =
         products.filter { product ->
             product.isChecked
         }.sumByDouble { product ->
             product.price.getDiscountedPrice(product.discountPercentage) * product.currentQty
-        }.toLong().getFormattedIDNPrice()
+        }.toLong()
 }

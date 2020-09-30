@@ -6,6 +6,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.franzandel.selleverything.R
 import com.franzandel.selleverything.data.constants.BundleConstants
+import com.franzandel.selleverything.data.constants.NumberConstants
+import com.franzandel.selleverything.extension.showToast
 import com.franzandel.selleverything.newest.Product
 import kotlinx.android.synthetic.main.activity_shipping.*
 
@@ -75,6 +77,21 @@ class ShippingActivity : AppCompatActivity() {
         shippingVM.editedSummaryProducts.observe(this, Observer { editedSummaryProducts ->
             shippingAdapter.setData(editedSummaryProducts)
             shippingAdapter.notifyItemChanged(editedSummaryProducts.size - 1)
+        })
+
+        shippingAdapter.onShippingChoosePaymentClicked.observe(
+            this,
+            Observer { shippingFooters ->
+                shippingVM.validateShippingFooters(shippingFooters)
+            })
+
+        shippingVM.validateShippingFooter.observe(this, Observer { adapterPosition ->
+            // TODO: Go to Payment
+            if (adapterPosition == NumberConstants.MINUS_ONE) {
+                showToast("Go to Payment")
+            } else {
+                rvShipping.smoothScrollToPosition(adapterPosition)
+            }
         })
     }
 }
