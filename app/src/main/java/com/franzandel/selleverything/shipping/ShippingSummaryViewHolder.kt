@@ -55,6 +55,7 @@ class ShippingSummaryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVi
         val totalPrice = shippingSummary?.totalPrice?.toLong() ?: 0
         val totalShippingPrice = shippingSummary?.totalShippingPrice?.toLong() ?: 0
         val totalShippingSummaryPrice = totalPrice + totalShippingPrice
+
         itemView.tvShippingSummaryPrice.text = totalShippingSummaryPrice.getFormattedIDNPrice()
     }
 }

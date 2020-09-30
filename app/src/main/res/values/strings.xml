@@ -48,4 +48,5 @@
 
     <string name="delivery_bottom_sheet_title">Pilih Pengiriman</string>
     <string name="courier_bottom_sheet_title">Pilih Kurir</string>
+    <string name="shipping_delivery_validation_message">Please choose your delivery</string>
 </resources>

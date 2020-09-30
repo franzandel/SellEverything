@@ -24,6 +24,10 @@ fun <T> Context.goTo(clazz: Class<T>, bundle: (Intent.() -> Unit)? = null) {
 
 fun Context.toColor(colorId: Int) = ContextCompat.getColor(this, colorId)
 
+fun Context.showSnackbar(view: View, text: String, duration: Int) {
+    Snackbar.make(view, text, duration).show()
+}
+
 fun Context.showSnackbarWithAction(
     view: View,
     text: String,

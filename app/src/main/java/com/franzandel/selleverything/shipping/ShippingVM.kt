@@ -151,12 +151,13 @@ class ShippingVM(application: Application) : ProductsVM(application) {
         val newMultiTypeProducts = mutableListOf<MultiType<Any>>()
         newMultiTypeProducts.addAll(oldMultiTypeProducts)
 
-        val newShippingPrice = getNewShippingPrice(newMultiTypeProducts, courierPrice, isAdd)
+        val newTotalShippingPrice =
+            getNewTotalShippingPrice(newMultiTypeProducts, courierPrice, isAdd)
 
         val shippingSummary = ShippingSummary(
             totalQty = getTotalCheckedProductsQty(products),
             totalPrice = getTotalCheckedProductsPrice(products).toString(),
-            totalShippingPrice = newShippingPrice
+            totalShippingPrice = newTotalShippingPrice
         )
         val multiTypeProductSummary = MultiType<Any>(
             data = shippingSummary,
@@ -167,7 +168,7 @@ class ShippingVM(application: Application) : ProductsVM(application) {
         _editedSummaryProducts.value = newMultiTypeProducts
     }
 
-    private fun getNewShippingPrice(
+    private fun getNewTotalShippingPrice(
         newMultiTypeProducts: MutableList<MultiType<Any>>,
         courierPrice: String,
         isAdd: Boolean

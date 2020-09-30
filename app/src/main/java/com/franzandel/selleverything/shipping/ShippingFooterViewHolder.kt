@@ -51,9 +51,11 @@ class ShippingFooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVie
     }
 
     private fun setupShippingFooterSubTotal(shippingFooter: ShippingFooter?) {
-        itemView.tvShippingFooterSubTotal.text =
-            shippingFooter?.totalProductsPrice?.toLong()?.getFormattedIDNPrice()
-                ?: NumberConstants.DASH
+        val totalProductsPrice = shippingFooter?.totalProductsPrice?.toLong() ?: 0
+        val shippingPrice = shippingFooter?.shippingPrice?.toLong() ?: 0
+        val subTotal = totalProductsPrice + shippingPrice
+
+        itemView.tvShippingFooterSubTotal.text = subTotal.getFormattedIDNPrice()
     }
 
     private fun onShippingFooterDeliveryClicked(shippingFooter: ShippingFooter?) {
@@ -67,8 +69,7 @@ class ShippingFooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVie
 
                 var courier: Courier? = null
                 if (tvShippingFooterDelivery.text != context.getString(R.string.shipping_footer_delivery)) {
-                    val initialCourierPrice = getInitialCourierPrice()
-                    _onDeliveryOrCourierBsOpened.value = initialCourierPrice
+                    _onDeliveryOrCourierBsOpened.value = shippingFooter?.shippingPrice
                 }
 
                 val checkedCouriers = delivery.couriers.filter { it.isChecked }
@@ -76,7 +77,9 @@ class ShippingFooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVie
                     courier = checkedCouriers[0]
                 }
 
-                setupTvShippingFooterSubTotal(shippingFooter, courier)
+                shippingFooter?.shippingPrice = courier?.price ?: NumberConstants.ZERO
+                _onDeliveryOrCourierBsSelected.value = shippingFooter?.shippingPrice
+
                 tvShippingFooterDelivery.text = delivery.type
                 setupTvShippingFooterDeliveryCourier(delivery)
             })
@@ -127,8 +130,7 @@ class ShippingFooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVie
             val activity = context as AppCompatActivity
             checkFirstCourierIfNothingIsChecked()
 
-            val initialCourierPrice = getInitialCourierPrice()
-            _onDeliveryOrCourierBsOpened.value = initialCourierPrice
+            _onDeliveryOrCourierBsOpened.value = shippingFooter?.shippingPrice
 
             val courierBottomSheet = CourierBottomSheet(couriers)
 
@@ -139,41 +141,16 @@ class ShippingFooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVie
                     courier.name,
                     formattedPrice
                 )
-                setupTvShippingFooterSubTotal(shippingFooter, courier)
+
+                shippingFooter?.shippingPrice = courier?.price ?: NumberConstants.ZERO
+                _onDeliveryOrCourierBsSelected.value = shippingFooter?.shippingPrice
             })
 
             courierBottomSheet.onCancelClicked.observe(activity, Observer {
-                _onDeliveryOrCourierBsSelected.value = initialCourierPrice
+                _onDeliveryOrCourierBsSelected.value = shippingFooter?.shippingPrice
             })
 
             courierBottomSheet.show(activity.supportFragmentManager, courierBottomSheet.tag)
-        }
-    }
-
-    private fun getInitialCourierPrice(): String {
-        val checkedCouriers = couriers.filter {
-            it.isChecked
-        }
-        return if (checkedCouriers.isNotEmpty()) {
-            checkedCouriers[0].price
-        } else {
-            NumberConstants.ZERO
-        }
-    }
-
-    private fun setupTvShippingFooterSubTotal(shippingFooter: ShippingFooter?, courier: Courier?) {
-        itemView.apply {
-            val currentSubTotal =
-                shippingFooter?.totalProductsPrice?.toLong() ?: NumberConstants.ZERO.toLong()
-            val courierPrice = if (courier?.price?.isEmpty() != false) {
-                NumberConstants.ZERO.toLong()
-            } else {
-                courier.price.toLong()
-            }
-            val newSubTotal = currentSubTotal + courierPrice
-
-            tvShippingFooterSubTotal.text = newSubTotal.getFormattedIDNPrice()
-            _onDeliveryOrCourierBsSelected.value = courier?.price ?: NumberConstants.ZERO
         }
     }
 

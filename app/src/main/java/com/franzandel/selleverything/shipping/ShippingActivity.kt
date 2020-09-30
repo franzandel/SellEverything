@@ -7,8 +7,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.franzandel.selleverything.R
 import com.franzandel.selleverything.data.constants.BundleConstants
 import com.franzandel.selleverything.data.constants.NumberConstants
+import com.franzandel.selleverything.extension.showSnackbar
 import com.franzandel.selleverything.extension.showToast
 import com.franzandel.selleverything.newest.Product
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_shipping.*
 
 class ShippingActivity : AppCompatActivity() {
@@ -62,6 +64,7 @@ class ShippingActivity : AppCompatActivity() {
                     multiTypeProducts,
                     courierPrice
                 )
+                shippingAdapter.notifyDataSetChanged()
             })
 
         shippingAdapter.onDeliveryOrCourierBsOpened.observe(
@@ -72,6 +75,7 @@ class ShippingActivity : AppCompatActivity() {
                     multiTypeProducts,
                     courierPrice
                 )
+                shippingAdapter.notifyDataSetChanged()
             })
 
         shippingVM.editedSummaryProducts.observe(this, Observer { editedSummaryProducts ->
@@ -91,6 +95,11 @@ class ShippingActivity : AppCompatActivity() {
                 showToast("Go to Payment")
             } else {
                 rvShipping.smoothScrollToPosition(adapterPosition)
+                showSnackbar(
+                    rvShipping,
+                    getString(R.string.shipping_delivery_validation_message),
+                    Snackbar.LENGTH_LONG
+                )
             }
         })
     }
