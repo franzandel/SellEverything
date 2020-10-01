@@ -9,7 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.franzandel.selleverything.R
-import com.franzandel.selleverything.data.entity.MultiType
+import com.franzandel.selleverything.data.entity.ShippingMultiType
 import com.franzandel.selleverything.data.enums.ShippingSection
 
 /**
@@ -29,22 +29,22 @@ class ShippingAdapter(private val context: Context) :
     }
 
     private val _onDeliveryOrCourierBsSelected =
-        MutableLiveData<Pair<List<MultiType<Any>>, String>>()
-    val onDeliveryOrCourierBsSelected: LiveData<Pair<List<MultiType<Any>>, String>> =
+        MutableLiveData<Pair<List<ShippingMultiType<Any>>, String>>()
+    val onDeliveryOrCourierBsSelected: LiveData<Pair<List<ShippingMultiType<Any>>, String>> =
         _onDeliveryOrCourierBsSelected
 
     private val _onDeliveryOrCourierBsOpened =
-        MutableLiveData<Pair<List<MultiType<Any>>, String>>()
-    val onDeliveryOrCourierBsOpened: LiveData<Pair<List<MultiType<Any>>, String>> =
+        MutableLiveData<Pair<List<ShippingMultiType<Any>>, String>>()
+    val onDeliveryOrCourierBsOpened: LiveData<Pair<List<ShippingMultiType<Any>>, String>> =
         _onDeliveryOrCourierBsOpened
 
-    private val _onShippingChoosePaymentClicked = MutableLiveData<List<MultiType<Any>>>()
-    val onShippingChoosePaymentClicked: LiveData<List<MultiType<Any>>> =
+    private val _onShippingChoosePaymentClicked = MutableLiveData<List<ShippingMultiType<Any>>>()
+    val onShippingChoosePaymentClicked: LiveData<List<ShippingMultiType<Any>>> =
         _onShippingChoosePaymentClicked
 
-    private var currentList = listOf<MultiType<Any>>()
+    private var currentList = listOf<ShippingMultiType<Any>>()
 
-    fun setData(currentList: List<MultiType<Any>>) {
+    fun setData(currentList: List<ShippingMultiType<Any>>) {
         this.currentList = currentList
     }
 

@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import com.franzandel.selleverything.R
 import com.franzandel.selleverything.data.entity.Delivery
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.android.synthetic.main.activity_delivery_bottom_sheet.*
+import kotlinx.android.synthetic.main.bs_delivery_bottom_sheet.*
 
 class DeliveryBottomSheet : BottomSheetDialogFragment() {
 
@@ -26,7 +26,7 @@ class DeliveryBottomSheet : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? =
-        inflater.inflate(R.layout.activity_delivery_bottom_sheet, container, false)
+        inflater.inflate(R.layout.bs_delivery_bottom_sheet, container, false)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -36,18 +36,18 @@ class DeliveryBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun setupObserver() {
-        deliveryBottomSheetAdapter.onClicked.observe(this, Observer { delivery ->
+        deliveryBottomSheetAdapter.onClicked.observe(viewLifecycleOwner, Observer { delivery ->
             _onClicked.value = delivery
             dismiss()
         })
     }
 
     private fun setupRV() {
-        rvDelivery.adapter = deliveryBottomSheetAdapter
+        rvPaymentMethod.adapter = deliveryBottomSheetAdapter
     }
 
     private fun setupUIClickListener() {
-        ivDeliveryClose.setOnClickListener {
+        ivPaymentMethodClose.setOnClickListener {
             dismiss()
         }
     }

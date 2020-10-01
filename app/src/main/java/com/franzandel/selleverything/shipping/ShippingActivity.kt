@@ -6,10 +6,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.franzandel.selleverything.R
 import com.franzandel.selleverything.data.constants.BundleConstants
-import com.franzandel.selleverything.data.constants.NumberConstants
+import com.franzandel.selleverything.extension.goTo
 import com.franzandel.selleverything.extension.showSnackbar
-import com.franzandel.selleverything.extension.showToast
 import com.franzandel.selleverything.newest.Product
+import com.franzandel.selleverything.payment.PaymentActivity
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_shipping.*
 
@@ -90,19 +90,20 @@ class ShippingActivity : AppCompatActivity() {
             })
 
         shippingVM.validateShippingFooter.observe(this, Observer { (adapterPosition, isAddress) ->
-            // TODO: Go to Payment
-            if (adapterPosition == NumberConstants.MINUS_ONE) {
-                showToast("Go to Payment")
-            } else {
-                rvShipping.smoothScrollToPosition(adapterPosition)
-                isAddress?.let {
-                    val validationMessage = if (it) {
-                        getString(R.string.shipping_address_validation_message)
-                    } else {
-                        getString(R.string.shipping_delivery_validation_message)
-                    }
-                    showSnackbar(rvShipping, validationMessage, Snackbar.LENGTH_LONG)
+            rvShipping.smoothScrollToPosition(adapterPosition)
+            isAddress?.let {
+                val validationMessage = if (it) {
+                    getString(R.string.shipping_address_validation_message)
+                } else {
+                    getString(R.string.shipping_delivery_validation_message)
                 }
+                showSnackbar(rvShipping, validationMessage, Snackbar.LENGTH_LONG)
+            }
+        })
+
+        shippingVM.onValidateShippingFooterSucceed.observe(this, Observer { shippingSummary ->
+            goTo(PaymentActivity::class.java) {
+                putExtra(BundleConstants.EXTRA_SHIPPING_SUMMARY, shippingSummary)
             }
         })
     }

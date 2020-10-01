@@ -7,7 +7,7 @@
     tools:context=".delivery.DeliveryBottomSheet">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ivDeliveryClose"
+        android:id="@+id/ivPaymentMethodClose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?selectableItemBackground"
@@ -25,17 +25,17 @@
         android:textColor="@android:color/black"
         android:textStyle="bold"
         android:textSize="@dimen/text_size_16"
-        app:layout_constraintBottom_toBottomOf="@+id/ivDeliveryClose"
-        app:layout_constraintStart_toEndOf="@+id/ivDeliveryClose"
-        app:layout_constraintTop_toTopOf="@+id/ivDeliveryClose" />
+        app:layout_constraintBottom_toBottomOf="@+id/ivPaymentMethodClose"
+        app:layout_constraintStart_toEndOf="@+id/ivPaymentMethodClose"
+        app:layout_constraintTop_toTopOf="@+id/ivPaymentMethodClose" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvDelivery"
+        android:id="@+id/rvPaymentMethod"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_16"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivDeliveryClose" />
+        app:layout_constraintTop_toBottomOf="@+id/ivPaymentMethodClose" />
 </androidx.constraintlayout.widget.ConstraintLayout>

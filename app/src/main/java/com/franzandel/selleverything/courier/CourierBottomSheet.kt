@@ -50,7 +50,7 @@ class CourierBottomSheet(private val couriers: List<Courier>) : BottomSheetDialo
     }
 
     private fun setupObserver() {
-        courierAdapter.onClicked.observe(this, Observer { courier ->
+        courierAdapter.onClicked.observe(viewLifecycleOwner, Observer { courier ->
             courierVM.resetCouriersIsChecked(couriers, courier)
             _onClicked.value = courier
             dismiss()

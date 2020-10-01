@@ -7,7 +7,7 @@ import com.franzandel.selleverything.data.enums.ShippingSection
  * Android Engineer
  */
 
-data class MultiType<T>(
+data class ShippingMultiType<T>(
     val data: T? = null,
     val section: ShippingSection
 )
