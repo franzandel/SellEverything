@@ -3,11 +3,14 @@ package com.franzandel.selleverything.payment
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.franzandel.selleverything.R
 import com.franzandel.selleverything.data.constants.BundleConstants
+import com.franzandel.selleverything.data.entity.PaymentMethod
 import com.franzandel.selleverything.data.entity.ShippingSummary
 import com.franzandel.selleverything.extension.getFormattedIDNPrice
-import com.franzandel.selleverything.extension.showToast
+import com.franzandel.selleverything.extension.goTo
+import com.franzandel.selleverything.paymentsuccess.PaymentSuccessActivity
 import kotlinx.android.synthetic.main.activity_payment.*
 
 class PaymentActivity : AppCompatActivity() {
@@ -18,6 +21,10 @@ class PaymentActivity : AppCompatActivity() {
                 totalQty = "0",
                 totalPrice = "0"
             )
+    }
+
+    private val vm by lazy {
+        ViewModelProvider(this).get(PaymentVM::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,43 +47,42 @@ class PaymentActivity : AppCompatActivity() {
     }
 
     private fun setupUI() {
-        val paymentServicePrice =
-            getString(R.string.payment_direct_debit_bri_service_price).toLong()
-        tvPaymentTitle.text = getString(R.string.payment_direct_debit_bri_title)
-        tvPaymentServicePrice.text = paymentServicePrice.getFormattedIDNPrice()
+        val paymentMethod = getPaymentMethod()
+        tvPaymentTitle.text = paymentMethod.name
+        tvPaymentServicePrice.text = paymentMethod.servicePrice.getFormattedIDNPrice()
 
-        val totalPaymentPrice = getTotalPaymentPrice()
-        val newTotalPaymentPrice = totalPaymentPrice + paymentServicePrice
-        tvPaymentPrice.text = totalPaymentPrice.getFormattedIDNPrice()
-        tvPaymentTotalPrice.text = newTotalPaymentPrice.getFormattedIDNPrice()
+        val totalPaymentPriceWithoutServicePrice =
+            vm.getTotalPaymentPriceWithoutServicePrice(shippingSummary)
+        val totalPaymentPrice = vm.getTotalPaymentPrice(shippingSummary, paymentMethod)
+        tvPaymentPrice.text = totalPaymentPriceWithoutServicePrice.getFormattedIDNPrice()
+        tvPaymentTotalPrice.text = totalPaymentPrice.getFormattedIDNPrice()
     }
+
+    private fun getPaymentMethod(): PaymentMethod =
+        PaymentMethod(
+            type = "",
+            name = getString(R.string.payment_direct_debit_bri_title),
+            servicePrice = getString(R.string.payment_direct_debit_bri_service_price).toInt()
+        )
 
     private fun setupUIClickListener() {
         tvPaymentSeeAll.setOnClickListener {
-            val paymentMethodBottomSheet = PaymentMethodBs()
-            setupPaymentMethodBottomSheetObserver(paymentMethodBottomSheet)
-            paymentMethodBottomSheet.show(supportFragmentManager, paymentMethodBottomSheet.tag)
+            val paymentMethodBs = PaymentMethodBs()
+            setupPaymentMethodBsObserver(paymentMethodBs)
+            paymentMethodBs.show(supportFragmentManager, paymentMethodBs.tag)
         }
 
         btnPaymentPay.setOnClickListener {
-            showToast("Pay all")
+            goTo(PaymentSuccessActivity::class.java)
         }
     }
 
-    private fun setupPaymentMethodBottomSheetObserver(paymentMethodBs: PaymentMethodBs) {
+    private fun setupPaymentMethodBsObserver(paymentMethodBs: PaymentMethodBs) {
         paymentMethodBs.onPaymentContentClicked.observe(this, Observer { paymentMethod ->
-            val totalPaymentPrice = getTotalPaymentPrice()
-            val servicePrice = paymentMethod.servicePrice
-            val newTotalPaymentPrice = totalPaymentPrice + servicePrice
+            val totalPaymentPrice = vm.getTotalPaymentPrice(shippingSummary, paymentMethod)
             tvPaymentTitle.text = paymentMethod.name
             tvPaymentServicePrice.text = paymentMethod.servicePrice.getFormattedIDNPrice()
-            tvPaymentTotalPrice.text = newTotalPaymentPrice.getFormattedIDNPrice()
+            tvPaymentTotalPrice.text = totalPaymentPrice.getFormattedIDNPrice()
         })
-    }
-
-    private fun getTotalPaymentPrice(): Long {
-        val totalPrice = shippingSummary.totalPrice.toLong()
-        val totalShippingPrice = shippingSummary.totalShippingPrice.toLong()
-        return totalPrice + totalShippingPrice
     }
 }
