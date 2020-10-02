@@ -24,7 +24,9 @@ class PaymentActivity : AppCompatActivity() {
     }
 
     private val vm by lazy {
-        ViewModelProvider(this).get(PaymentVM::class.java)
+        ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(
+            PaymentVM::class.java
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,6 +75,7 @@ class PaymentActivity : AppCompatActivity() {
         }
 
         btnPaymentPay.setOnClickListener {
+            vm.deleteAllFromCart()
             goTo(PaymentSuccessActivity::class.java)
         }
     }
