@@ -1,6 +1,7 @@
 package com.franzandel.selleverything.cart
 
 import androidx.recyclerview.widget.DiffUtil
+import com.franzandel.selleverything.data.entity.CartMultiType
 import com.franzandel.selleverything.newest.Product
 
 /**
@@ -8,11 +9,17 @@ import com.franzandel.selleverything.newest.Product
  * Android Engineer
  */
 
-class CartDiffCallback : DiffUtil.ItemCallback<Product>() {
+class CartDiffCallback : DiffUtil.ItemCallback<CartMultiType<Product>>() {
 
-    override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean =
-        oldItem.id == newItem.id
+    override fun areItemsTheSame(
+        oldItem: CartMultiType<Product>,
+        newItem: CartMultiType<Product>
+    ): Boolean =
+        oldItem.data.id == newItem.data.id
 
-    override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean =
-        oldItem == newItem
+    override fun areContentsTheSame(
+        oldItem: CartMultiType<Product>,
+        newItem: CartMultiType<Product>
+    ): Boolean =
+        oldItem.data == newItem.data
 }

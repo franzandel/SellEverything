@@ -65,12 +65,24 @@ class CartActivity : AppCompatActivity() {
                     getString(R.string.cart_buy, viewModel.getTotalCheckedProductsQty(products))
                 tvCartTotalPrice.text =
                     viewModel.getTotalCheckedProductsPrice(products).getFormattedIDNPrice()
-                adapter.submitList(products)
+                viewModel.processMultiTypeProducts(products)
             }
         })
 
-        adapter.onCheckClicked.observe(this, Observer { products ->
-            val totalCheckedProductsCount = viewModel.getTotalCheckedProductsCount(products)
+        viewModel.multiTypeProducts.observe(this, Observer { multiTypeProducts ->
+            adapter.submitList(multiTypeProducts)
+        })
+
+        adapter.onCheckSellerClicked.observe(
+            this,
+            Observer { (seller, isChecked, multiTypeProducts) ->
+                viewModel.checkAllProductsPerSeller(seller, isChecked, multiTypeProducts)
+                adapter.notifyDataSetChanged()
+            })
+
+        adapter.onCheckProductClicked.observe(this, Observer { multiTypeProducts ->
+            val totalCheckedProductsCount =
+                viewModel.getTotalCheckedProductsCount(multiTypeProducts)
             if (totalCheckedProductsCount == "0") {
                 cbCartCheckAll.text = getString(R.string.cart_check_all_no_number)
                 btnCartBuy.backgroundTintList =
@@ -89,13 +101,17 @@ class CartActivity : AppCompatActivity() {
                 btnCartBuy.isEnabled = true
                 tvCartDeleteAll.show()
                 tvCartTotalPrice.text =
-                    viewModel.getTotalCheckedProductsPrice(products).getFormattedIDNPrice()
+                    viewModel.getTotalCheckedProductsPrice(multiTypeProducts).getFormattedIDNPrice()
                 tvCartTotalPrice.setTextColor(toColor(R.color.colorOrange))
             }
 
             btnCartBuy.text =
-                getString(R.string.cart_buy, viewModel.getTotalCheckedProductsQty(products))
-            cbCartCheckAll.isChecked = totalCheckedProductsCount == products.size.toString()
+                getString(
+                    R.string.cart_buy,
+                    viewModel.getTotalCheckedProductsQty(multiTypeProducts)
+                )
+            cbCartCheckAll.isChecked =
+                totalCheckedProductsCount == viewModel.getTotalProductsCount(multiTypeProducts)
         })
 
         adapter.onQtyMinusClicked.observe(this, Observer { product ->
@@ -127,7 +143,7 @@ class CartActivity : AppCompatActivity() {
         })
 
         adapter.onQtyChanged.observe(this, Observer { (product, products) ->
-            if (products.size == 1 && product.currentQty == 0) {
+            if (products.size == 1 && product.data.currentQty == 0) {
                 btnCartBuy.backgroundTintList =
                     AppCompatResources.getColorStateList(this, R.color.colorGray)
                 btnCartBuy.isEnabled = false

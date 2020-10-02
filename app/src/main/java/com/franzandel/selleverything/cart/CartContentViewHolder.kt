@@ -8,25 +8,25 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.franzandel.selleverything.R
 import com.franzandel.selleverything.data.constants.BundleConstants
-import com.franzandel.selleverything.databinding.ItemCartBinding
+import com.franzandel.selleverything.databinding.ItemCartContentBinding
 import com.franzandel.selleverything.detail.DetailActivity
 import com.franzandel.selleverything.extension.getDiscountedPrice
 import com.franzandel.selleverything.extension.getFormattedIDNPrice
 import com.franzandel.selleverything.extension.goTo
 import com.franzandel.selleverything.newest.Product
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.android.synthetic.main.item_cart.view.*
+import kotlinx.android.synthetic.main.item_cart_content.view.*
 
 /**
  * Created by Franz Andel on 17/09/20.
  * Android Engineer
  */
 
-class CartViewHolder(itemCartBinding: ItemCartBinding) :
-    RecyclerView.ViewHolder(itemCartBinding.root) {
+class CartContentViewHolder(itemCartContentBinding: ItemCartContentBinding) :
+    RecyclerView.ViewHolder(itemCartContentBinding.root) {
 
-    private val _onCheckClicked = MutableLiveData<Unit>()
-    val onCheckClicked: LiveData<Unit> = _onCheckClicked
+    private val _onCheckProductClicked = MutableLiveData<Unit>()
+    val onCheckProductClicked: LiveData<Unit> = _onCheckProductClicked
 
     private val _onQtyMinusClicked = MutableLiveData<Product>()
     val onQtyMinusClicked: LiveData<Product> = _onQtyMinusClicked
@@ -44,9 +44,9 @@ class CartViewHolder(itemCartBinding: ItemCartBinding) :
     private val cartBinding = CartBinding()
 
     init {
-        itemCartBinding.binding = cartBinding
+        itemCartContentBinding.binding = cartBinding
         // forces the bindings to run immediately instead of delaying them until the next frame
-        itemCartBinding.executePendingBindings()
+        itemCartContentBinding.executePendingBindings()
         setupObserver()
     }
 
@@ -58,9 +58,7 @@ class CartViewHolder(itemCartBinding: ItemCartBinding) :
 
     fun bind(product: Product) {
         itemView.apply {
-            cbCheck.isChecked = product.isChecked
-            tvCartContentSeller.text = product.seller
-            tvCartContentLocation.text = product.location
+            cbCartContentCheck.isChecked = product.isChecked
 //            val drawableId = context.getDrawableIdFromName(product.imageName)
 //            ivCartContentProduct.setImageResource(drawableId)
             tvCartContentTitle.text = product.title
@@ -77,9 +75,9 @@ class CartViewHolder(itemCartBinding: ItemCartBinding) :
                     AppCompatResources.getColorStateList(context, R.color.colorGreen70)
             }
 
-            cbCheck.setOnCheckedChangeListener { _, isChecked ->
+            cbCartContentCheck.setOnCheckedChangeListener { _, isChecked ->
                 product.isChecked = isChecked
-                _onCheckClicked.value = Unit
+                _onCheckProductClicked.value = Unit
             }
 
             tvCartContentTitle.setOnClickListener {
@@ -111,7 +109,7 @@ class CartViewHolder(itemCartBinding: ItemCartBinding) :
                         AppCompatResources.getColorStateList(context, R.color.colorGray)
                 }
 
-                if (cbCheck.isChecked) _onQtyMinusClicked.value = product
+                if (cbCartContentCheck.isChecked) _onQtyMinusClicked.value = product
             }
 
             fabCartContentPlusQty.setOnClickListener {
@@ -124,7 +122,7 @@ class CartViewHolder(itemCartBinding: ItemCartBinding) :
                 product.currentQty = currentQty
                 etCartContentQty.setText(currentQty.toString())
 
-                if (cbCheck.isChecked) _onQtyPlusClicked.value = product
+                if (cbCartContentCheck.isChecked) _onQtyPlusClicked.value = product
             }
         }
     }

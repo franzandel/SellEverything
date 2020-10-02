@@ -48,15 +48,6 @@ class ShippingVM(application: Application) : ProductsVM(application) {
         _multiTypeProducts.value = multiTypeProducts
     }
 
-    private fun getGroupedBySellerProducts(products: List<Product>): Map<String, List<Product>> =
-        products
-            .filter { product ->
-                product.isChecked
-            }
-            .groupBy { product ->
-                product.seller
-            }
-
     private fun addMultiTypeProductAddress(multiTypeProducts: MutableList<ShippingMultiType<Any>>) {
         val multiTypeProductAddress = ShippingMultiType<Any>(
             data = ShippingAddress(),

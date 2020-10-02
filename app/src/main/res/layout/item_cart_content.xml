@@ -15,7 +15,7 @@
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/cbCheck"
+            android:id="@+id/cbCartContentCheck"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_16"
@@ -23,33 +23,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvCartContentSeller"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_8"
-            android:textColor="@android:color/black"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/cbCheck"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Nourish Indonesia" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvCartContentLocation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@+id/cbCheck"
-            app:layout_constraintTop_toBottomOf="@+id/tvCartContentSeller"
-            tools:text="Jakarta Timur" />
-
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivCartContentProduct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_16"
             android:src="@drawable/ic_launcher_background"
-            app:layout_constraintStart_toEndOf="@+id/cbCheck"
-            app:layout_constraintTop_toBottomOf="@+id/tvCartContentLocation" />
+            app:layout_constraintStart_toEndOf="@+id/cbCartContentCheck"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCartContentTitle"
@@ -106,9 +87,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_16"
-            android:text="@={binding.qty}"
             android:inputType="number"
             android:maxLines="1"
+            android:text="@={binding.qty}"
             app:layout_constraintEnd_toStartOf="@+id/fabCartContentPlusQty"
             app:layout_constraintTop_toBottomOf="@+id/ivCartContentProduct" />
 
@@ -131,8 +112,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_4"
             android:text="@string/cart_content_zero_qty_validation"
-            android:textSize="@dimen/text_size_12"
             android:textColor="@color/colorRed"
+            android:textSize="@dimen/text_size_12"
             android:visibility="@{binding.qtyZeroValidation}"
             app:layout_constraintEnd_toEndOf="@+id/fabCartContentPlusQty"
             app:layout_constraintStart_toStartOf="@+id/fabCartContentMinusQty"
@@ -140,9 +121,11 @@
 
         <View
             android:id="@+id/vCartContentSeparator"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/margin_8"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_1"
+            android:layout_marginStart="@dimen/margin_16"
             android:layout_marginTop="@dimen/margin_16"
+            android:layout_marginEnd="@dimen/margin_16"
             android:background="@color/colorGray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

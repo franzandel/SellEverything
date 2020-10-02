@@ -2,8 +2,11 @@ package com.franzandel.selleverything.cart
 
 import android.app.Application
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.franzandel.selleverything.data.database.AppDatabase
+import com.franzandel.selleverything.data.entity.CartMultiType
+import com.franzandel.selleverything.data.enums.CartSection
 import com.franzandel.selleverything.extension.getDiscountedPrice
 import com.franzandel.selleverything.extension.getFormattedIDNPrice
 import com.franzandel.selleverything.extension.removeSpecialCharacter
@@ -19,13 +22,24 @@ import kotlinx.coroutines.launch
  */
 
 class CartVM(application: Application) : ProductsVM(application) {
+
     private val cartProductDao = AppDatabase.invoke(application.applicationContext).cartProductDao()
     private val cartRepository: CartRepository = CartRepositoryImpl(cartProductDao)
     val cartProducts: LiveData<List<Product>> = cartRepository.cartProducts
 
+    private val _multiTypeProducts = MutableLiveData<List<CartMultiType<Product>>>()
+    val multiTypeProducts: LiveData<List<CartMultiType<Product>>> = _multiTypeProducts
+
+    @JvmName("totalCheckedProductsCount")
     fun getTotalCheckedProductsCount(products: List<Product>): String = products.count { product ->
         product.isChecked
     }.toString()
+
+    @JvmName("totalCheckedCartMultiTypeProductsCount")
+    fun getTotalCheckedProductsCount(products: List<CartMultiType<Product>>): String =
+        products.count { product ->
+            product.data.isChecked && product.section == CartSection.CONTENT
+        }.toString()
 
     fun getTotalProductsPriceAfterMinusClicked(
         product: Product,
@@ -73,4 +87,77 @@ class CartVM(application: Application) : ProductsVM(application) {
             cartRepository.deleteFromCart(product)
         }
     }
+
+    fun processMultiTypeProducts(products: List<Product>) {
+        val multiTypeProducts = mutableListOf<CartMultiType<Product>>()
+        val groupedProducts = getGroupedBySellerProducts(products)
+
+        groupedProducts.forEach { groupedProductsMap ->
+            addMultiTypeProductHeader(groupedProductsMap, multiTypeProducts)
+            addMultiTypeProductContent(groupedProductsMap, multiTypeProducts)
+        }
+
+        _multiTypeProducts.value = multiTypeProducts
+    }
+
+    private fun addMultiTypeProductHeader(
+        groupedProductsMap: Map.Entry<String, List<Product>>,
+        multiTypeProducts: MutableList<CartMultiType<Product>>
+    ) {
+        val productHeader = Product(
+            seller = groupedProductsMap.key,
+            location = groupedProductsMap.value[0].location
+        )
+        val multiTypeProductHeader = CartMultiType(
+            data = productHeader,
+            section = CartSection.HEADER
+        )
+        multiTypeProducts.add(multiTypeProductHeader)
+    }
+
+    private fun addMultiTypeProductContent(
+        groupedProductsMap: Map.Entry<String, List<Product>>,
+        multiTypeProducts: MutableList<CartMultiType<Product>>
+    ) {
+        groupedProductsMap.value.forEach { product ->
+            val productContent = CartMultiType(
+                data = product,
+                section = CartSection.CONTENT
+            )
+            multiTypeProducts.add(productContent)
+        }
+    }
+
+    @JvmName("totalCheckedCartMultiTypeProductsQty")
+    fun getTotalCheckedProductsQty(products: List<CartMultiType<Product>>): String =
+        products.filter { product ->
+            product.data.isChecked && product.section == CartSection.CONTENT
+        }.sumBy { product ->
+            product.data.currentQty
+        }.toString()
+
+    @JvmName("totalCheckedCartMultiTypeProductsPrice")
+    fun getTotalCheckedProductsPrice(products: List<CartMultiType<Product>>): Long =
+        products.filter { product ->
+            product.data.isChecked
+        }.sumByDouble { product ->
+            product.data.price.getDiscountedPrice(product.data.discountPercentage) * product.data.currentQty
+        }.toLong()
+
+    fun checkAllProductsPerSeller(
+        seller: String,
+        isChecked: Boolean,
+        multiTypeProducts: List<CartMultiType<Product>>
+    ) {
+        multiTypeProducts.filter { multiTypeProduct ->
+            multiTypeProduct.data.seller == seller && multiTypeProduct.data.id.isNotEmpty()
+        }.forEach { multiTypeProduct ->
+            multiTypeProduct.data.isChecked = isChecked
+        }
+    }
+
+    fun getTotalProductsCount(products: List<CartMultiType<Product>>): String =
+        products.count { product ->
+            product.section == CartSection.CONTENT
+        }.toString()
 }
