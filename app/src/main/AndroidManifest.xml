@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".payment.PaymentActivity"></activity>
+        <activity android:name=".paymentsuccess.PaymentSuccessActivity"></activity>
+        <activity android:name=".payment.PaymentActivity" />
         <activity android:name=".shipping.ShippingActivity" />
         <activity android:name=".detail.DetailActivity" />
         <activity android:name=".cart.CartActivity" />

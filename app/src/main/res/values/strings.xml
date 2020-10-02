@@ -63,4 +63,7 @@
 
     <string name="payment_direct_debit_bri_title">Direct Debit BRI</string>
     <string name="payment_direct_debit_bri_service_price">5000</string>
+
+    <string name="payment_success_title">Pembayaran Berhasil!</string>
+    <string name="payment_success_description">Mengalihkan kembali ke Beranda</string>
 </resources>
