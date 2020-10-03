@@ -9,6 +9,7 @@ import com.franzandel.selleverything.HomeActivity
 import com.franzandel.selleverything.R
 import com.franzandel.selleverything.data.constants.BundleConstants
 import com.franzandel.selleverything.data.constants.NumberConstants
+import com.franzandel.selleverything.data.entity.CartMultiType
 import com.franzandel.selleverything.extension.*
 import com.franzandel.selleverything.newest.Product
 import com.franzandel.selleverything.shipping.ShippingActivity
@@ -26,6 +27,7 @@ class CartActivity : AppCompatActivity() {
     }
 
     private val adapter = CartAdapter(this)
+    private lateinit var multiTypeProducts: List<CartMultiType<Product>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,20 +58,13 @@ class CartActivity : AppCompatActivity() {
             if (products.isEmpty()) {
                 showEmptyCart()
             } else {
-                cbCartCheckAll.text =
-                    getString(
-                        R.string.cart_check_all_with_number,
-                        viewModel.getTotalCheckedProductsCount(products)
-                    )
-                btnCartBuy.text =
-                    getString(R.string.cart_buy, viewModel.getTotalCheckedProductsQty(products))
-                tvCartTotalPrice.text =
-                    viewModel.getTotalCheckedProductsPrice(products).getFormattedIDNPrice()
+                setupUIWhenProductsIsNotEmpty(products)
                 viewModel.processMultiTypeProducts(products)
             }
         })
 
         viewModel.multiTypeProducts.observe(this, Observer { multiTypeProducts ->
+            this.multiTypeProducts = multiTypeProducts
             adapter.submitList(multiTypeProducts)
         })
 
@@ -77,32 +72,22 @@ class CartActivity : AppCompatActivity() {
             this,
             Observer { (seller, isChecked, multiTypeProducts) ->
                 viewModel.checkAllProductsPerSeller(seller, isChecked, multiTypeProducts)
+                setupCbCheckAll(multiTypeProducts)
                 adapter.notifyDataSetChanged()
             })
 
-        adapter.onCheckProductClicked.observe(this, Observer { multiTypeProducts ->
+        adapter.onCheckProductClicked.observe(this, Observer { (multiTypeProducts, seller) ->
             val totalCheckedProductsCount =
                 viewModel.getTotalCheckedProductsCount(multiTypeProducts)
-            if (totalCheckedProductsCount == "0") {
-                cbCartCheckAll.text = getString(R.string.cart_check_all_no_number)
-                btnCartBuy.backgroundTintList =
-                    AppCompatResources.getColorStateList(this, R.color.colorGray)
-                btnCartBuy.isEnabled = false
-                tvCartDeleteAll.hide()
-                tvCartTotalPrice.text = NumberConstants.DASH
-                tvCartTotalPrice.setTextColor(toColor(android.R.color.black))
+
+            if (totalCheckedProductsCount == NumberConstants.ZERO) {
+                setupUIWhenTotalCheckedProductsCountIs0()
             } else {
-                cbCartCheckAll.text = getString(
-                    R.string.cart_check_all_with_number,
-                    totalCheckedProductsCount
+                setupUIWhenTotalCheckedProductsCountIsNot0(
+                    totalCheckedProductsCount,
+                    multiTypeProducts,
+                    seller
                 )
-                btnCartBuy.backgroundTintList =
-                    AppCompatResources.getColorStateList(this, R.color.colorOrange)
-                btnCartBuy.isEnabled = true
-                tvCartDeleteAll.show()
-                tvCartTotalPrice.text =
-                    viewModel.getTotalCheckedProductsPrice(multiTypeProducts).getFormattedIDNPrice()
-                tvCartTotalPrice.setTextColor(toColor(R.color.colorOrange))
             }
 
             btnCartBuy.text =
@@ -110,8 +95,7 @@ class CartActivity : AppCompatActivity() {
                     R.string.cart_buy,
                     viewModel.getTotalCheckedProductsQty(multiTypeProducts)
                 )
-            cbCartCheckAll.isChecked =
-                totalCheckedProductsCount == viewModel.getTotalProductsCount(multiTypeProducts)
+            setupCbCheckAll(multiTypeProducts, totalCheckedProductsCount)
         })
 
         adapter.onQtyMinusClicked.observe(this, Observer { product ->
@@ -144,18 +128,9 @@ class CartActivity : AppCompatActivity() {
 
         adapter.onQtyChanged.observe(this, Observer { (product, products) ->
             if (products.size == 1 && product.data.currentQty == 0) {
-                btnCartBuy.backgroundTintList =
-                    AppCompatResources.getColorStateList(this, R.color.colorGray)
-                btnCartBuy.isEnabled = false
-                tvCartTotalPrice.text = NumberConstants.DASH
-                tvCartTotalPrice.setTextColor(toColor(android.R.color.black))
+                setupUIWhenSizeIs1AndCurrentQtyIs0()
             } else {
-                btnCartBuy.backgroundTintList =
-                    AppCompatResources.getColorStateList(this, R.color.colorOrange)
-                btnCartBuy.isEnabled = true
-                tvCartTotalPrice.text =
-                    viewModel.getTotalCheckedProductsPrice(products).getFormattedIDNPrice()
-                tvCartTotalPrice.setTextColor(toColor(R.color.colorOrange))
+                setupUIWhenSizeIsNot1AndCurrentQtyIsNot0(products)
             }
 
             btnCartBuy.text =
@@ -165,6 +140,98 @@ class CartActivity : AppCompatActivity() {
         adapter.onDeleteClicked.observe(this, Observer { product ->
             viewModel.deleteFromCart(product)
         })
+
+        viewModel.onCheckAllProducts.observe(this, Observer {
+            adapter.notifyDataSetChanged()
+        })
+    }
+
+    private fun setupUIWhenProductsIsNotEmpty(products: List<Product>) {
+        cbCartCheckAll.text = getString(
+            R.string.cart_check_all_with_number,
+            viewModel.getTotalCheckedProductsCount(products)
+        )
+        btnCartBuy.text =
+            getString(R.string.cart_buy, viewModel.getTotalCheckedProductsQty(products))
+        tvCartTotalPrice.text =
+            viewModel.getTotalCheckedProductsPrice(products).getFormattedIDNPrice()
+    }
+
+    private fun setupUIWhenSizeIs1AndCurrentQtyIs0() {
+        btnCartBuy.backgroundTintList =
+            AppCompatResources.getColorStateList(this, R.color.colorGray)
+        btnCartBuy.isEnabled = false
+        tvCartTotalPrice.text = NumberConstants.DASH
+        tvCartTotalPrice.setTextColor(toColor(android.R.color.black))
+    }
+
+    private fun setupUIWhenSizeIsNot1AndCurrentQtyIsNot0(products: List<CartMultiType<Product>>) {
+        btnCartBuy.backgroundTintList =
+            AppCompatResources.getColorStateList(this, R.color.colorOrange)
+        btnCartBuy.isEnabled = true
+        tvCartTotalPrice.text =
+            viewModel.getTotalCheckedProductsPrice(products).getFormattedIDNPrice()
+        tvCartTotalPrice.setTextColor(toColor(R.color.colorOrange))
+    }
+
+    private fun setupCbCheckAll(
+        multiTypeProducts: List<CartMultiType<Product>>,
+        totalCheckedProductsCount: String = ""
+    ) {
+        cbCartCheckAll.isChecked = if (totalCheckedProductsCount.isEmpty()) {
+            viewModel.getTotalCheckedProductsCount(multiTypeProducts) ==
+                    viewModel.getTotalProductsCount(multiTypeProducts)
+        } else {
+            totalCheckedProductsCount ==
+                    viewModel.getTotalProductsCount(multiTypeProducts)
+        }
+    }
+
+    private fun setupUIWhenTotalCheckedProductsCountIs0() {
+        cbCartCheckAll.text = getString(R.string.cart_check_all_no_number)
+        btnCartBuy.backgroundTintList =
+            AppCompatResources.getColorStateList(this, R.color.colorGray)
+        btnCartBuy.isEnabled = false
+        tvCartDeleteAll.hide()
+        tvCartTotalPrice.text = NumberConstants.DASH
+        tvCartTotalPrice.setTextColor(toColor(android.R.color.black))
+    }
+
+    private fun setupUIWhenTotalCheckedProductsCountIsNot0(
+        totalCheckedProductsCount: String,
+        multiTypeProducts: List<CartMultiType<Product>>,
+        seller: String
+    ) {
+        setupCartHeader(multiTypeProducts, seller)
+
+        cbCartCheckAll.text = getString(
+            R.string.cart_check_all_with_number,
+            totalCheckedProductsCount
+        )
+        btnCartBuy.backgroundTintList =
+            AppCompatResources.getColorStateList(this, R.color.colorOrange)
+        btnCartBuy.isEnabled = true
+        tvCartDeleteAll.show()
+        tvCartTotalPrice.text =
+            viewModel.getTotalCheckedProductsPrice(multiTypeProducts).getFormattedIDNPrice()
+        tvCartTotalPrice.setTextColor(toColor(R.color.colorOrange))
+    }
+
+    private fun setupCartHeader(
+        multiTypeProducts: List<CartMultiType<Product>>,
+        seller: String
+    ) {
+        val totalProductsCounterPerSeller =
+            viewModel.getTotalProductsCountPerSeller(seller, multiTypeProducts)
+        val totalProductsCheckedCountPerSeller =
+            viewModel.getTotalProductsCheckedCountPerSeller(seller, multiTypeProducts)
+
+        if (totalProductsCounterPerSeller == totalProductsCheckedCountPerSeller) {
+            viewModel.checkProductsHeader(seller, multiTypeProducts, true)
+        } else {
+            viewModel.checkProductsHeader(seller, multiTypeProducts, false)
+        }
+        adapter.notifyDataSetChanged()
     }
 
     private fun setupUIClickListener() {
@@ -185,14 +252,17 @@ class CartActivity : AppCompatActivity() {
 
         cbCartCheckAll.setOnClickListener {
             val isChecked = cbCartCheckAll.isChecked
+            viewModel.checkAllProducts(multiTypeProducts, isChecked)
             if (isChecked) {
-                cbCartCheckAll.text = getString(R.string.cart_check_all_with_number)
+                cbCartCheckAll.text = getString(
+                    R.string.cart_check_all_with_number,
+                    viewModel.getTotalCheckedProductsCount(multiTypeProducts)
+                )
                 tvCartDeleteAll.show()
             } else {
                 cbCartCheckAll.text = getString(R.string.cart_check_all_no_number)
                 tvCartDeleteAll.hide()
             }
-            adapter.checkAllProducts(isChecked)
         }
 
         tvCartDeleteAll.setOnClickListener {

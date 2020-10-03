@@ -38,8 +38,10 @@ class CartAdapter(private val context: Context) :
     val onCheckSellerClicked: LiveData<Triple<String, Boolean, List<CartMultiType<Product>>>> =
         _onCheckSellerClicked
 
-    private val _onCheckProductClicked = MutableLiveData<List<CartMultiType<Product>>>()
-    val onCheckProductClicked: LiveData<List<CartMultiType<Product>>> = _onCheckProductClicked
+    private val _onCheckProductClicked =
+        MutableLiveData<Pair<List<CartMultiType<Product>>, String>>()
+    val onCheckProductClicked: LiveData<Pair<List<CartMultiType<Product>>, String>> =
+        _onCheckProductClicked
 
     private val _onQtyMinusClicked = MutableLiveData<Product>()
     val onQtyMinusClicked: LiveData<Product> = _onQtyMinusClicked
@@ -105,8 +107,8 @@ class CartAdapter(private val context: Context) :
     }
 
     private fun setupCartContentObserver() {
-        cartContentViewHolder.onCheckProductClicked.observe(activity, Observer {
-            _onCheckProductClicked.value = currentList
+        cartContentViewHolder.onCheckProductClicked.observe(activity, Observer { seller ->
+            _onCheckProductClicked.value = Pair(currentList, seller)
         })
 
         cartContentViewHolder.onQtyMinusClicked.observe(activity, Observer { product ->
@@ -126,12 +128,5 @@ class CartAdapter(private val context: Context) :
         cartContentViewHolder.onDeleteClicked.observe(activity, Observer { product ->
             _onDeleteClicked.value = product
         })
-    }
-
-    fun checkAllProducts(isChecked: Boolean) {
-        currentList.forEach { multiTypeProduct ->
-            multiTypeProduct.data.isChecked = isChecked
-        }
-        notifyDataSetChanged()
     }
 }

@@ -25,8 +25,8 @@ import kotlinx.android.synthetic.main.item_cart_content.view.*
 class CartContentViewHolder(itemCartContentBinding: ItemCartContentBinding) :
     RecyclerView.ViewHolder(itemCartContentBinding.root) {
 
-    private val _onCheckProductClicked = MutableLiveData<Unit>()
-    val onCheckProductClicked: LiveData<Unit> = _onCheckProductClicked
+    private val _onCheckProductClicked = MutableLiveData<String>()
+    val onCheckProductClicked: LiveData<String> = _onCheckProductClicked
 
     private val _onQtyMinusClicked = MutableLiveData<Product>()
     val onQtyMinusClicked: LiveData<Product> = _onQtyMinusClicked
@@ -75,9 +75,13 @@ class CartContentViewHolder(itemCartContentBinding: ItemCartContentBinding) :
                     AppCompatResources.getColorStateList(context, R.color.colorGreen70)
             }
 
-            cbCartContentCheck.setOnCheckedChangeListener { _, isChecked ->
-                product.isChecked = isChecked
-                _onCheckProductClicked.value = Unit
+//            cbCartContentCheck.setOnCheckedChangeListener { _, isChecked ->
+//                product.isChecked = isChecked
+//                _onCheckProductClicked.value = product.seller
+//            }
+            cbCartContentCheck.setOnClickListener {
+                product.isChecked = cbCartContentCheck.isChecked
+                _onCheckProductClicked.value = product.seller
             }
 
             tvCartContentTitle.setOnClickListener {

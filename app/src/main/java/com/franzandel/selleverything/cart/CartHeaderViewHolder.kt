@@ -21,11 +21,15 @@ class CartHeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bind(product: Product) {
         itemView.apply {
             if (adapterPosition == 0) vCartHeaderSeparator.hide()
+            cbCartHeaderCheck.isChecked = product.isChecked
             tvCartHeaderSeller.text = product.seller
             tvCartHeaderLocation.text = product.location
 
-            cbCartHeaderCheck.setOnCheckedChangeListener { _, isChecked ->
-                _onCheckSellerClicked.value = Pair(product.seller, isChecked)
+//            cbCartHeaderCheck.setOnCheckedChangeListener { _, isChecked ->
+//                _onCheckSellerClicked.value = Pair(product.seller, isChecked)
+//            }
+            cbCartHeaderCheck.setOnClickListener {
+                _onCheckSellerClicked.value = Pair(product.seller, cbCartHeaderCheck.isChecked)
             }
         }
     }

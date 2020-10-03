@@ -30,6 +30,9 @@ class CartVM(application: Application) : ProductsVM(application) {
     private val _multiTypeProducts = MutableLiveData<List<CartMultiType<Product>>>()
     val multiTypeProducts: LiveData<List<CartMultiType<Product>>> = _multiTypeProducts
 
+    private val _onCheckAllProducts = MutableLiveData<Unit>()
+    val onCheckAllProducts: LiveData<Unit> = _onCheckAllProducts
+
     @JvmName("totalCheckedProductsCount")
     fun getTotalCheckedProductsCount(products: List<Product>): String = products.count { product ->
         product.isChecked
@@ -150,14 +153,53 @@ class CartVM(application: Application) : ProductsVM(application) {
         multiTypeProducts: List<CartMultiType<Product>>
     ) {
         multiTypeProducts.filter { multiTypeProduct ->
-            multiTypeProduct.data.seller == seller && multiTypeProduct.data.id.isNotEmpty()
+            multiTypeProduct.data.seller == seller
         }.forEach { multiTypeProduct ->
             multiTypeProduct.data.isChecked = isChecked
         }
     }
 
-    fun getTotalProductsCount(products: List<CartMultiType<Product>>): String =
-        products.count { product ->
-            product.section == CartSection.CONTENT
+    fun getTotalProductsCount(multiTypeProducts: List<CartMultiType<Product>>): String =
+        multiTypeProducts.count { multiTypeProduct ->
+            multiTypeProduct.section == CartSection.CONTENT
         }.toString()
+
+    fun getTotalProductsCountPerSeller(
+        seller: String,
+        multiTypeProducts: List<CartMultiType<Product>>
+    ): String {
+        return multiTypeProducts.count { multiTypeProduct ->
+            multiTypeProduct.data.seller == seller && multiTypeProduct.section == CartSection.CONTENT
+        }.toString()
+    }
+
+    fun getTotalProductsCheckedCountPerSeller(
+        seller: String,
+        multiTypeProducts: List<CartMultiType<Product>>
+    ): String {
+        return multiTypeProducts.count { multiTypeProduct ->
+            multiTypeProduct.data.seller == seller &&
+                    multiTypeProduct.section == CartSection.CONTENT &&
+                    multiTypeProduct.data.isChecked
+        }.toString()
+    }
+
+    fun checkProductsHeader(
+        seller: String,
+        multiTypeProducts: List<CartMultiType<Product>>,
+        isChecked: Boolean
+    ) {
+        multiTypeProducts.filter { multiTypeProduct ->
+            multiTypeProduct.data.seller == seller && multiTypeProduct.section == CartSection.HEADER
+        }.forEach { multiTypeProduct ->
+            multiTypeProduct.data.isChecked = isChecked
+        }
+    }
+
+    fun checkAllProducts(multiTypeProducts: List<CartMultiType<Product>>, isChecked: Boolean) {
+        multiTypeProducts.forEach { multiTypeProduct ->
+            multiTypeProduct.data.isChecked = isChecked
+        }
+        _onCheckAllProducts.value = Unit
+    }
 }
