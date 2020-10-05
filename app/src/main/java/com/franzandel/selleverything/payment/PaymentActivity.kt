@@ -49,6 +49,7 @@ class PaymentActivity : AppCompatActivity() {
     }
 
     private fun setupUI() {
+        ivPayment.setImageResource(R.drawable.ic_bri)
         val paymentMethod = getPaymentMethod()
         tvPaymentTitle.text = paymentMethod.name
         tvPaymentServicePrice.text = paymentMethod.servicePrice.getFormattedIDNPrice()
@@ -83,6 +84,7 @@ class PaymentActivity : AppCompatActivity() {
     private fun setupPaymentMethodBsObserver(paymentMethodBs: PaymentMethodBs) {
         paymentMethodBs.onPaymentContentClicked.observe(this, Observer { paymentMethod ->
             val totalPaymentPrice = vm.getTotalPaymentPrice(shippingSummary, paymentMethod)
+            ivPayment.setImageResource(paymentMethod.icon)
             tvPaymentTitle.text = paymentMethod.name
             tvPaymentServicePrice.text = paymentMethod.servicePrice.getFormattedIDNPrice()
             tvPaymentTotalPrice.text = totalPaymentPrice.getFormattedIDNPrice()

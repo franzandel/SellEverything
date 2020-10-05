@@ -19,6 +19,7 @@ class PaymentMethodBsContentViewHolder(itemView: View) : RecyclerView.ViewHolder
 
     fun bind(paymentMethod: PaymentMethod) {
         itemView.apply {
+            ivPaymentMethodContent.setImageResource(paymentMethod.icon)
             tvPaymentMethodContentTitle.text = paymentMethod.name
 
             setOnClickListener {
