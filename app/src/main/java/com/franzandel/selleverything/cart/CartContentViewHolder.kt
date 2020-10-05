@@ -1,5 +1,6 @@
 package com.franzandel.selleverything.cart
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.LiveData
@@ -11,6 +12,7 @@ import com.franzandel.selleverything.data.constants.BundleConstants
 import com.franzandel.selleverything.databinding.ItemCartContentBinding
 import com.franzandel.selleverything.detail.DetailActivity
 import com.franzandel.selleverything.extension.getDiscountedPrice
+import com.franzandel.selleverything.extension.getDrawableIdFromName
 import com.franzandel.selleverything.extension.getFormattedIDNPrice
 import com.franzandel.selleverything.extension.goTo
 import com.franzandel.selleverything.newest.Product
@@ -59,8 +61,7 @@ class CartContentViewHolder(itemCartContentBinding: ItemCartContentBinding) :
     fun bind(product: Product) {
         itemView.apply {
             cbCartContentCheck.isChecked = product.isChecked
-//            val drawableId = context.getDrawableIdFromName(product.imageName)
-//            ivCartContentProduct.setImageResource(drawableId)
+            setupIvCartContentProduct(context, product)
             tvCartContentTitle.text = product.title
             tvCartContentPrice.text = product.price
                 .getDiscountedPrice(product.discountPercentage)
@@ -75,10 +76,6 @@ class CartContentViewHolder(itemCartContentBinding: ItemCartContentBinding) :
                     AppCompatResources.getColorStateList(context, R.color.colorGreen70)
             }
 
-//            cbCartContentCheck.setOnCheckedChangeListener { _, isChecked ->
-//                product.isChecked = isChecked
-//                _onCheckProductClicked.value = product.seller
-//            }
             cbCartContentCheck.setOnClickListener {
                 product.isChecked = cbCartContentCheck.isChecked
                 _onCheckProductClicked.value = product.seller
@@ -129,5 +126,10 @@ class CartContentViewHolder(itemCartContentBinding: ItemCartContentBinding) :
                 if (cbCartContentCheck.isChecked) _onQtyPlusClicked.value = product
             }
         }
+    }
+
+    private fun setupIvCartContentProduct(context: Context, product: Product) {
+        val drawableId = context.getDrawableIdFromName(product.imageName)
+        itemView.ivCartContentProduct.setImageResource(drawableId)
     }
 }

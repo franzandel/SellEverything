@@ -3,7 +3,7 @@
     {
       "id": "1",
       "title": "Laptop Gaming MSI GE75 9SF-289",
-      "image_name": "poster_alita",
+      "image_name": "ic_laptop",
       "seller": "Nourish Indonesia",
       "quantity": "6",
       "cashback": "0",
@@ -19,7 +19,7 @@
     {
       "id": "2",
       "title": "SEPATU NIKE AIR MAX 720 CARBON GRAY",
-      "image_name": "poster_aquaman",
+      "image_name": "ic_nike",
       "seller": "HAVIT KOMPUTER",
       "quantity": "3",
       "cashback": "10",
@@ -35,7 +35,7 @@
     {
       "id": "3",
       "title": "Celana Panjang Jogger Kayser Nasa Pants Casual / Santai Pria - Hitam, 28 - 33",
-      "image_name": "poster_infinity_war",
+      "image_name": "ic_jogger",
       "seller": "marcell shop",
       "quantity": "1",
       "cashback": "5",
@@ -51,7 +51,7 @@
     {
       "id": "4",
       "title": "Transformers Deformation Robot Optimus Prime Mainan Robot Anak - Optimus Prime",
-      "image_name": "poster_creed",
+      "image_name": "ic_transformer",
       "seller": "marcell shop",
       "quantity": "15",
       "cashback": "0",
