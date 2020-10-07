@@ -66,4 +66,9 @@
 
     <string name="payment_success_title">Pembayaran Berhasil!</string>
     <string name="payment_success_description">Mengalihkan kembali ke Beranda</string>
+
+    <string name="toolbar_with_search_view_hint">Search here</string>
+
+    <string name="menu_cart">Cart</string>
+    <string name="menu_search">Search here</string>
 </resources>

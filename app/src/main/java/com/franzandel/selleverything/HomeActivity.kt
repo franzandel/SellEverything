@@ -7,11 +7,15 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.franzandel.selleverything.cart.CartActivity
 import com.franzandel.selleverything.extension.goTo
+import com.franzandel.selleverything.extension.showToast
 import com.franzandel.selleverything.newest.NewProduct
 import com.franzandel.selleverything.recyclerview.SellEverythingAdapter
+import com.franzandel.selleverything.searchview.SearchViewTextListener
 import com.squareup.moshi.Moshi
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.toolbar_with_search_view.*
 import java.io.IOException
+
 
 class HomeActivity : AppCompatActivity() {
 
@@ -24,10 +28,14 @@ class HomeActivity : AppCompatActivity() {
         setupToolbar()
         setupRV()
         setupRVData()
+        setupUIClickListener()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_home, menu)
+
+        val searchMenuItem = menu?.findItem(R.id.menu_search)
+        materialSearchView.setMenuItem(searchMenuItem)
         return true
     }
 
@@ -39,6 +47,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setupToolbar() {
+        setSupportActionBar(materialToolbar)
         supportActionBar?.title = getString(R.string.home_toolbar_title)
     }
 
@@ -67,5 +76,15 @@ class HomeActivity : AppCompatActivity() {
         } catch (e: IOException) {
             throw RuntimeException(e)
         }
+    }
+
+    private fun setupUIClickListener() {
+        materialSearchView.setOnQueryTextListener(object : SearchViewTextListener() {
+            override fun onQueryTextChange(typedText: String): Boolean {
+//                adapter.filter.filter(typedText)
+                showToast(typedText)
+                return false
+            }
+        })
     }
 }

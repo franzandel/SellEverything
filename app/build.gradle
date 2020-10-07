@@ -63,4 +63,7 @@ dependencies {
 
     // ViewModelScope
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
+
+    // Material Search View
+    implementation 'com.miguelcatalan:materialsearchview:1.4.0'
 }

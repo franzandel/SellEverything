@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/materialToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:title="@string/app_name"
+                app:titleTextColor="@android:color/white" />
+
+            <com.miguelcatalan.materialsearchview.MaterialSearchView
+                android:id="@+id/materialSearchView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/toolbar_with_search_view_hint" />
+        </FrameLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>
