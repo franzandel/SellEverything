@@ -31,6 +31,14 @@ class HomeActivity : AppCompatActivity() {
         setupUIClickListener()
     }
 
+    override fun onBackPressed() {
+        if (materialSearchView.isSearchOpen) {
+            materialSearchView.closeSearch()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_home, menu)
 
