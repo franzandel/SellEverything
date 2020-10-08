@@ -31,7 +31,7 @@ class ShippingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shipping)
 
-        setupToolbar()
+        setSupportActionBar(mtbShipping)
         setupRV()
         setupObserver()
         shippingVM.processMultiTypeProducts(products)
@@ -40,11 +40,6 @@ class ShippingActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
-    }
-
-    private fun setupToolbar() {
-        supportActionBar?.title = getString(R.string.shipping_toolbar_title)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun setupRV() {
