@@ -1,18 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".detail.DetailActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
-        android:layout_width="0dp"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/ablDetail"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/mtbDetail"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:navigationIcon="@drawable/ic_action_navigation_arrow_back_inverted"
+            app:title="@string/detail_toolbar_title"
+            app:titleTextColor="@android:color/white" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ablDetail">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -45,9 +64,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:textColor="@android:color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="@android:color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tlDetailProductImage"
                 tools:text="Rp 30.123" />
@@ -95,8 +114,8 @@
                 android:id="@+id/tvDetailTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_12"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="@dimen/margin_12"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -107,13 +126,13 @@
                 android:id="@+id/tvDetailSeller"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_12"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="@dimen/margin_12"
                 android:layout_marginEnd="8dp"
+                android:text="@string/detail_seller"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvDetailTitle"
-                android:text="@string/detail_seller" />
+                app:layout_constraintTop_toBottomOf="@+id/tvDetailTitle" />
 
             <View
                 android:id="@+id/vDetailProductInformationSeparator"
@@ -132,9 +151,9 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/detail_product_information"
+                android:textColor="@android:color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="@android:color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/vDetailProductInformationSeparator" />
 
@@ -235,9 +254,9 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/detail_product_description"
+                android:textColor="@android:color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="@android:color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/vDetailDescriptionSeparator" />
 
@@ -253,7 +272,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvDetailProductDescription"
                 tools:text="SUPER LONG DESCRIPTION HERE" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fabAddToCart"
@@ -264,9 +283,10 @@
         android:text="@string/fab_cart"
         android:textColor="@android:color/white"
         android:backgroundTint="@color/colorOrange"
+        android:layout_gravity="bottom|end"
         app:cornerRadius="8dp"
         app:iconTint="@android:color/white"
         app:icon="@drawable/ic_baseline_add_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

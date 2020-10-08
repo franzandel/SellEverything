@@ -50,13 +50,13 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
-        setupToolbar()
+        setSupportActionBar(mtbDetail)
         setupUI()
         setupUIClickListener()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_home, menu)
+        menuInflater.inflate(R.menu.menu_detail, menu)
         return true
     }
 
@@ -66,11 +66,6 @@ class DetailActivity : AppCompatActivity() {
             android.R.id.home -> onBackPressed()
         }
         return true
-    }
-
-    private fun setupToolbar() {
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = getString(R.string.detail_toolbar_title)
     }
 
     private fun setupUI() {
