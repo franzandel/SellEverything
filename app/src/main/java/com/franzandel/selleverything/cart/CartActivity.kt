@@ -33,7 +33,7 @@ class CartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart)
 
-        setupToolbar()
+        setSupportActionBar(mtbCart)
         setupRV()
         setupObserver()
         setupUIClickListener()
@@ -42,11 +42,6 @@ class CartActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
-    }
-
-    private fun setupToolbar() {
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = getString(R.string.cart_toolbar_title)
     }
 
     private fun setupRV() {
