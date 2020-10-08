@@ -33,7 +33,7 @@ class PaymentActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment)
 
-        setupToolbar()
+        setSupportActionBar(mtbPayment)
         setupUI()
         setupUIClickListener()
     }
@@ -41,11 +41,6 @@ class PaymentActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
-    }
-
-    private fun setupToolbar() {
-        supportActionBar?.title = getString(R.string.payment_toolbar_title)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun setupUI() {
