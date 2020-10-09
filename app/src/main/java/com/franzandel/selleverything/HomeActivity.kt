@@ -1,13 +1,11 @@
 package com.franzandel.selleverything
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.franzandel.selleverything.cart.CartActivity
 import com.franzandel.selleverything.extension.goTo
-import com.franzandel.selleverything.extension.showToast
 import com.franzandel.selleverything.newest.NewProduct
 import com.franzandel.selleverything.recyclerview.SellEverythingAdapter
 import com.franzandel.selleverything.searchview.SearchViewTextListener
@@ -68,9 +66,12 @@ class HomeActivity : AppCompatActivity() {
         val moshi = Moshi.Builder().build()
         val jsonAdapter = moshi.adapter(NewProduct::class.java)
         val newProduct = jsonAdapter.fromJson(jsonString)
-        Log.d("1234", newProduct.toString())
 
-        adapter.submitList(newProduct!!.products)
+        adapter.apply {
+            setupObserver()
+            submitList(newProduct!!.products)
+            setFilterProducts()
+        }
     }
 
     private fun readJSONFromRawResource(): String {
@@ -89,8 +90,7 @@ class HomeActivity : AppCompatActivity() {
     private fun setupUIClickListener() {
         materialSearchView.setOnQueryTextListener(object : SearchViewTextListener() {
             override fun onQueryTextChange(typedText: String): Boolean {
-//                adapter.filter.filter(typedText)
-                showToast(typedText)
+                adapter.filter.filter(typedText)
                 return false
             }
         })
