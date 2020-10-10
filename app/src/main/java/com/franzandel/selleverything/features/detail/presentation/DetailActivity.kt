@@ -1,14 +1,13 @@
 package com.franzandel.selleverything.features.detail.presentation
 
-import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.text.bold
 import androidx.lifecycle.ViewModelProvider
 import com.franzandel.selleverything.R
+import com.franzandel.selleverything.base.BaseActivity
 import com.franzandel.selleverything.data.constants.BundleConstants
 import com.franzandel.selleverything.data.constants.NumberConstants
 import com.franzandel.selleverything.data.entity.Product
@@ -19,7 +18,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_detail.*
 
 
-class DetailActivity : AppCompatActivity() {
+class DetailActivity : BaseActivity() {
 
     private val product by lazy {
         intent.extras?.getParcelable(BundleConstants.EXTRA_PRODUCT) ?: Product(
@@ -46,10 +45,9 @@ class DetailActivity : AppCompatActivity() {
         )
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail)
+    override fun getLayoutId(): Int = R.layout.activity_detail
 
+    override fun onActivityReady() {
         setSupportActionBar(mtbDetail)
         setupUI()
         setupUIClickListener()

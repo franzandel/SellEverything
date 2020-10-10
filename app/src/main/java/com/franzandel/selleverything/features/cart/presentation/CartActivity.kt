@@ -1,11 +1,10 @@
 package com.franzandel.selleverything.features.cart.presentation
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.franzandel.selleverything.R
+import com.franzandel.selleverything.base.BaseActivity
 import com.franzandel.selleverything.data.constants.BundleConstants
 import com.franzandel.selleverything.data.constants.NumberConstants
 import com.franzandel.selleverything.data.entity.Product
@@ -17,7 +16,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.activity_cart.*
 import kotlinx.android.synthetic.main.layout_empty_cart.*
 
-class CartActivity : AppCompatActivity() {
+class CartActivity : BaseActivity() {
 
     private val viewModel by lazy {
         ViewModelProvider(
@@ -29,10 +28,9 @@ class CartActivity : AppCompatActivity() {
     private val adapter = CartAdapter(this)
     private lateinit var multiTypeProducts: List<CartMultiType<Product>>
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_cart)
+    override fun getLayoutId(): Int = R.layout.activity_cart
 
+    override fun onActivityReady() {
         setSupportActionBar(mtbCart)
         setupRV()
         setupObserver()

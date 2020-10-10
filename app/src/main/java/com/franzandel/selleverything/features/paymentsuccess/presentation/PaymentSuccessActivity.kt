@@ -1,23 +1,20 @@
 package com.franzandel.selleverything.features.paymentsuccess.presentation
 
-import android.os.Bundle
 import android.os.Handler
-import androidx.appcompat.app.AppCompatActivity
 import com.franzandel.selleverything.R
+import com.franzandel.selleverything.base.BaseActivity
 import com.franzandel.selleverything.extension.goTo
 import com.franzandel.selleverything.features.home.presentation.HomeActivity
 
-class PaymentSuccessActivity : AppCompatActivity() {
+class PaymentSuccessActivity : BaseActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_payment_success)
+    override fun getLayoutId(): Int = R.layout.activity_payment_success
 
-        supportActionBar?.hide()
-        closeActivityAfter2Seconds()
+    override fun onActivityReady() {
+        goToHomeAfter2Seconds()
     }
 
-    private fun closeActivityAfter2Seconds() {
+    private fun goToHomeAfter2Seconds() {
         Handler().postDelayed({
             kotlin.run {
                 goTo(HomeActivity::class.java)

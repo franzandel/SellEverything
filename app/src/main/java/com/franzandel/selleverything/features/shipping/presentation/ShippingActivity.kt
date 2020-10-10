@@ -1,10 +1,9 @@
 package com.franzandel.selleverything.features.shipping.presentation
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.franzandel.selleverything.R
+import com.franzandel.selleverything.base.BaseActivity
 import com.franzandel.selleverything.data.constants.BundleConstants
 import com.franzandel.selleverything.data.entity.Product
 import com.franzandel.selleverything.extension.goTo
@@ -13,7 +12,7 @@ import com.franzandel.selleverything.features.payment.presentation.PaymentActivi
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_shipping.*
 
-class ShippingActivity : AppCompatActivity() {
+class ShippingActivity : BaseActivity() {
 
     private val products by lazy {
         intent.getParcelableArrayListExtra<Product>(BundleConstants.EXTRA_PRODUCTS)
@@ -27,10 +26,9 @@ class ShippingActivity : AppCompatActivity() {
 
     private val shippingAdapter = ShippingAdapter(this)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_shipping)
+    override fun getLayoutId(): Int = R.layout.activity_shipping
 
+    override fun onActivityReady() {
         setSupportActionBar(mtbShipping)
         setupRV()
         setupObserver()

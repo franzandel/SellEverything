@@ -1,10 +1,9 @@
 package com.franzandel.selleverything.features.payment.presentation
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.franzandel.selleverything.R
+import com.franzandel.selleverything.base.BaseActivity
 import com.franzandel.selleverything.data.constants.BundleConstants
 import com.franzandel.selleverything.data.entity.ShippingSummary
 import com.franzandel.selleverything.extension.getFormattedIDNPrice
@@ -14,7 +13,7 @@ import com.franzandel.selleverything.features.payment.data.entity.PaymentMethod
 import com.franzandel.selleverything.features.paymentsuccess.presentation.PaymentSuccessActivity
 import kotlinx.android.synthetic.main.activity_payment.*
 
-class PaymentActivity : AppCompatActivity() {
+class PaymentActivity : BaseActivity() {
 
     private val shippingSummary by lazy {
         intent.getParcelableExtra(BundleConstants.EXTRA_SHIPPING_SUMMARY)
@@ -30,10 +29,9 @@ class PaymentActivity : AppCompatActivity() {
         )
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_payment)
+    override fun getLayoutId(): Int = R.layout.activity_payment
 
+    override fun onActivityReady() {
         setSupportActionBar(mtbPayment)
         setupUI()
         setupUIClickListener()

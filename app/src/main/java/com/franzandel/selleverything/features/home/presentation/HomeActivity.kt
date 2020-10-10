@@ -1,10 +1,9 @@
 package com.franzandel.selleverything.features.home.presentation
 
-import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
 import com.franzandel.selleverything.R
+import com.franzandel.selleverything.base.BaseActivity
 import com.franzandel.selleverything.data.entity.Products
 import com.franzandel.selleverything.extension.goTo
 import com.franzandel.selleverything.features.cart.presentation.CartActivity
@@ -15,14 +14,13 @@ import kotlinx.android.synthetic.main.toolbar_with_search_view.*
 import java.io.IOException
 
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : BaseActivity() {
 
     private val adapter = HomeAdapter(this)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+    override fun getLayoutId(): Int = R.layout.activity_home
 
+    override fun onActivityReady() {
         setupToolbar()
         setupRV()
         setupRVData()
