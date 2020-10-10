@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.franzandel.selleverything.base.vm.ProductsVM
 import com.franzandel.selleverything.data.database.AppDatabase
 import com.franzandel.selleverything.data.entity.Product
 import com.franzandel.selleverything.extension.getDiscountedPrice
@@ -14,7 +15,6 @@ import com.franzandel.selleverything.features.cart.data.entity.CartMultiType
 import com.franzandel.selleverything.features.cart.data.enums.CartSection
 import com.franzandel.selleverything.features.cart.data.repository.CartRepository
 import com.franzandel.selleverything.features.cart.data.repository.CartRepositoryImpl
-import com.franzandel.selleverything.vm.ProductsVM
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

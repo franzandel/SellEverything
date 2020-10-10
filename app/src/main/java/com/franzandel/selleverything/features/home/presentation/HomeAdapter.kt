@@ -7,7 +7,7 @@ import android.widget.Filterable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.franzandel.selleverything.R
-import com.franzandel.selleverything.base.BaseListAdapter
+import com.franzandel.selleverything.base.presentation.BaseListAdapter
 import com.franzandel.selleverything.data.entity.Product
 
 /**

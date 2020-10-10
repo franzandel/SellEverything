@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.franzandel.selleverything.R
-import com.franzandel.selleverything.base.BaseBottomSheet
+import com.franzandel.selleverything.base.presentation.BaseBottomSheet
 import com.franzandel.selleverything.features.payment.data.PaymentList
 import com.franzandel.selleverything.features.payment.data.entity.PaymentMethod
 import kotlinx.android.synthetic.main.bs_payment_method.*

@@ -1,4 +1,4 @@
-package com.franzandel.selleverything.base
+package com.franzandel.selleverything.base.presentation
 
 import android.content.Context
 import android.view.LayoutInflater

@@ -3,6 +3,7 @@ package com.franzandel.selleverything.features.shipping.presentation
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.franzandel.selleverything.base.vm.ProductsVM
 import com.franzandel.selleverything.data.entity.Product
 import com.franzandel.selleverything.data.entity.ShippingSummary
 import com.franzandel.selleverything.extension.getDiscountedPrice
@@ -10,7 +11,6 @@ import com.franzandel.selleverything.features.shipping.data.entity.ShippingAddre
 import com.franzandel.selleverything.features.shipping.data.entity.ShippingFooter
 import com.franzandel.selleverything.features.shipping.data.entity.ShippingMultiType
 import com.franzandel.selleverything.features.shipping.data.enums.ShippingSection
-import com.franzandel.selleverything.vm.ProductsVM
 
 /**
  * Created by Franz Andel on 26/09/20.

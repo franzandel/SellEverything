@@ -1,4 +1,4 @@
-package com.franzandel.selleverything.base
+package com.franzandel.selleverything.base.presentation
 
 import android.os.Bundle
 import androidx.annotation.LayoutRes

@@ -3,7 +3,7 @@ package com.franzandel.selleverything.features.detail.presentation
 import android.content.Context
 import android.view.View
 import com.franzandel.selleverything.R
-import com.franzandel.selleverything.base.BaseAdapter
+import com.franzandel.selleverything.base.presentation.BaseAdapter
 
 
 /**

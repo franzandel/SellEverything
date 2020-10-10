@@ -3,7 +3,7 @@ package com.franzandel.selleverything.features.home.presentation
 import android.view.Menu
 import android.view.MenuItem
 import com.franzandel.selleverything.R
-import com.franzandel.selleverything.base.BaseActivity
+import com.franzandel.selleverything.base.presentation.BaseActivity
 import com.franzandel.selleverything.data.entity.Products
 import com.franzandel.selleverything.extension.goTo
 import com.franzandel.selleverything.features.cart.presentation.CartActivity

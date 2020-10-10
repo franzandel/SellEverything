@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.franzandel.selleverything.R
-import com.franzandel.selleverything.base.BaseBottomSheet
+import com.franzandel.selleverything.base.presentation.BaseBottomSheet
 import com.franzandel.selleverything.features.shipping.bottomsheet.delivery.data.DeliveryList
 import com.franzandel.selleverything.features.shipping.bottomsheet.delivery.data.entity.Delivery
 import kotlinx.android.synthetic.main.bs_delivery.*

@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.franzandel.selleverything.R
-import com.franzandel.selleverything.base.BaseAdapter
+import com.franzandel.selleverything.base.presentation.BaseAdapter
 import com.franzandel.selleverything.features.shipping.data.entity.ShippingMultiType
 import com.franzandel.selleverything.features.shipping.data.enums.ShippingSection
 

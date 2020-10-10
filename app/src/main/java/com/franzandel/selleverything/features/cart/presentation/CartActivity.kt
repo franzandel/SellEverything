@@ -4,7 +4,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.franzandel.selleverything.R
-import com.franzandel.selleverything.base.BaseActivity
+import com.franzandel.selleverything.base.presentation.BaseActivity
 import com.franzandel.selleverything.data.constants.BundleConstants
 import com.franzandel.selleverything.data.constants.NumberConstants
 import com.franzandel.selleverything.data.entity.Product

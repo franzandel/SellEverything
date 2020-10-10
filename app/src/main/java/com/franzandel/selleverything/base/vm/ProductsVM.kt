@@ -1,4 +1,4 @@
-package com.franzandel.selleverything.vm
+package com.franzandel.selleverything.base.vm
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

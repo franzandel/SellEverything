@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.franzandel.selleverything.R
-import com.franzandel.selleverything.base.BaseAdapter
+import com.franzandel.selleverything.base.presentation.BaseAdapter
 import com.franzandel.selleverything.features.shipping.bottomsheet.data.entity.Courier
 
 /**

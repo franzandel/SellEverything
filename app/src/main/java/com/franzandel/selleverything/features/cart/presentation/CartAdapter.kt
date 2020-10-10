@@ -9,7 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.franzandel.selleverything.R
-import com.franzandel.selleverything.base.BaseListAdapter
+import com.franzandel.selleverything.base.presentation.BaseListAdapter
 import com.franzandel.selleverything.data.entity.Product
 import com.franzandel.selleverything.databinding.ItemCartContentBinding
 import com.franzandel.selleverything.features.cart.data.entity.CartMultiType

@@ -2,7 +2,7 @@ package com.franzandel.selleverything.features.paymentsuccess.presentation
 
 import android.os.Handler
 import com.franzandel.selleverything.R
-import com.franzandel.selleverything.base.BaseActivity
+import com.franzandel.selleverything.base.presentation.BaseActivity
 import com.franzandel.selleverything.extension.goTo
 import com.franzandel.selleverything.features.home.presentation.HomeActivity
 
