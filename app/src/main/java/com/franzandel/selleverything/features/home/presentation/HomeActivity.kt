@@ -63,12 +63,14 @@ class HomeActivity : BaseActivity() {
         val jsonString = readJSONFromRawResource()
         val moshi = Moshi.Builder().build()
         val jsonAdapter = moshi.adapter(Products::class.java)
-        val newProduct = jsonAdapter.fromJson(jsonString)
+        val products = jsonAdapter.fromJson(jsonString)
 
         adapter.apply {
-            setupObserver()
-            submitList(newProduct!!.products)
-            setFilterProducts()
+            products?.let { products ->
+                setupObserver()
+                submitList(products.products)
+                setFilterProducts()
+            }
         }
     }
 
