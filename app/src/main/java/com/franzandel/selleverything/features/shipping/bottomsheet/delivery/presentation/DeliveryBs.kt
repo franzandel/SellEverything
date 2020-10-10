@@ -13,10 +13,10 @@ import com.franzandel.selleverything.features.shipping.bottomsheet.delivery.data
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.bs_delivery_bottom_sheet.*
 
-class DeliveryBottomSheet : BottomSheetDialogFragment() {
+class DeliveryBs : BottomSheetDialogFragment() {
 
     private val deliveryBottomSheetAdapter by lazy {
-        DeliveryBottomSheetAdapter(requireContext(), DeliveryList.deliveries)
+        DeliveryBsAdapter(requireContext(), DeliveryList.deliveries)
     }
 
     private val _onClicked = MutableLiveData<Delivery>()

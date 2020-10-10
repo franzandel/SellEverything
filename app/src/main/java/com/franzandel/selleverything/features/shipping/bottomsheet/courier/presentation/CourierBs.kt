@@ -1,4 +1,4 @@
-package com.franzandel.selleverything.features.shipping.bottomsheet.courier
+package com.franzandel.selleverything.features.shipping.bottomsheet.courier.presentation
 
 import android.content.DialogInterface
 import android.os.Bundle
@@ -14,14 +14,14 @@ import com.franzandel.selleverything.features.shipping.bottomsheet.data.entity.C
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.activity_courier_bottom_sheet.*
 
-class CourierBottomSheet(private val couriers: List<Courier>) : BottomSheetDialogFragment() {
+class CourierBs(private val couriers: List<Courier>) : BottomSheetDialogFragment() {
 
     private val courierAdapter by lazy {
-        CourierAdapter(requireContext(), couriers)
+        CourierBsAdapter(requireContext(), couriers)
     }
 
     private val courierVM by lazy {
-        ViewModelProvider(this).get(CourierBottomSheetVM::class.java)
+        ViewModelProvider(this).get(CourierBsVM::class.java)
     }
 
     private val _onClicked = MutableLiveData<Courier>()

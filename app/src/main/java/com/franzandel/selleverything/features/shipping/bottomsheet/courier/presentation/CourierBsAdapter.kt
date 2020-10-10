@@ -1,4 +1,4 @@
-package com.franzandel.selleverything.features.shipping.bottomsheet.courier
+package com.franzandel.selleverything.features.shipping.bottomsheet.courier.presentation
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -16,23 +16,23 @@ import com.franzandel.selleverything.features.shipping.bottomsheet.data.entity.C
  * Android Engineer
  */
 
-class CourierAdapter(private val context: Context, private val couriers: List<Courier>) :
-    RecyclerView.Adapter<CourierViewHolder>() {
+class CourierBsAdapter(private val context: Context, private val couriers: List<Courier>) :
+    RecyclerView.Adapter<CourierBsViewHolder>() {
 
-    private lateinit var courierViewHolder: CourierViewHolder
+    private lateinit var courierViewHolder: CourierBsViewHolder
     private val activity = context as AppCompatActivity
 
     private val _onClicked = MutableLiveData<Courier>()
     val onClicked: LiveData<Courier> = _onClicked
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourierViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourierBsViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_courier, parent, false)
-        courierViewHolder = CourierViewHolder(view)
+        courierViewHolder = CourierBsViewHolder(view)
         setupObserver()
         return courierViewHolder
     }
 
-    override fun onBindViewHolder(holder: CourierViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CourierBsViewHolder, position: Int) {
         holder.bind(couriers[position])
     }
 

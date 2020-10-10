@@ -1,4 +1,4 @@
-package com.franzandel.selleverything.features.shipping.bottomsheet.courier
+package com.franzandel.selleverything.features.shipping.bottomsheet.courier.presentation
 
 import androidx.lifecycle.ViewModel
 import com.franzandel.selleverything.features.shipping.bottomsheet.data.entity.Courier
@@ -8,7 +8,7 @@ import com.franzandel.selleverything.features.shipping.bottomsheet.data.entity.C
  * Android Engineer
  */
 
-class CourierBottomSheetVM : ViewModel() {
+class CourierBsVM : ViewModel() {
 
     fun resetCouriersIsChecked(couriers: List<Courier>, currentCourier: Courier) {
         couriers.forEach { courier ->

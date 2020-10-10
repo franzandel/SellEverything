@@ -1,4 +1,4 @@
-package com.franzandel.selleverything.features.shipping.bottomsheet.courier
+package com.franzandel.selleverything.features.shipping.bottomsheet.courier.presentation
 
 import android.view.View
 import androidx.lifecycle.LiveData
@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.item_courier.view.*
  * Android Engineer
  */
 
-class CourierViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class CourierBsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private val _onClicked = MutableLiveData<Courier>()
     val onClicked: LiveData<Courier> = _onClicked

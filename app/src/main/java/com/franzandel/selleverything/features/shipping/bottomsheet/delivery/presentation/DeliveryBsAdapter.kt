@@ -16,13 +16,13 @@ import com.franzandel.selleverything.features.shipping.bottomsheet.delivery.data
  * Android Engineer
  */
 
-class DeliveryBottomSheetAdapter(
+class DeliveryBsAdapter(
     private val context: Context,
     private val deliveries: List<Delivery>
 ) :
-    RecyclerView.Adapter<DeliveryBottomSheetViewHolder>() {
+    RecyclerView.Adapter<DeliveryBsViewHolder>() {
 
-    private lateinit var deliveryBottomSheetViewHolder: DeliveryBottomSheetViewHolder
+    private lateinit var deliveryBottomSheetViewHolder: DeliveryBsViewHolder
     private val activity = context as AppCompatActivity
 
     private val _onClicked = MutableLiveData<Delivery>()
@@ -31,14 +31,14 @@ class DeliveryBottomSheetAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): DeliveryBottomSheetViewHolder {
+    ): DeliveryBsViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_delivery, parent, false)
-        deliveryBottomSheetViewHolder = DeliveryBottomSheetViewHolder(view)
+        deliveryBottomSheetViewHolder = DeliveryBsViewHolder(view)
         setupObserver()
         return deliveryBottomSheetViewHolder
     }
 
-    override fun onBindViewHolder(holder: DeliveryBottomSheetViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: DeliveryBsViewHolder, position: Int) {
         holder.bind(deliveries[position])
     }
 

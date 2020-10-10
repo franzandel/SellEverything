@@ -11,10 +11,10 @@ import com.franzandel.selleverything.data.constants.NumberConstants
 import com.franzandel.selleverything.extension.getFormattedIDNPrice
 import com.franzandel.selleverything.extension.hide
 import com.franzandel.selleverything.extension.show
-import com.franzandel.selleverything.features.shipping.bottomsheet.courier.CourierBottomSheet
+import com.franzandel.selleverything.features.shipping.bottomsheet.courier.presentation.CourierBs
 import com.franzandel.selleverything.features.shipping.bottomsheet.data.entity.Courier
 import com.franzandel.selleverything.features.shipping.bottomsheet.delivery.data.entity.Delivery
-import com.franzandel.selleverything.features.shipping.bottomsheet.delivery.presentation.DeliveryBottomSheet
+import com.franzandel.selleverything.features.shipping.bottomsheet.delivery.presentation.DeliveryBs
 import com.franzandel.selleverything.features.shipping.data.entity.ShippingFooter
 import kotlinx.android.synthetic.main.item_shipping_footer.view.*
 
@@ -61,14 +61,14 @@ class ShippingFooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVie
     private fun onShippingFooterDeliveryClicked(shippingFooter: ShippingFooter?) {
         itemView.apply {
             val activity = context as AppCompatActivity
-            val deliveryBottomSheet = DeliveryBottomSheet()
+            val deliveryBottomSheet = DeliveryBs()
             setupDeliveryBottomSheetObserver(deliveryBottomSheet, shippingFooter)
             deliveryBottomSheet.show(activity.supportFragmentManager, deliveryBottomSheet.tag)
         }
     }
 
     private fun setupDeliveryBottomSheetObserver(
-        deliveryBottomSheet: DeliveryBottomSheet,
+        deliveryBottomSheet: DeliveryBs,
         shippingFooter: ShippingFooter?
     ) {
         itemView.apply {
@@ -146,14 +146,14 @@ class ShippingFooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVie
             _onDeliveryOrCourierBsOpened.value = shippingFooter?.shippingPrice
 
             val activity = context as AppCompatActivity
-            val courierBottomSheet = CourierBottomSheet(couriers)
+            val courierBottomSheet = CourierBs(couriers)
             setupCourierBottomSheetObserver(courierBottomSheet, shippingFooter)
             courierBottomSheet.show(activity.supportFragmentManager, courierBottomSheet.tag)
         }
     }
 
     private fun setupCourierBottomSheetObserver(
-        courierBottomSheet: CourierBottomSheet,
+        courierBottomSheet: CourierBs,
         shippingFooter: ShippingFooter?
     ) {
         itemView.apply {
