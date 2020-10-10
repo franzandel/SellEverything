@@ -128,7 +128,7 @@ class DetailActivity : BaseActivity() {
 
     private fun setupViewPager2() {
         val productImages = listOf(product.imageName)
-        vpDetailProductImage.adapter = DetailAdapter(this, productImages)
+        vpDetailProductImage.adapter = DetailImageAdapter(this, productImages)
     }
 
     private fun setupTabLayout() {
