@@ -1,25 +1,21 @@
 package com.franzandel.selleverything.features.payment.bottomsheet.presentation
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.franzandel.selleverything.R
+import com.franzandel.selleverything.base.BaseBottomSheet
 import com.franzandel.selleverything.features.payment.data.PaymentList
 import com.franzandel.selleverything.features.payment.data.entity.PaymentMethod
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.android.synthetic.main.bs_payment_method_bottom_sheet.*
+import kotlinx.android.synthetic.main.bs_payment_method.*
 
 /**
  * Created by Franz Andel on 01/10/20.
  * Android Engineer
  */
 
-class PaymentMethodBs : BottomSheetDialogFragment() {
+class PaymentMethodBs : BaseBottomSheet() {
 
     private val _onPaymentContentClicked = MutableLiveData<PaymentMethod>()
     val onPaymentContentClicked: LiveData<PaymentMethod> = _onPaymentContentClicked
@@ -32,15 +28,9 @@ class PaymentMethodBs : BottomSheetDialogFragment() {
         ViewModelProvider(this).get(PaymentMethodBsVM::class.java)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? =
-        inflater.inflate(R.layout.bs_payment_method_bottom_sheet, container, false)
+    override fun getLayoutId(): Int = R.layout.bs_payment_method
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onActivityReady() {
         setupRV()
         setupObserver()
         setupUIClickListener()

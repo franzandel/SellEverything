@@ -1,20 +1,16 @@
 package com.franzandel.selleverything.features.shipping.bottomsheet.courier.presentation
 
 import android.content.DialogInterface
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.franzandel.selleverything.R
+import com.franzandel.selleverything.base.BaseBottomSheet
 import com.franzandel.selleverything.features.shipping.bottomsheet.data.entity.Courier
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.android.synthetic.main.activity_courier_bottom_sheet.*
+import kotlinx.android.synthetic.main.bs_courier.*
 
-class CourierBs(private val couriers: List<Courier>) : BottomSheetDialogFragment() {
+class CourierBs(private val couriers: List<Courier>) : BaseBottomSheet() {
 
     private val courierAdapter by lazy {
         CourierBsAdapter(requireContext(), couriers)
@@ -30,15 +26,9 @@ class CourierBs(private val couriers: List<Courier>) : BottomSheetDialogFragment
     private val _onCancelClicked = MutableLiveData<Unit>()
     val onCancelClicked: LiveData<Unit> = _onCancelClicked
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? =
-        inflater.inflate(R.layout.activity_courier_bottom_sheet, container, false)
+    override fun getLayoutId(): Int = R.layout.bs_courier
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onActivityReady() {
         setupRV()
         setupObserver()
         setupUIClickListener()
