@@ -9,12 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".paymentsuccess.PaymentSuccessActivity" />
-        <activity android:name=".payment.PaymentActivity" />
-        <activity android:name=".shipping.ShippingActivity" />
-        <activity android:name=".detail.DetailActivity" />
-        <activity android:name=".cart.CartActivity" />
-        <activity android:name=".HomeActivity">
+        <activity android:name="com.franzandel.selleverything.features.paymentsuccess.presentation.PaymentSuccessActivity" />
+        <activity android:name="com.franzandel.selleverything.features.payment.presentation.PaymentActivity" />
+        <activity android:name="com.franzandel.selleverything.features.shipping.presentation.ShippingActivity" />
+        <activity android:name="com.franzandel.selleverything.features.detail.presentation.DetailActivity" />
+        <activity android:name="com.franzandel.selleverything.features.cart.presentation.CartActivity" />
+        <activity android:name="com.franzandel.selleverything.features.home.presentation.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

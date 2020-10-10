@@ -7,7 +7,7 @@
 
         <variable
             name="binding"
-            type="com.franzandel.selleverything.cart.CartBinding" />
+            type="com.franzandel.selleverything.features.cart.presentation.CartBinding" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

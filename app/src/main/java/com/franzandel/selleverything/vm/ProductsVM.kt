@@ -2,8 +2,8 @@ package com.franzandel.selleverything.vm
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import com.franzandel.selleverything.data.entity.Product
 import com.franzandel.selleverything.extension.getDiscountedPrice
-import com.franzandel.selleverything.newest.Product
 
 /**
  * Created by Franz Andel on 26/09/20.
