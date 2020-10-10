@@ -1,14 +1,14 @@
 package com.franzandel.selleverything.features.shipping.presentation
 
 import android.content.Context
-import android.view.LayoutInflater
-import android.view.ViewGroup
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.franzandel.selleverything.R
+import com.franzandel.selleverything.base.BaseAdapter
 import com.franzandel.selleverything.features.shipping.data.entity.ShippingMultiType
 import com.franzandel.selleverything.features.shipping.data.enums.ShippingSection
 
@@ -17,8 +17,8 @@ import com.franzandel.selleverything.features.shipping.data.enums.ShippingSectio
  * Android Engineer
  */
 
-class ShippingAdapter(private val context: Context) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ShippingAdapter(context: Context) :
+    BaseAdapter<RecyclerView.ViewHolder, ShippingMultiType<Any>>(context) {
 
     companion object {
         private const val ADDRESS_TYPE = 0
@@ -43,56 +43,50 @@ class ShippingAdapter(private val context: Context) :
         _onShippingChoosePaymentClicked
 
     private var currentList = listOf<ShippingMultiType<Any>>()
+    private val activity = context as AppCompatActivity
+
+    override fun getItemLayoutId(): Int =
+        when (viewType) {
+            ADDRESS_TYPE -> R.layout.item_shipping_address
+            HEADER_TYPE -> R.layout.item_shipping_header
+            CONTENT_TYPE -> R.layout.item_shipping_content
+            FOOTER_TYPE -> R.layout.item_shipping_footer
+            else -> R.layout.item_shipping_summary
+        }
+
+    override fun getViewHolder(view: View): RecyclerView.ViewHolder =
+        when (viewType) {
+            ADDRESS_TYPE -> ShippingAddressViewHolder(view)
+            HEADER_TYPE -> ShippingHeaderViewHolder(view)
+            CONTENT_TYPE -> ShippingContentViewHolder(view)
+            FOOTER_TYPE -> ShippingFooterViewHolder(view)
+            else -> ShippingSummaryViewHolder(view)
+        }
+
+    override fun getCurrentList(): List<ShippingMultiType<Any>> = currentList
 
     fun setData(currentList: List<ShippingMultiType<Any>>) {
         this.currentList = currentList
     }
 
-    private val activity = context as AppCompatActivity
-    private lateinit var shippingFooterViewHolder: ShippingFooterViewHolder
-    private lateinit var shippingSummaryViewHolder: ShippingSummaryViewHolder
-
-    override fun getItemViewType(position: Int): Int {
-        return when (currentList[position].section) {
+    override fun getItemViewType(position: Int): Int =
+        when (currentList[position].section) {
             ShippingSection.ADDRESS -> ADDRESS_TYPE
             ShippingSection.HEADER -> HEADER_TYPE
             ShippingSection.CONTENT -> CONTENT_TYPE
             ShippingSection.FOOTER -> FOOTER_TYPE
             ShippingSection.SUMMARY -> SUMMARY_TYPE
         }
-    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val layoutInflater = LayoutInflater.from(context)
-        return when (viewType) {
-            ADDRESS_TYPE -> {
-                val view = layoutInflater.inflate(R.layout.item_shipping_address, parent, false)
-                ShippingAddressViewHolder(view)
-            }
-            HEADER_TYPE -> {
-                val view = layoutInflater.inflate(R.layout.item_shipping_header, parent, false)
-                ShippingHeaderViewHolder(view)
-            }
-            CONTENT_TYPE -> {
-                val view = layoutInflater.inflate(R.layout.item_shipping_content, parent, false)
-                ShippingContentViewHolder(view)
-            }
-            FOOTER_TYPE -> {
-                val view = layoutInflater.inflate(R.layout.item_shipping_footer, parent, false)
-                shippingFooterViewHolder = ShippingFooterViewHolder(view)
-                setupFooterObserver()
-                shippingFooterViewHolder
-            }
-            else -> {
-                val view = layoutInflater.inflate(R.layout.item_shipping_summary, parent, false)
-                shippingSummaryViewHolder = ShippingSummaryViewHolder(view)
-                setupSummaryObserver()
-                shippingSummaryViewHolder
-            }
+    override fun actionOnCreateViewHolder() {
+        when (viewType) {
+            FOOTER_TYPE -> setupFooterObserver()
+            SUMMARY_TYPE -> setupSummaryObserver()
         }
     }
 
     private fun setupFooterObserver() {
+        val shippingFooterViewHolder = (viewHolder as ShippingFooterViewHolder)
         shippingFooterViewHolder.onDeliveryOrCourierBsSelected.observe(
             activity,
             Observer { courierPrice ->
@@ -107,7 +101,7 @@ class ShippingAdapter(private val context: Context) :
     }
 
     private fun setupSummaryObserver() {
-        shippingSummaryViewHolder.onShippingChoosePaymentClicked.observe(
+        (viewHolder as ShippingSummaryViewHolder).onShippingChoosePaymentClicked.observe(
             activity,
             Observer {
                 _onShippingChoosePaymentClicked.value = currentList
@@ -124,6 +118,4 @@ class ShippingAdapter(private val context: Context) :
             ShippingSection.SUMMARY -> (holder as ShippingSummaryViewHolder).bind(productMultiType.data)
         }
     }
-
-    override fun getItemCount(): Int = currentList.size
 }

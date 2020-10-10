@@ -1,11 +1,9 @@
 package com.franzandel.selleverything.features.detail.presentation
 
 import android.content.Context
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import com.franzandel.selleverything.R
+import com.franzandel.selleverything.base.BaseAdapter
 
 
 /**
@@ -13,19 +11,17 @@ import com.franzandel.selleverything.R
  * Android Engineer
  */
 
-class DetailImageAdapter(private val context: Context, private val imageNames: List<String>) :
-    RecyclerView.Adapter<DetailImageViewHolder>() {
+class DetailImageAdapter(context: Context, private val imageNames: List<String>) :
+    BaseAdapter<DetailImageViewHolder, String>(context) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailImageViewHolder {
-        val view: View =
-            LayoutInflater.from(context).inflate(R.layout.item_detail_image, parent, false)
-        return DetailImageViewHolder(view)
-    }
+    override fun getItemLayoutId(): Int = R.layout.item_detail_image
+
+    override fun getViewHolder(view: View): DetailImageViewHolder = DetailImageViewHolder(view)
+
+    override fun getCurrentList(): List<String> = imageNames
 
     override fun onBindViewHolder(holder: DetailImageViewHolder, position: Int) {
         val drawableName = imageNames[position]
         holder.bind(drawableName)
     }
-
-    override fun getItemCount(): Int = imageNames.size
 }

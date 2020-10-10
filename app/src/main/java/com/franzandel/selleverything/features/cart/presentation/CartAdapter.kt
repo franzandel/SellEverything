@@ -1,16 +1,15 @@
 package com.franzandel.selleverything.features.cart.presentation
 
 import android.content.Context
-import android.view.LayoutInflater
-import android.view.ViewGroup
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.franzandel.selleverything.R
+import com.franzandel.selleverything.base.BaseListAdapter
 import com.franzandel.selleverything.data.entity.Product
 import com.franzandel.selleverything.databinding.ItemCartContentBinding
 import com.franzandel.selleverything.features.cart.data.entity.CartMultiType
@@ -21,16 +20,17 @@ import com.franzandel.selleverything.features.cart.data.enums.CartSection
  * Android Engineer
  */
 
-class CartAdapter(private val context: Context) :
-    ListAdapter<CartMultiType<Product>, RecyclerView.ViewHolder>(CartDiffCallback()) {
+class CartAdapter(context: Context) :
+    BaseListAdapter<RecyclerView.ViewHolder, CartMultiType<Product>>(
+        context,
+        { CartDiffCallback() }
+    ) {
 
     companion object {
         private const val TYPE_HEADER = 0
         private const val TYPE_CONTENT = 1
     }
 
-    private lateinit var cartHeaderViewHolder: CartHeaderViewHolder
-    private lateinit var cartContentViewHolder: CartContentViewHolder
     private val activity = context as AppCompatActivity
 
     private val _onCheckSellerClicked =
@@ -57,35 +57,34 @@ class CartAdapter(private val context: Context) :
     private val _onDeleteClicked = MutableLiveData<Product>()
     val onDeleteClicked: LiveData<Product> = _onDeleteClicked
 
-    override fun getItemViewType(position: Int): Int {
-        return when (currentList[position].section) {
-            CartSection.HEADER -> TYPE_HEADER
-            CartSection.CONTENT -> TYPE_CONTENT
+    override fun getItemLayoutId(): Int =
+        when (viewType) {
+            TYPE_HEADER -> R.layout.item_cart_header
+            else -> R.layout.item_cart_content
         }
-    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val layoutInflater = LayoutInflater.from(context)
+    override fun getViewHolder(view: View): RecyclerView.ViewHolder =
+        CartHeaderViewHolder(view)
 
-        return when (viewType) {
-            TYPE_HEADER -> {
-                val view = layoutInflater.inflate(R.layout.item_cart_header, parent, false)
-                cartHeaderViewHolder = CartHeaderViewHolder(view)
-                setupCartHeaderObserver()
-                cartHeaderViewHolder
+    override fun getViewHolder(viewDataBinding: ViewDataBinding): RecyclerView.ViewHolder =
+        CartContentViewHolder(viewDataBinding as ItemCartContentBinding)
+
+    override fun getItemViewType(position: Int): Int =
+        when (currentList[position].section) {
+            CartSection.HEADER -> {
+                setIsDataBindingNeeded(false)
+                TYPE_HEADER
             }
-            else -> {
-                val itemCartContentBinding: ItemCartContentBinding =
-                    DataBindingUtil.inflate(
-                        layoutInflater,
-                        R.layout.item_cart_content,
-                        parent,
-                        false
-                    )
-                cartContentViewHolder = CartContentViewHolder(itemCartContentBinding)
-                setupCartContentObserver()
-                cartContentViewHolder
+            CartSection.CONTENT -> {
+                setIsDataBindingNeeded(true)
+                TYPE_CONTENT
             }
+        }
+
+    override fun actionOnCreateViewHolder() {
+        when (viewType) {
+            TYPE_HEADER -> setupCartHeaderObserver()
+            else -> setupCartContentObserver()
         }
     }
 
@@ -99,7 +98,7 @@ class CartAdapter(private val context: Context) :
     }
 
     private fun setupCartHeaderObserver() {
-        cartHeaderViewHolder.onCheckSellerClicked.observe(
+        (viewHolder as CartHeaderViewHolder).onCheckSellerClicked.observe(
             activity,
             Observer { (seller, isChecked) ->
                 _onCheckSellerClicked.value = Triple(seller, isChecked, currentList)
@@ -107,6 +106,7 @@ class CartAdapter(private val context: Context) :
     }
 
     private fun setupCartContentObserver() {
+        val cartContentViewHolder = viewHolder as CartContentViewHolder
         cartContentViewHolder.onCheckProductClicked.observe(activity, Observer { seller ->
             _onCheckProductClicked.value = Pair(currentList, seller)
         })
