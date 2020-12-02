@@ -10,7 +10,7 @@ import com.franzandel.selleverything.extension.getDiscountedPrice
  * Android Engineer
  */
 
-abstract class ProductsVM(application: Application) : AndroidViewModel(application) {
+open class ProductsVM(application: Application) : AndroidViewModel(application) {
 
     @JvmName("checkedProductsQty")
     fun getTotalCheckedProductsQty(products: List<Product>): String =

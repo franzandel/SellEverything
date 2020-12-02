@@ -2,10 +2,17 @@ package com.franzandel.selleverything.features.home.presentation
 
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.franzandel.selleverything.R
 import com.franzandel.selleverything.base.presentation.BaseActivity
+import com.franzandel.selleverything.data.constants.NumberConstants
+import com.franzandel.selleverything.data.entity.Product
 import com.franzandel.selleverything.data.entity.Products
 import com.franzandel.selleverything.extension.goTo
+import com.franzandel.selleverything.extension.hide
+import com.franzandel.selleverything.extension.show
 import com.franzandel.selleverything.features.cart.presentation.CartActivity
 import com.franzandel.selleverything.features.home.searchview.SearchViewTextListener
 import com.squareup.moshi.Moshi
@@ -17,6 +24,14 @@ import java.io.IOException
 class HomeActivity : BaseActivity() {
 
     private val adapter = HomeAdapter(this)
+    private var tvCartItemCount: TextView? = null
+
+    private val viewModel by lazy {
+        ViewModelProvider(
+            this,
+            ViewModelProvider.AndroidViewModelFactory(application)
+        ).get(HomeVM::class.java)
+    }
 
     override fun getLayoutId(): Int = R.layout.activity_home
 
@@ -36,10 +51,20 @@ class HomeActivity : BaseActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        setupObserver()
         menuInflater.inflate(R.menu.menu_home, menu)
 
         val searchMenuItem = menu?.findItem(R.id.menu_search)
         materialSearchView.setMenuItem(searchMenuItem)
+
+        val cartMenuItem = menu?.findItem(R.id.menu_cart)
+        val cartActionView = cartMenuItem?.actionView
+        tvCartItemCount = cartActionView?.findViewById(R.id.cart_badge)
+
+        cartActionView?.setOnClickListener {
+            onOptionsItemSelected(cartMenuItem)
+        }
+
         return true
     }
 
@@ -53,6 +78,24 @@ class HomeActivity : BaseActivity() {
     private fun setupToolbar() {
         setSupportActionBar(materialToolbar)
         supportActionBar?.title = getString(R.string.home_toolbar_title)
+    }
+
+    private fun setupObserver() {
+        viewModel.cartProducts.observe(this, Observer { products ->
+            setupBadge(products)
+        })
+    }
+
+    private fun setupBadge(products: List<Product>) {
+        if (tvCartItemCount != null) {
+            val cartItemCount = viewModel.getTotalCheckedProductsQty(products)
+            if (cartItemCount == NumberConstants.ZERO) {
+                tvCartItemCount?.hide()
+            } else {
+                tvCartItemCount?.text = cartItemCount
+                tvCartItemCount?.show()
+            }
+        }
     }
 
     private fun setupRV() {
