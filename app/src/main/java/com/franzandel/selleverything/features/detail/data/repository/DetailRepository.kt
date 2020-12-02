@@ -1,5 +1,6 @@
 package com.franzandel.selleverything.features.detail.data.repository
 
+import androidx.lifecycle.LiveData
 import com.franzandel.selleverything.data.entity.Product
 
 /**
@@ -8,5 +9,6 @@ import com.franzandel.selleverything.data.entity.Product
  */
 
 interface DetailRepository {
+    val cartProducts: LiveData<List<Product>>
     suspend fun insertToCart(product: Product)
 }

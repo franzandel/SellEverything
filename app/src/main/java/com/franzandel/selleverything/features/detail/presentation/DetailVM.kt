@@ -1,8 +1,9 @@
 package com.franzandel.selleverything.features.detail.presentation
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
+import com.franzandel.selleverything.base.vm.ProductsVM
 import com.franzandel.selleverything.data.database.AppDatabase
 import com.franzandel.selleverything.data.entity.Product
 import com.franzandel.selleverything.features.detail.data.repository.DetailRepository
@@ -15,10 +16,11 @@ import kotlinx.coroutines.launch
  * Android Engineer
  */
 
-class DetailVM(application: Application) : AndroidViewModel(application) {
+class DetailVM(application: Application) : ProductsVM(application) {
 
     private val cartProductDao = AppDatabase.invoke(application.applicationContext).cartProductDao()
     private val detailRepository: DetailRepository = DetailRepositoryImpl(cartProductDao)
+    val cartProducts: LiveData<List<Product>> = detailRepository.cartProducts
 
     fun insertToCart(product: Product) = viewModelScope.launch(Dispatchers.IO) {
         detailRepository.insertToCart(product)
