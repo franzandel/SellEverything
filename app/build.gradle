@@ -32,6 +32,9 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 
+    // For solving
+    // java.lang.BootstrapMethodError: Exception from call site #4 bootstrap method,
+    // when initializing Retrofit
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
