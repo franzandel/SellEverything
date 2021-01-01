@@ -9,17 +9,13 @@ import com.franzandel.selleverything.R
 import com.franzandel.selleverything.base.presentation.BaseActivity
 import com.franzandel.selleverything.data.constants.NumberConstants
 import com.franzandel.selleverything.data.entity.Product
-import com.franzandel.selleverything.data.entity.Products
 import com.franzandel.selleverything.extension.goTo
 import com.franzandel.selleverything.extension.hide
 import com.franzandel.selleverything.extension.show
 import com.franzandel.selleverything.features.cart.presentation.CartActivity
 import com.franzandel.selleverything.features.home.searchview.SearchViewTextListener
-import com.squareup.moshi.Moshi
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.toolbar_with_search_view.*
-import java.io.IOException
-
 
 class HomeActivity : BaseActivity() {
 
@@ -38,8 +34,9 @@ class HomeActivity : BaseActivity() {
     override fun onActivityReady() {
         setupToolbar()
         setupRV()
-        setupRVData()
+        setupObserver()
         setupUIClickListener()
+        viewModel.getProducts()
     }
 
     override fun onBackPressed() {
@@ -51,7 +48,6 @@ class HomeActivity : BaseActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        setupObserver()
         menuInflater.inflate(R.menu.menu_home, menu)
 
         val searchMenuItem = menu?.findItem(R.id.menu_search)
@@ -84,6 +80,14 @@ class HomeActivity : BaseActivity() {
         viewModel.cartProducts.observe(this, Observer { products ->
             setupBadge(products)
         })
+
+        viewModel.productsResult.observe(this, Observer { products ->
+            adapter.apply {
+                setupObserver()
+                submitList(products)
+                setFilterProducts()
+            }
+        })
     }
 
     private fun setupBadge(products: List<Product>) {
@@ -100,34 +104,6 @@ class HomeActivity : BaseActivity() {
 
     private fun setupRV() {
         rvSellEverything.adapter = adapter
-    }
-
-    private fun setupRVData() {
-        val jsonString = readJSONFromRawResource()
-        val moshi = Moshi.Builder().build()
-        val jsonAdapter = moshi.adapter(Products::class.java)
-        val products = jsonAdapter.fromJson(jsonString)
-
-        adapter.apply {
-            products?.let { products ->
-                setupObserver()
-                submitList(products.products)
-                setFilterProducts()
-            }
-        }
-    }
-
-    private fun readJSONFromRawResource(): String {
-        return try {
-            val inputStream = resources.openRawResource(R.raw.products)
-            val size: Int = inputStream.available()
-            val buffer = ByteArray(size)
-            inputStream.read(buffer)
-            inputStream.close()
-            String(buffer)
-        } catch (e: IOException) {
-            throw RuntimeException(e)
-        }
     }
 
     private fun setupUIClickListener() {
