@@ -1,27 +1,18 @@
 package com.franzandel.selleverything.features.home.data
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import com.franzandel.selleverything.data.entity.Product
-import com.franzandel.selleverything.features.home.presentation.BaseResponse
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.flow.flow
 
 class HomeRepositoryImpl(private val homeNetworkService: HomeNetworkService) : HomeRepository {
 
-    override fun getProducts(): LiveData<List<Product>> {
-        val productsResult = MutableLiveData<List<Product>>()
-        homeNetworkService.getProducts().enqueue(object : Callback<BaseResponse> {
-            override fun onFailure(call: Call<BaseResponse>, t: Throwable) {
-
+    override suspend fun getProducts(): LiveData<List<Product>> =
+        flow {
+            homeNetworkService.getProducts().apply {
+                if (isSuccessful) {
+                    emit(body()!!.result)
+                }
             }
-
-            override fun onResponse(call: Call<BaseResponse>, response: Response<BaseResponse>) {
-                productsResult.value = response.body()!!.result
-            }
-        })
-
-        return productsResult
-    }
+        }.asLiveData()
 }
