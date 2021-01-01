@@ -9,5 +9,5 @@ import com.franzandel.selleverything.data.entity.Product
  */
 
 interface HomeRepository {
-    fun getProducts(): LiveData<List<Product>>
+    suspend fun getProducts(): LiveData<List<Product>>
 }
