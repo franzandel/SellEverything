@@ -10,4 +10,6 @@
     <color name="colorGreen30">#C0FABE</color>
     <color name="colorGray">#e6e6ef</color>
     <color name="colorOrange">#ED4E1C</color>
+
+    <color name="background">#dddddd</color>
 </resources>

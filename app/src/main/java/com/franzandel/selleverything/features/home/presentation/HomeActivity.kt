@@ -15,6 +15,7 @@ import com.franzandel.selleverything.extension.show
 import com.franzandel.selleverything.features.cart.presentation.CartActivity
 import com.franzandel.selleverything.features.home.searchview.SearchViewTextListener
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.error_page.*
 import kotlinx.android.synthetic.main.toolbar_with_search_view.*
 
 class HomeActivity : BaseActivity() {
@@ -37,6 +38,16 @@ class HomeActivity : BaseActivity() {
         setupObserver()
         setupUIClickListener()
         viewModel.getProducts()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        shimmerContainer.startShimmer()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        shimmerContainer.stopShimmer()
     }
 
     override fun onBackPressed() {
@@ -81,12 +92,23 @@ class HomeActivity : BaseActivity() {
             setupBadge(products)
         })
 
-        viewModel.productsResult.observe(this, Observer { products ->
+        viewModel.productsSuccessResult.observe(this, Observer { products ->
+            shimmerContainer.stopShimmer()
+            shimmerContainer.hide()
+            homeToolbar.show()
+
             adapter.apply {
                 setupObserver()
                 submitList(products)
                 setFilterProducts()
             }
+        })
+
+        viewModel.productsErrorResult.observe(this, Observer {
+            shimmerContainer.stopShimmer()
+            shimmerContainer.hide()
+            errorPage.show()
+            errorPage.bringToFront()
         })
     }
 
@@ -113,5 +135,12 @@ class HomeActivity : BaseActivity() {
                 return false
             }
         })
+
+        btnTryAgain.setOnClickListener {
+            shimmerContainer.show()
+            shimmerContainer.startShimmer()
+            errorPage.hide()
+            viewModel.getProducts()
+        }
     }
 }

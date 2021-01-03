@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:background="@color/background"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivPlaceHolderSellEverything"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:background="@color/background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_launcher_background" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPlaceholderQtyLeft"
+            android:layout_width="@dimen/margin_48"
+            android:layout_height="wrap_content"
+            android:background="@color/background"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:textColor="@color/colorRed"
+            android:textSize="@dimen/text_size_12"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivPlaceHolderSellEverything"
+            tools:text="Sisa 2" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPlaceholderTitle"
+            android:layout_width="@dimen/margin_164"
+            android:layout_height="wrap_content"
+            android:background="@color/background"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvPlaceholderQtyLeft"
+            tools:text="Clean n Clear" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPlaceholderDiscountPercentage"
+            android:layout_width="@dimen/margin_22"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/colorPink70"
+            android:background="@color/background"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:padding="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvPlaceholderTitle"
+            tools:text="15%" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPlaceholderOriginalPrice"
+            android:layout_width="@dimen/margin_72"
+            android:layout_height="wrap_content"
+            android:background="@color/background"
+            android:textStyle="bold"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@+id/tvPlaceholderDiscountPercentage"
+            app:layout_constraintTop_toBottomOf="@+id/tvPlaceholderTitle"
+            app:layout_constraintBottom_toBottomOf="@id/tvPlaceholderDiscountPercentage"
+            tools:text="Rp. 30.000" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPlaceholderDiscountedPrice"
+            android:layout_width="@dimen/margin_72"
+            android:layout_height="wrap_content"
+            android:background="@color/background"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvPlaceholderDiscountPercentage"
+            tools:text="Rp. 21.500" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSellerLocation"
+            android:layout_width="@dimen/margin_56"
+            android:layout_height="wrap_content"
+            android:background="@color/background"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvPlaceholderDiscountedPrice"
+            tools:text="Kab. Tangerang" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
