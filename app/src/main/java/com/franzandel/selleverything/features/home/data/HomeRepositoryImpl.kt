@@ -14,6 +14,12 @@ class HomeRepositoryImpl(private val homeNetworkService: HomeNetworkService) : H
             with(getProductsResponse) {
                 val responseBody = body()
                 if (isSuccessful && responseBody != null) {
+                    val moshi = Moshi.Builder().build()
+
+//                    val type = Types.newParameterizedType(BaseBean::class.java, InfoData::class.java)
+//                    val jsonAdapter: JsonAdapter<BaseBean<InfoData>> = moshi.adapter(type)
+//                    val baseBean = jsonAdapter.fromJson(jsonStr)!!
+
                     Result.Success(responseBody.result)
                 } else {
                     val errorBody = errorBody() ?: throw Exception("UNKNOWN_ERROR")
