@@ -13,10 +13,13 @@ import com.franzandel.selleverything.features.cart.data.repository.CartRepositor
 import com.franzandel.selleverything.features.home.data.HomeNetworkService
 import com.franzandel.selleverything.features.home.data.HomeRepository
 import com.franzandel.selleverything.features.home.data.HomeRepositoryImpl
+import com.readystatesoftware.chuck.ChuckInterceptor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by Franz Andel on 01/12/20.
@@ -29,8 +32,16 @@ class HomeVM(application: Application) : ProductsVM(application) {
     private val cartRepository: CartRepository = CartRepositoryImpl(cartProductDao)
     val cartProducts: LiveData<List<Product>> = cartRepository.cartProducts
 
+    private val okHttp = OkHttpClient.Builder()
+        .addInterceptor(ChuckInterceptor(application))
+        .writeTimeout(60, TimeUnit.SECONDS)
+        .readTimeout(60, TimeUnit.SECONDS)
+        .connectTimeout(60, TimeUnit.SECONDS)
+        .build()
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://10.0.2.2:8000/")
+//        .baseUrl("http://10.0.2.2:8000/")
+        .baseUrl("https://sell-everything.herokuapp.com/")
+        .client(okHttp)
         .addConverterFactory(MoshiConverterFactory.create())
         .build()
     private val homeNetworkService = retrofit.create(HomeNetworkService::class.java)
