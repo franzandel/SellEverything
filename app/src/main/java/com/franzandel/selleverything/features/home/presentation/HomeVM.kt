@@ -16,6 +16,7 @@ import com.franzandel.selleverything.features.home.data.HomeRepositoryImpl
 import com.readystatesoftware.chuck.ChuckInterceptor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.CertificatePinner
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -32,8 +33,16 @@ class HomeVM(application: Application) : ProductsVM(application) {
     private val cartRepository: CartRepository = CartRepositoryImpl(cartProductDao)
     val cartProducts: LiveData<List<Product>> = cartRepository.cartProducts
 
+    private val hostname = "sell-everything.herokuapp.com"
+    private val certificatePinner = CertificatePinner.Builder()
+        .add(hostname, "sha256/Vuy2zjFSPqF5Hz18k88DpUViKGbABaF3vZx5Raghplc=")
+        .add(hostname, "sha256/k2v657xBsOVe1PQRwOsHsw3bsGT2VzIqz5K+59sNQws=")
+        .add(hostname, "sha256/WoiWRyIOVNa9ihaBciRSC7XHjliYS9VwUGOIud4PB18=")
+        .build()
+
     private val okHttp = OkHttpClient.Builder()
         .addInterceptor(ChuckInterceptor(application))
+        .certificatePinner(certificatePinner)
         .writeTimeout(60, TimeUnit.SECONDS)
         .readTimeout(60, TimeUnit.SECONDS)
         .connectTimeout(60, TimeUnit.SECONDS)
